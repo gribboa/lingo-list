@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ list.title }} — LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="detail-header">
+        <h1>{{ list.title }}</h1>
+        {% if list.description %}
+        <p>{{ list.description }}</p>
+        {% endif %}
+        <div class="detail-actions">
+            <a href="{% url 'lists:list_index' %}" class="btn btn-outline btn-sm">&larr; {% trans "All lists" %}</a>
+            {% if is_owner %}
+            <form method="post" action="{% url 'lists:list_delete' pk=list.pk %}"
+                  onsubmit="return confirm('{% trans "Delete this list and all its items?" %}')">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">{% trans "Delete list" %}</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Add item form -->
+    <div class="card mt-2">
+        <form class="add-item-form"
+              hx-post="{% url 'lists:item_add' pk=list.pk %}"
+              hx-target="#item-list"
+              hx-swap="innerHTML"
+              hx-on::after-request="if(event.detail.successful) { this.reset(); initSortable(); }">
+            {% csrf_token %}
+            {{ item_form.text }}
+            <button type="submit" class="btn btn-primary">{% trans "Add" %}</button>
+            <span class="htmx-indicator">...</span>
+        </form>
+
+        <div id="item-list" data-reorder-url="{% url 'lists:item_reorder' pk=list.pk %}">
+            {% include "partials/item_list.html" %}
+        </div>
+    </div>
+
+    <!-- Collaborators -->
+    <div class="collaborator-section">
+        <h2>{% trans "Sharing" %}</h2>
+
+        <div class="card">
+            <p class="text-sm text-muted mb-1">{% trans "Share this link to invite collaborators:" %}</p>
+            <div class="share-link">
+                <input type="text" readonly
+                       value="{{ request.scheme }}://{{ request.get_host }}{{ list.get_share_url }}"
+                       id="share-url"
+                       onclick="this.select()">
+                <button class="btn btn-outline btn-sm"
+                        onclick="navigator.clipboard.writeText(document.getElementById('share-url').value)">
+                    {% trans "Copy" %}
+                </button>
+            </div>
+
+            <p class="text-sm mb-1"><strong>{% trans "Owner:" %}</strong> {{ list.owner }}</p>
+
+            <div id="collaborator-list">
+                {% include "partials/collaborator_list.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+function initSortable() {
+    const itemList = document.getElementById('item-list');
+    if (!itemList || itemList.querySelector('.text-muted')) return;
+    
+    new Sortable(itemList, {
+        animation: 150,
+        handle: '.drag-handle',
+        ghostClass: 'item-row-ghost',
+        onEnd: function() {
+            const items = itemList.querySelectorAll('.item-row');
+            const itemIds = Array.from(items).map(el => el.dataset.itemId);
+            const reorderUrl = itemList.dataset.reorderUrl;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            
+            fetch(reorderUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({ item_ids: itemIds })
+            });
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initSortable);
+document.body.addEventListener('htmx:afterSwap', function(event) {
+    if (event.detail.target.id === 'item-list') {
+        initSortable();
+    }
+});
+</script>
+{% endblock %}

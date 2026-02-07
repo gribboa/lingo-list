@@ -20,6 +20,8 @@ ALLOWED_HOSTS = [
     if h.strip()
 ]
 
+CSRF_TRUSTED_ORIGINS = ["https://*.ngrok.io", "https://*.ngrok-free.app"]
+
 # ---------------------------------------------------------------------------
 # Application definition
 # ---------------------------------------------------------------------------
@@ -47,9 +49,11 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "accounts.middleware.UserLanguageMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
@@ -69,6 +73,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.i18n",
             ],
         },
     },
@@ -99,7 +104,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -133,7 +140,17 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 LANGUAGE_CODE = "en"
 TIME_ZONE = "UTC"
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
+
+LANGUAGES = [
+    ("en", "English"),
+    ("ru", "Русский"),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
 
 # ---------------------------------------------------------------------------
 # Static files
@@ -167,19 +184,38 @@ LIBRETRANSLATE_URL = os.environ.get("LIBRETRANSLATE_URL", "http://localhost:5000
 
 LANGUAGES_SUPPORTED = {
     "en": "English",
-    "es": "Spanish",
-    "fr": "French",
-    "de": "German",
-    "it": "Italian",
-    "pt": "Portuguese",
-    "nl": "Dutch",
-    "pl": "Polish",
+    # "es": "Spanish",
+    # "fr": "French",
+    # "de": "German",
+    # "it": "Italian",
+    # "pt": "Portuguese",
+    # "nl": "Dutch",
+    # "pl": "Polish",
     "ru": "Russian",
-    "zh": "Chinese",
-    "ja": "Japanese",
-    "ko": "Korean",
-    "ar": "Arabic",
-    "tr": "Turkish",
-    "uk": "Ukrainian",
-    "vi": "Vietnamese",
+    # "zh": "Chinese",
+    # "ja": "Japanese",
+    # "ko": "Korean",
+    # "ar": "Arabic",
+    # "tr": "Turkish",
+    # "vi": "Vietnamese",
+}
+
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "translations": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+    },
 }

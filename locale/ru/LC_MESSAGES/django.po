@@ -1,0 +1,277 @@
+# Russian translations for LingoList.
+# Copyright (C) 2026
+# This file is distributed under the same license as the LingoList project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LingoList 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-07 10:00+0000\n"
+"PO-Revision-Date: 2026-02-07 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: templates/base.html
+msgid "My Lists"
+msgstr "Мои списки"
+
+#: templates/base.html
+msgid "Profile"
+msgstr "Профиль"
+
+#: templates/base.html
+msgid "Log out"
+msgstr "Выйти"
+
+#: templates/base.html
+msgid "Log in"
+msgstr "Войти"
+
+#: templates/base.html
+msgid "Sign up"
+msgstr "Регистрация"
+
+#: templates/base.html
+msgid "Collaborative multilingual lists"
+msgstr "Совместные многоязычные списки"
+
+#: templates/landing.html
+msgid "Collaborative Multilingual Lists"
+msgstr "Совместные многоязычные списки"
+
+#: templates/landing.html
+msgid "Lists without"
+msgstr "Списки без"
+
+#: templates/landing.html
+msgid "language barriers"
+msgstr "языковых барьеров"
+
+#: templates/landing.html
+msgid "Create shared lists with anyone, in any language. Each person sees items translated into their own language automatically."
+msgstr "Создавайте общие списки с кем угодно, на любом языке. Каждый видит элементы, автоматически переведённые на свой язык."
+
+#: templates/landing.html
+msgid "Get started free"
+msgstr "Начать бесплатно"
+
+#: templates/landing.html
+msgid "Multilingual"
+msgstr "Многоязычность"
+
+#: templates/landing.html
+msgid "Add items in your language. Collaborators see them in theirs. Powered by LibreTranslate."
+msgstr "Добавляйте элементы на своём языке. Соавторы видят их на своём. Работает на LibreTranslate."
+
+#: templates/landing.html
+msgid "Collaborative"
+msgstr "Совместная работа"
+
+#: templates/landing.html
+msgid "Share a link and anyone can join your list. Perfect for couples, families, or flatmates."
+msgstr "Поделитесь ссылкой, и любой сможет присоединиться к вашему списку. Идеально для пар, семей или соседей."
+
+#: templates/landing.html
+msgid "Real-time"
+msgstr "В реальном времени"
+
+#: templates/landing.html
+msgid "Add, check off, and remove items instantly — no page reloads needed."
+msgstr "Добавляйте, отмечайте и удаляйте элементы мгновенно — без перезагрузки страницы."
+
+#: templates/account/login.html
+msgid "Don't have an account?"
+msgstr "Нет аккаунта?"
+
+#: templates/account/signup.html
+msgid "Create your account"
+msgstr "Создайте свой аккаунт"
+
+#: templates/account/signup.html
+msgid "Already have an account?"
+msgstr "Уже есть аккаунт?"
+
+#: templates/account/logout.html
+msgid "Are you sure you want to log out?"
+msgstr "Вы уверены, что хотите выйти?"
+
+#: templates/accounts/profile.html
+msgid "Your Profile"
+msgstr "Ваш профиль"
+
+#: templates/accounts/profile.html accounts/forms.py
+msgid "Preferred language"
+msgstr "Предпочитаемый язык"
+
+#: templates/accounts/profile.html
+msgid "Items on shared lists will be translated into this language for you."
+msgstr "Элементы в общих списках будут переведены на этот язык для вас."
+
+#: templates/accounts/profile.html
+msgid "Save"
+msgstr "Сохранить"
+
+#: templates/lists/index.html
+msgid "New list"
+msgstr "Новый список"
+
+#: templates/lists/index.html
+#, python-format
+msgid "%(counter)s item"
+msgid_plural "%(counter)s items"
+msgstr[0] "%(counter)s элемент"
+msgstr[1] "%(counter)s элемента"
+msgstr[2] "%(counter)s элементов"
+msgstr[3] "%(counter)s элементов"
+
+#: templates/lists/index.html
+#, python-format
+msgid "Updated %(time)s ago"
+msgstr "Обновлено %(time)s назад"
+
+#: templates/lists/index.html
+#, python-format
+msgid "shared by %(owner)s"
+msgstr "от %(owner)s"
+
+#: templates/lists/index.html
+msgid "You don't have any lists yet."
+msgstr "У вас пока нет списков."
+
+#: templates/lists/index.html
+msgid "Create your first list"
+msgstr "Создайте свой первый список"
+
+#: templates/lists/create.html
+msgid "New List"
+msgstr "Новый список"
+
+#: templates/lists/create.html
+msgid "Create a new list"
+msgstr "Создать новый список"
+
+#: templates/lists/create.html
+msgid "Create list"
+msgstr "Создать список"
+
+#: templates/lists/detail.html
+msgid "All lists"
+msgstr "Все списки"
+
+#: templates/lists/detail.html
+msgid "Delete this list and all its items?"
+msgstr "Удалить этот список и все его элементы?"
+
+#: templates/lists/detail.html
+msgid "Delete list"
+msgstr "Удалить список"
+
+#: templates/lists/detail.html
+msgid "Add"
+msgstr "Добавить"
+
+#: templates/lists/detail.html
+msgid "Sharing"
+msgstr "Совместный доступ"
+
+#: templates/lists/detail.html
+msgid "Share this link to invite collaborators:"
+msgstr "Поделитесь этой ссылкой, чтобы пригласить соавторов:"
+
+#: templates/lists/detail.html
+msgid "Copy"
+msgstr "Копировать"
+
+#: templates/lists/detail.html
+msgid "Owner:"
+msgstr "Владелец:"
+
+#: templates/partials/item_list.html
+msgid "translated"
+msgstr "переведено"
+
+#: templates/partials/item_list.html
+msgid "Remove this item?"
+msgstr "Удалить этот элемент?"
+
+#: templates/partials/item_list.html
+msgid "Delete item"
+msgstr "Удалить элемент"
+
+#: templates/partials/item_list.html
+msgid "No items yet. Add one above."
+msgstr "Элементов пока нет. Добавьте выше."
+
+#: templates/partials/collaborator_list.html
+msgid "Collaborators:"
+msgstr "Соавторы:"
+
+#: templates/partials/collaborator_list.html
+#, python-format
+msgid "Remove %(user)s from this list?"
+msgstr "Удалить %(user)s из этого списка?"
+
+#: templates/partials/collaborator_list.html
+msgid "Remove"
+msgstr "Удалить"
+
+#: templates/partials/collaborator_list.html
+msgid "No collaborators yet. Share the link above to invite people."
+msgstr "Соавторов пока нет. Поделитесь ссылкой выше, чтобы пригласить людей."
+
+#: templates/partials/item_list.html
+msgid "Drag to reorder"
+msgstr "Перетащите для изменения порядка"
+
+#: templates/base.html
+msgid "Toggle dark mode"
+msgstr "Переключить тёмную тему"
+
+#: templates/lists/index.html
+msgid "Pin list"
+msgstr "Закрепить список"
+
+#: templates/lists/index.html
+msgid "Unpin list"
+msgstr "Открепить список"
+
+#: templates/accounts/profile.html accounts/forms.py
+msgid "Interface language"
+msgstr "Язык интерфейса"
+
+#: templates/accounts/profile.html accounts/forms.py
+msgid "The language used for the website interface."
+msgstr "Язык, используемый для интерфейса сайта."
+
+#: templates/accounts/profile.html accounts/forms.py
+msgid "Translation language"
+msgstr "Язык перевода"
+
+#: accounts/views.py
+msgid "Your preferences have been saved."
+msgstr "Ваши настройки сохранены."
+
+#: templates/account/password_reset.html
+msgid "Reset password"
+msgstr "Сброс пароля"
+
+#: templates/account/password_reset.html
+msgid "Enter your email address and we'll send you a link to reset your password."
+msgstr "Введите ваш адрес электронной почты, и мы отправим вам ссылку для сброса пароля."
+
+#: templates/account/password_reset.html
+msgid "Send reset link"
+msgstr "Отправить ссылку"
+
+#: templates/account/password_reset.html
+msgid "Back to login"
+msgstr "Вернуться к входу"
+
+#: templates/landing.html
+msgid "Add items in your language. Collaborators see them in theirs. Powered by our real-time translation engine."
+msgstr "Добавляйте элементы на своём языке. Соавторы видят их на своём. Работает на нашем движке перевода в реальном времени."

@@ -24,11 +24,17 @@ def translate_text(text: str, source: str, target: str) -> str | None:
         "format": "text",
     }
 
+    logger.info("Translation request: %r (%s -> %s)", text, source, target)
+
     try:
         response = requests.post(url, json=payload, timeout=10)
         response.raise_for_status()
         data = response.json()
-        return data.get("translatedText")
+        translated = data.get("translatedText")
+        logger.info("Translation response: %r -> %r", text, translated)
+        return translated
     except requests.RequestException:
-        logger.exception("LibreTranslate request failed for %r (%s->%s)", text, source, target)
+        logger.exception(
+            "LibreTranslate request failed for %r (%s->%s)", text, source, target
+        )
         return None

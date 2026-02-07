@@ -1,5 +1,8 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db import models
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -15,8 +18,34 @@ def list_index(request):
     """Show all lists the user owns or collaborates on."""
     owned = List.objects.filter(owner=request.user)
     collaborated = List.objects.filter(collaborators__user=request.user)
-    all_lists = (owned | collaborated).distinct().order_by("-updated_at")
+    all_lists = (owned | collaborated).distinct()
+
+    # Annotate with is_pinned and order pinned first, then by updated_at
+    all_lists = all_lists.annotate(
+        is_pinned=models.Exists(
+            List.pinned_by.through.objects.filter(
+                list_id=models.OuterRef("pk"), user_id=request.user.id
+            )
+        )
+    ).order_by("-is_pinned", "-updated_at")
+
     return render(request, "lists/index.html", {"lists": all_lists})
+
+
+@login_required
+@require_POST
+def list_pin_toggle(request, pk):
+    """Toggle pinned status of a list for the current user."""
+    lst = get_object_or_404(List, pk=pk)
+    if not lst.is_member(request.user):
+        return HttpResponse(status=403)
+
+    if lst.pinned_by.filter(pk=request.user.pk).exists():
+        lst.pinned_by.remove(request.user)
+    else:
+        lst.pinned_by.add(request.user)
+
+    return redirect("lists:list_index")
 
 
 @login_required
@@ -47,13 +76,17 @@ def list_detail(request, pk):
     collaborators = lst.collaborators.select_related("user").all()
     is_owner = lst.owner == request.user
 
-    return render(request, "lists/detail.html", {
-        "list": lst,
-        "items": items,
-        "item_form": item_form,
-        "collaborators": collaborators,
-        "is_owner": is_owner,
-    })
+    return render(
+        request,
+        "lists/detail.html",
+        {
+            "list": lst,
+            "items": items,
+            "item_form": item_form,
+            "collaborators": collaborators,
+            "is_owner": is_owner,
+        },
+    )
 
 
 @login_required
@@ -70,15 +103,22 @@ def item_add(request, pk):
         item.list = lst
         item.added_by = request.user
         item.source_language = request.user.preferred_language
+        # Set order to be at the end
+        max_order = lst.items.aggregate(models.Max("order"))["order__max"] or 0
+        item.order = max_order + 1
         item.save()
         lst.save()  # bump updated_at
 
     # Return the full updated item list for this user
     items = get_items_for_user(lst, request.user)
-    return render(request, "partials/item_list.html", {
-        "items": items,
-        "list": lst,
-    })
+    return render(
+        request,
+        "partials/item_list.html",
+        {
+            "items": items,
+            "list": lst,
+        },
+    )
 
 
 @login_required
@@ -94,10 +134,14 @@ def item_toggle(request, pk, item_pk):
     item.save(update_fields=["is_checked"])
 
     items = get_items_for_user(lst, request.user)
-    return render(request, "partials/item_list.html", {
-        "items": items,
-        "list": lst,
-    })
+    return render(
+        request,
+        "partials/item_list.html",
+        {
+            "items": items,
+            "list": lst,
+        },
+    )
 
 
 @login_required
@@ -112,10 +156,35 @@ def item_delete(request, pk, item_pk):
     item.delete()
 
     items = get_items_for_user(lst, request.user)
-    return render(request, "partials/item_list.html", {
-        "items": items,
-        "list": lst,
-    })
+    return render(
+        request,
+        "partials/item_list.html",
+        {
+            "items": items,
+            "list": lst,
+        },
+    )
+
+
+@login_required
+@require_POST
+def item_reorder(request, pk):
+    """Reorder items in a list (HTMX/AJAX endpoint)."""
+    lst = get_object_or_404(List, pk=pk)
+    if not lst.is_member(request.user):
+        return HttpResponse(status=403)
+
+    try:
+        data = json.loads(request.body)
+        item_ids = data.get("item_ids", [])
+    except json.JSONDecodeError:
+        return HttpResponse(status=400)
+
+    # Update order for each item
+    for index, item_id in enumerate(item_ids):
+        ListItem.objects.filter(pk=item_id, list=lst).update(order=index)
+
+    return HttpResponse(status=204)
 
 
 @login_required
@@ -145,11 +214,15 @@ def collaborator_remove(request, pk, collab_pk):
     collab.delete()
 
     collaborators = lst.collaborators.select_related("user").all()
-    return render(request, "partials/collaborator_list.html", {
-        "collaborators": collaborators,
-        "list": lst,
-        "is_owner": True,
-    })
+    return render(
+        request,
+        "partials/collaborator_list.html",
+        {
+            "collaborators": collaborators,
+            "list": lst,
+            "is_owner": True,
+        },
+    )
 
 
 @login_required

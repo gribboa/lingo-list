@@ -19,7 +19,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - LT_LOAD_ONLY=en,es,fr,de,it,pt,nl,pl,ru,zh,ja,ko,ar,tr,uk,vi
+      - LT_LOAD_ONLY=en,ru
     volumes:
       - lt-data:/home/libretranslate/.local
 

@@ -1,34 +1,48 @@
 {% extends "base.html" %}
-{% block title %}My Lists — LingoList{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "My Lists" %} — LingoList{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="list-header">
-        <h1>My Lists</h1>
-        <a href="{% url 'lists:list_create' %}" class="btn btn-primary">New list</a>
+        <h1>{% trans "My Lists" %}</h1>
+        <a href="{% url 'lists:list_create' %}" class="btn btn-primary">{% trans "New list" %}</a>
     </div>
 
     {% if lists %}
         {% for lst in lists %}
-        <a href="{% url 'lists:list_detail' pk=lst.pk %}" class="card list-card">
-            <div>
-                <p class="list-card-title">{{ lst.title }}</p>
-                <p class="list-card-meta">
-                    {{ lst.items.count }} item{{ lst.items.count|pluralize }}
-                    &middot;
-                    Updated {{ lst.updated_at|timesince }} ago
-                    {% if lst.owner != request.user %}
-                        &middot; shared by {{ lst.owner }}
-                    {% endif %}
-                </p>
-            </div>
-            <span class="list-card-arrow">&rsaquo;</span>
-        </a>
+        <div class="list-card-wrapper">
+            <form method="post" action="{% url 'lists:list_pin_toggle' pk=lst.pk %}" class="pin-form">
+                {% csrf_token %}
+                <button type="submit" class="pin-btn {% if lst.is_pinned %}pinned{% endif %}" title="{% if lst.is_pinned %}{% trans 'Unpin list' %}{% else %}{% trans 'Pin list' %}{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="{% if lst.is_pinned %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L12 12M12 12L8 8M12 12L16 8M5 21L5 14C5 12.8954 5.89543 12 7 12L17 12C18.1046 12 19 12.8954 19 14L19 21" transform="rotate(45 12 12)"/>
+                    </svg>
+                </button>
+            </form>
+            <a href="{% url 'lists:list_detail' pk=lst.pk %}" class="card list-card">
+                <div>
+                    <p class="list-card-title">
+                        {% if lst.is_pinned %}<span class="pin-indicator">📌</span>{% endif %}
+                        {{ lst.title }}
+                    </p>
+                    <p class="list-card-meta">
+                        {% blocktrans count counter=lst.items.count %}{{ counter }} item{% plural %}{{ counter }} items{% endblocktrans %}
+                        &middot;
+                        {% blocktrans with time=lst.updated_at|timesince %}Updated {{ time }} ago{% endblocktrans %}
+                        {% if lst.owner != request.user %}
+                            &middot; {% blocktrans with owner=lst.owner %}shared by {{ owner }}{% endblocktrans %}
+                        {% endif %}
+                    </p>
+                </div>
+                <span class="list-card-arrow">&rsaquo;</span>
+            </a>
+        </div>
         {% endfor %}
     {% else %}
         <div class="empty-state">
-            <p>You don't have any lists yet.</p>
-            <a href="{% url 'lists:list_create' %}" class="btn btn-primary">Create your first list</a>
+            <p>{% trans "You don't have any lists yet." %}</p>
+            <a href="{% url 'lists:list_create' %}" class="btn btn-primary">{% trans "Create your first list" %}</a>
         </div>
     {% endif %}
 </div>

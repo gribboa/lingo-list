@@ -20,6 +20,24 @@
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
+/* Dark mode */
+[data-theme="dark"] {
+    --color-bg: #111827;
+    --color-surface: #1f2937;
+    --color-primary: #6366f1;
+    --color-primary-hover: #818cf8;
+    --color-text: #f9fafb;
+    --color-text-muted: #9ca3af;
+    --color-border: #374151;
+    --color-success: #34d399;
+    --color-danger: #f87171;
+    --color-danger-hover: #fca5a5;
+    --color-warning: #fbbf24;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 *,
 *::before,
 *::after {
@@ -322,10 +340,69 @@ textarea.form-input {
     text-decoration: none;
     color: inherit;
     transition: box-shadow 0.15s;
+    flex: 1;
 }
 
 .list-card:hover {
     box-shadow: var(--shadow-md);
+}
+
+.list-card-wrapper {
+    display: flex;
+    align-items: stretch;
+    margin-bottom: 0.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.list-card-wrapper .list-card {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.list-card-wrapper .list-card:hover {
+    box-shadow: none;
+    background: var(--color-bg);
+}
+
+.pin-form {
+    display: flex;
+    align-items: stretch;
+}
+
+.pin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.75rem;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--color-border);
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: color 0.15s, background 0.15s;
+}
+
+.pin-btn:hover {
+    background: var(--color-bg);
+    color: var(--color-primary);
+}
+
+.pin-btn.pinned {
+    color: var(--color-primary);
+}
+
+.pin-btn svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.pin-indicator {
+    margin-right: 0.25rem;
 }
 
 .list-card-title {
@@ -400,6 +477,30 @@ textarea.form-input {
 
 .item-row:last-child {
     border-bottom: none;
+}
+
+.item-row-ghost {
+    opacity: 0.4;
+    background: var(--color-primary);
+    border-radius: var(--radius);
+}
+
+.drag-handle {
+    cursor: grab;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    letter-spacing: -2px;
+    user-select: none;
+    padding: 0.25rem;
+    transition: color 0.15s;
+}
+
+.drag-handle:hover {
+    color: var(--color-text);
+}
+
+.drag-handle:active {
+    cursor: grabbing;
 }
 
 .item-checkbox {
@@ -555,4 +656,49 @@ footer {
     color: var(--color-text-muted);
     border-top: 1px solid var(--color-border);
     margin-top: 3rem;
+}
+
+/* --- Theme Toggle ----------------------------------------------------- */
+
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.375rem 0.5rem;
+    cursor: pointer;
+    line-height: 1;
+    color: var(--color-text);
+    transition: background 0.15s, border-color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background: var(--color-bg);
+    border-color: var(--color-primary);
+}
+
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+/* Light mode: show moon, hide sun */
+.theme-toggle .icon-sun {
+    display: none;
+}
+
+.theme-toggle .icon-moon {
+    display: block;
+}
+
+/* Dark mode: show sun, hide moon */
+[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
 }

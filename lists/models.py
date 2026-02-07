@@ -20,6 +20,11 @@ class List(models.Model):
         on_delete=models.CASCADE,
         related_name="owned_lists",
     )
+    pinned_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="pinned_lists",
+        blank=True,
+    )
     share_token = models.CharField(
         max_length=24,
         unique=True,
@@ -86,10 +91,11 @@ class ListItem(models.Model):
         related_name="list_items",
     )
     is_checked = models.BooleanField(default=False)
+    order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ["created_at"]
+        ordering = ["order", "created_at"]
 
     def __str__(self):
         return self.text

@@ -1,9 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Profile — LingoList{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Profile" %} — LingoList{% endblock %}
 
 {% block content %}
 <div class="container-narrow auth-page">
-    <h1>Your Profile</h1>
+    <h1>{% trans "Your Profile" %}</h1>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <div class="card">
         <p class="text-sm text-muted mb-2">{{ user.email }}</p>
@@ -11,13 +20,20 @@
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label for="id_preferred_language">Preferred language</label>
-                {{ form.preferred_language }}
+                <label for="id_ui_language">{% trans "Interface language" %}</label>
+                {{ form.ui_language }}
                 <p class="text-sm text-muted mt-1">
-                    Items on shared lists will be translated into this language for you.
+                    {% trans "The language used for the website interface." %}
                 </p>
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <div class="form-group">
+                <label for="id_preferred_language">{% trans "Translation language" %}</label>
+                {{ form.preferred_language }}
+                <p class="text-sm text-muted mt-1">
+                    {% trans "Items on shared lists will be translated into this language for you." %}
+                </p>
+            </div>
+            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
         </form>
     </div>
 </div>

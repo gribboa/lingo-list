@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% block title %}New List — LingoList{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "New List" %} — LingoList{% endblock %}
 
 {% block content %}
 <div class="container-narrow auth-page">
-    <h1>Create a new list</h1>
+    <h1>{% trans "Create a new list" %}</h1>
 
     <div class="card">
         <form method="post">
@@ -19,7 +20,7 @@
             </div>
             {% endfor %}
 
-            <button type="submit" class="btn btn-primary">Create list</button>
+            <button type="submit" class="btn btn-primary">{% trans "Create list" %}</button>
         </form>
     </div>
 </div>

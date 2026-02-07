@@ -1,6 +1,8 @@
 from allauth.account.forms import SignupForm
 from django import forms
 from django.conf import settings
+from django.utils.translation import get_language
+from django.utils.translation import gettext_lazy as _
 
 from .models import User
 
@@ -8,26 +10,63 @@ from .models import User
 class LanguagePreferenceForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("preferred_language",)
+        fields = ("ui_language", "preferred_language")
         widgets = {
+            "ui_language": forms.Select(
+                attrs={"class": "form-select"},
+            ),
             "preferred_language": forms.Select(
                 attrs={"class": "form-select"},
+            ),
+        }
+        labels = {
+            "ui_language": _("Interface language"),
+            "preferred_language": _("Translation language"),
+        }
+        help_texts = {
+            "ui_language": _("The language used for the website interface."),
+            "preferred_language": _(
+                "Items on shared lists will be translated into this language for you."
             ),
         }
 
 
 class CustomSignupForm(SignupForm):
-    """Extend the allauth signup form with a preferred language field."""
+    """Extend the allauth signup form with language preference fields."""
+
+    ui_language = forms.ChoiceField(
+        choices=settings.LANGUAGES,
+        widget=forms.Select(attrs={"class": "form-select"}),
+        label=_("Interface language"),
+        help_text=_("The language used for the website interface."),
+    )
 
     preferred_language = forms.ChoiceField(
         choices=[(code, name) for code, name in settings.LANGUAGES_SUPPORTED.items()],
-        initial="en",
         widget=forms.Select(attrs={"class": "form-select"}),
-        label="Preferred language",
+        label=_("Translation language"),
+        help_text=_(
+            "Items on shared lists will be translated into this language for you."
+        ),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Pre-fill the language selectors based on the user's browser language
+        current_lang = get_language()
+        if current_lang and current_lang in dict(settings.LANGUAGES):
+            self.fields["ui_language"].initial = current_lang
+        else:
+            self.fields["ui_language"].initial = "en"
+
+        if current_lang and current_lang in settings.LANGUAGES_SUPPORTED:
+            self.fields["preferred_language"].initial = current_lang
+        else:
+            self.fields["preferred_language"].initial = "en"
 
     def save(self, request):
         user = super().save(request)
+        user.ui_language = self.cleaned_data["ui_language"]
         user.preferred_language = self.cleaned_data["preferred_language"]
-        user.save(update_fields=["preferred_language"])
+        user.save(update_fields=["ui_language", "preferred_language"])
         return user

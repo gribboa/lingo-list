@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Sign up — LingoList{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Sign up" %} — LingoList{% endblock %}
 
 {% block content %}
 <div class="container-narrow auth-page">
-    <h1>Create your account</h1>
+    <h1>{% trans "Create your account" %}</h1>
 
     <div class="card">
         <form method="post" action="{% url 'account_signup' %}">
@@ -12,7 +13,7 @@
             {% for field in form %}
             <div class="form-group">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {% if field.name == "preferred_language" %}
+                {% if field.name == "preferred_language" or field.name == "ui_language" %}
                     {{ field }}
                 {% else %}
                 <input type="{{ field.field.widget.input_type|default:'text' }}"
@@ -43,12 +44,12 @@
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
             {% endif %}
 
-            <button type="submit" class="btn btn-primary" style="width:100%">Sign up</button>
+            <button type="submit" class="btn btn-primary" style="width:100%">{% trans "Sign up" %}</button>
         </form>
     </div>
 
     <p class="auth-links">
-        Already have an account? <a href="{% url 'account_login' %}">Log in</a>
+        {% trans "Already have an account?" %} <a href="{% url 'account_login' %}">{% trans "Log in" %}</a>
     </p>
 </div>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Log out — LingoList{% endblock %}
+
+{% block content %}
+<div class="container-narrow auth-page">
+    <h1>Log out</h1>
+
+    <div class="card text-center">
+        <p>Are you sure you want to log out?</p>
+        <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Log out</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

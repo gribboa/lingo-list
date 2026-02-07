@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Profile — LingoList{% endblock %}
+
+{% block content %}
+<div class="container-narrow auth-page">
+    <h1>Your Profile</h1>
+
+    <div class="card">
+        <p class="text-sm text-muted mb-2">{{ user.email }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_preferred_language">Preferred language</label>
+                {{ form.preferred_language }}
+                <p class="text-sm text-muted mt-1">
+                    Items on shared lists will be translated into this language for you.
+                </p>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

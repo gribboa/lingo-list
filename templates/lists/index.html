@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}My Lists — LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="list-header">
+        <h1>My Lists</h1>
+        <a href="{% url 'lists:list_create' %}" class="btn btn-primary">New list</a>
+    </div>
+
+    {% if lists %}
+        {% for lst in lists %}
+        <a href="{% url 'lists:list_detail' pk=lst.pk %}" class="card list-card">
+            <div>
+                <p class="list-card-title">{{ lst.title }}</p>
+                <p class="list-card-meta">
+                    {{ lst.items.count }} item{{ lst.items.count|pluralize }}
+                    &middot;
+                    Updated {{ lst.updated_at|timesince }} ago
+                    {% if lst.owner != request.user %}
+                        &middot; shared by {{ lst.owner }}
+                    {% endif %}
+                </p>
+            </div>
+            <span class="list-card-arrow">&rsaquo;</span>
+        </a>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <p>You don't have any lists yet.</p>
+            <a href="{% url 'lists:list_create' %}" class="btn btn-primary">Create your first list</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}New List — LingoList{% endblock %}
+
+{% block content %}
+<div class="container-narrow auth-page">
+    <h1>Create a new list</h1>
+
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                <p class="text-sm" style="color:var(--color-danger)">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">Create list</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

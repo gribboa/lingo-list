@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}LingoList — Collaborative Multilingual Lists{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h1>Lists without<br>language barriers</h1>
+        <p class="subtitle">
+            Create shared lists with anyone, in any language. Each person sees
+            items translated into their own language automatically.
+        </p>
+        <div class="hero-actions">
+            <a href="{% url 'account_signup' %}" class="btn btn-primary">Get started free</a>
+            <a href="{% url 'account_login' %}" class="btn btn-outline">Log in</a>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature">
+            <div class="feature-icon">&#127760;</div>
+            <h3>Multilingual</h3>
+            <p>Add items in your language. Collaborators see them in theirs. Powered by LibreTranslate.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#129309;</div>
+            <h3>Collaborative</h3>
+            <p>Share a link and anyone can join your list. Perfect for couples, families, or flatmates.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#9889;</div>
+            <h3>Real-time</h3>
+            <p>Add, check off, and remove items instantly &mdash; no page reloads needed.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

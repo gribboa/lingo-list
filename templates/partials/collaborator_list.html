@@ -1,0 +1,19 @@
+{% if collaborators %}
+    <p class="text-sm mt-1 mb-1"><strong>Collaborators:</strong></p>
+    {% for collab in collaborators %}
+    <div class="collab-row">
+        <span>{{ collab.user.email|default:collab.user.username }}</span>
+        {% if is_owner %}
+        <button class="btn btn-ghost btn-sm"
+                hx-post="{% url 'lists:collaborator_remove' pk=list.pk collab_pk=collab.pk %}"
+                hx-target="#collaborator-list"
+                hx-swap="innerHTML"
+                hx-confirm="Remove {{ collab.user }} from this list?">
+            Remove
+        </button>
+        {% endif %}
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="text-sm text-muted mt-1">No collaborators yet. Share the link above to invite people.</p>
+{% endif %}

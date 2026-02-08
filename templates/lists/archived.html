@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Archived Lists" %} — LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="list-header">
+        <h1>{% trans "Archived Lists" %}</h1>
+        <a href="{% url 'lists:list_index' %}" class="btn btn-outline btn-sm">&larr; {% trans "My Lists" %}</a>
+    </div>
+
+    {% if lists %}
+        {% for lst in lists %}
+        <div class="list-card-wrapper archived-card-wrapper">
+            <a href="{% url 'lists:list_detail' pk=lst.pk %}" class="card list-card">
+                <div>
+                    <p class="list-card-title">{{ lst.title }}</p>
+                    <p class="list-card-meta">
+                        {% blocktrans count counter=lst.items.count %}{{ counter }} item{% plural %}{{ counter }} items{% endblocktrans %}
+                        &middot;
+                        {% blocktrans with time=lst.updated_at|timesince %}Updated {{ time }} ago{% endblocktrans %}
+                    </p>
+                </div>
+                <span class="list-card-arrow">&rsaquo;</span>
+            </a>
+            <form method="post" action="{% url 'lists:list_archive_toggle' pk=lst.pk %}" class="archive-form">
+                {% csrf_token %}
+                <button type="submit" class="archive-btn unarchive" title="{% trans 'Unarchive list' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="17 11 12 6 7 11"></polyline>
+                        <polyline points="17 18 12 13 7 18"></polyline>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <p>{% trans "You don't have any archived lists." %}</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

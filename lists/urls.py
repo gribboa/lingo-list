@@ -6,9 +6,11 @@ app_name = "lists"
 
 urlpatterns = [
     path("", views.list_index, name="list_index"),
+    path("archived/", views.list_archived, name="list_archived"),
     path("new/", views.list_create, name="list_create"),
     path("<int:pk>/", views.list_detail, name="list_detail"),
     path("<int:pk>/pin/", views.list_pin_toggle, name="list_pin_toggle"),
+    path("<int:pk>/archive/", views.list_archive_toggle, name="list_archive_toggle"),
     path("<int:pk>/delete/", views.list_delete, name="list_delete"),
     path("<int:pk>/items/add/", views.item_add, name="item_add"),
     path("<int:pk>/items/reorder/", views.item_reorder, name="item_reorder"),

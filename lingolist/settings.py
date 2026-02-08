@@ -182,7 +182,7 @@ LIBRETRANSLATE_URL = os.environ.get("LIBRETRANSLATE_URL", "http://localhost:5000
 # ---------------------------------------------------------------------------
 
 REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
-# Default TTL: 2592000 seconds = 30 days (one month)
+# Default TTL: 2592000 seconds = 30 days
 REDIS_CACHE_TTL = int(os.environ.get("REDIS_CACHE_TTL", "2592000"))
 
 # ---------------------------------------------------------------------------

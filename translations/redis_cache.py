@@ -7,24 +7,46 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+# Module-level Redis client (singleton pattern with connection pooling)
+_redis_client = None
+_redis_connection_failed = False
+
 
 def get_redis_client():
-    """Get a Redis client instance.
+    """Get a Redis client instance with connection pooling.
     
     Returns None if Redis is not available or not configured.
+    Uses a singleton pattern to reuse the same connection pool.
     """
+    global _redis_client, _redis_connection_failed
+    
+    # If we already know connection failed, don't retry
+    if _redis_connection_failed:
+        return None
+    
+    # Return existing client if available
+    if _redis_client is not None:
+        try:
+            _redis_client.ping()
+            return _redis_client
+        except (redis.ConnectionError, redis.TimeoutError):
+            logger.warning("Redis connection lost")
+            _redis_client = None
+    
+    # Create new client
     try:
-        client = redis.from_url(
+        _redis_client = redis.from_url(
             settings.REDIS_URL,
             decode_responses=True,
             socket_connect_timeout=2,
             socket_timeout=2,
         )
         # Test connection
-        client.ping()
-        return client
+        _redis_client.ping()
+        return _redis_client
     except (redis.ConnectionError, redis.TimeoutError, AttributeError):
         logger.warning("Redis connection failed, hot cache disabled")
+        _redis_connection_failed = True
         return None
 
 
@@ -85,7 +107,7 @@ def set_cached_translation(
     
     try:
         key = get_cache_key(item_id, target_language)
-        ttl = settings.REDIS_CACHE_TTL
+        ttl = getattr(settings, 'REDIS_CACHE_TTL', 2592000)  # Default: 30 days
         client.setex(key, ttl, translated_text)
         logger.debug("Redis cache set: %s (TTL: %ds)", key, ttl)
         return True

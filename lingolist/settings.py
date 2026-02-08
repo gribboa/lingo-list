@@ -178,6 +178,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LIBRETRANSLATE_URL = os.environ.get("LIBRETRANSLATE_URL", "http://localhost:5000")
 
 # ---------------------------------------------------------------------------
+# Redis Cache Configuration
+# ---------------------------------------------------------------------------
+
+REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+# Default TTL: 2592000 seconds = 30 days (one month)
+REDIS_CACHE_TTL = int(os.environ.get("REDIS_CACHE_TTL", "2592000"))
+
+# ---------------------------------------------------------------------------
 # Supported languages (code -> display name)
 # Must match languages available in your LibreTranslate instance.
 # ---------------------------------------------------------------------------

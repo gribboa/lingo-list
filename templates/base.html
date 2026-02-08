@@ -24,8 +24,14 @@
             <div class="nav-links">
                 {% if user.is_authenticated %}
                     <a href="{% url 'lists:list_index' %}">{% trans "My Lists" %}</a>
-                    <a href="{% url 'accounts:profile' %}">{% trans "Profile" %}</a>
-                    <a href="{% url 'account_logout' %}">{% trans "Log out" %}</a>
+                    <a href="{% url 'accounts:profile' %}" class="nav-hide-label" aria-label="{% trans 'Profile' %}">
+                        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <span>{% trans "Profile" %}</span>
+                    </a>
+                    <a href="{% url 'account_logout' %}" class="nav-hide-label" aria-label="{% trans 'Log out' %}">
+                        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        <span>{% trans "Log out" %}</span>
+                    </a>
                 {% else %}
                     <a href="{% url 'account_login' %}">{% trans "Log in" %}</a>
                     <a href="{% url 'account_signup' %}" class="btn btn-primary btn-sm">{% trans "Sign up" %}</a>

@@ -61,9 +61,12 @@ def get_redis_client():
             _redis_client = client
             logger.info("Redis connection established")
             return _redis_client
-        except (redis.ConnectionError, redis.TimeoutError) as e:
-            logger.warning("Redis connection failed: %s. Will retry in %d seconds", 
-                         e, _connection_retry_delay)
+        except redis.RedisError as e:
+            logger.warning(
+                "Redis connection failed: %s. Will retry in %d seconds",
+                e,
+                _connection_retry_delay,
+            )
             return None
 
 

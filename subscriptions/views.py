@@ -1,5 +1,4 @@
 """Views for subscription management."""
-import json
 import logging
 
 import stripe

@@ -21,7 +21,7 @@ def get_translated_text(item: ListItem, target_language: str) -> str:
 
     # 1. Check Redis hot cache first
     cached_text = get_cached_translation(item.id, target_language)
-    if cached_text:
+    if cached_text is not None:
         return cached_text
 
     # 2. Check database cache

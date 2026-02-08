@@ -1,6 +1,8 @@
 """Redis hot cache layer for translations."""
 
 import logging
+import threading
+import time
 
 import redis
 from django.conf import settings
@@ -9,45 +11,60 @@ logger = logging.getLogger(__name__)
 
 # Module-level Redis client (singleton pattern with connection pooling)
 _redis_client = None
-_redis_connection_failed = False
+_redis_lock = threading.Lock()
+_last_connection_attempt = 0
+_connection_retry_delay = 60  # Retry after 60 seconds
 
 
 def get_redis_client():
     """Get a Redis client instance with connection pooling.
     
     Returns None if Redis is not available or not configured.
-    Uses a singleton pattern to reuse the same connection pool.
+    Uses a singleton pattern with thread-safe initialization.
+    Implements retry logic for temporary connection failures.
     """
-    global _redis_client, _redis_connection_failed
-    
-    # If we already know connection failed, don't retry
-    if _redis_connection_failed:
-        return None
+    global _redis_client, _last_connection_attempt
     
     # Return existing client if available
     if _redis_client is not None:
-        try:
-            _redis_client.ping()
-            return _redis_client
-        except (redis.ConnectionError, redis.TimeoutError):
-            logger.warning("Redis connection lost")
-            _redis_client = None
-    
-    # Create new client
-    try:
-        _redis_client = redis.from_url(
-            settings.REDIS_URL,
-            decode_responses=True,
-            socket_connect_timeout=2,
-            socket_timeout=2,
-        )
-        # Test connection
-        _redis_client.ping()
         return _redis_client
-    except (redis.ConnectionError, redis.TimeoutError, AttributeError):
-        logger.warning("Redis connection failed, hot cache disabled")
-        _redis_connection_failed = True
+    
+    # Check if we should retry connection
+    current_time = time.time()
+    if current_time - _last_connection_attempt < _connection_retry_delay:
         return None
+    
+    # Thread-safe client creation
+    with _redis_lock:
+        # Double-check after acquiring lock
+        if _redis_client is not None:
+            return _redis_client
+        
+        _last_connection_attempt = current_time
+        
+        # Check if REDIS_URL is configured
+        redis_url = getattr(settings, 'REDIS_URL', None)
+        if not redis_url:
+            logger.info("REDIS_URL not configured, hot cache disabled")
+            return None
+        
+        # Create new client
+        try:
+            client = redis.from_url(
+                redis_url,
+                decode_responses=True,
+                socket_connect_timeout=2,
+                socket_timeout=2,
+            )
+            # Test connection
+            client.ping()
+            _redis_client = client
+            logger.info("Redis connection established")
+            return _redis_client
+        except (redis.ConnectionError, redis.TimeoutError) as e:
+            logger.warning("Redis connection failed: %s. Will retry in %d seconds", 
+                         e, _connection_retry_delay)
+            return None
 
 
 def get_cache_key(item_id: int, target_language: str) -> str:

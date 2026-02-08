@@ -182,8 +182,18 @@ LIBRETRANSLATE_URL = os.environ.get("LIBRETRANSLATE_URL", "http://localhost:5000
 # ---------------------------------------------------------------------------
 
 REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+
 # Default TTL: 2592000 seconds = 30 days
-REDIS_CACHE_TTL = int(os.environ.get("REDIS_CACHE_TTL", "2592000"))
+try:
+    REDIS_CACHE_TTL = int(os.environ.get("REDIS_CACHE_TTL", "2592000"))
+except ValueError:
+    import sys
+    print(
+        "ERROR: REDIS_CACHE_TTL must be a valid integer (seconds). "
+        f"Got: {os.environ.get('REDIS_CACHE_TTL')!r}",
+        file=sys.stderr
+    )
+    sys.exit(1)
 
 # ---------------------------------------------------------------------------
 # Supported languages (code -> display name)

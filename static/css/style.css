@@ -687,6 +687,10 @@ details.collaborator-section[open] > summary .collab-summary-arrow {
     color: var(--color-danger);
 }
 
+.collab-chip-remove:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
 /* --- Auth pages ------------------------------------------------------- */
 
 .auth-page {

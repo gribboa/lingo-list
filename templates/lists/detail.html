@@ -67,7 +67,11 @@
             </div>
 
             <div class="collab-members">
-                <strong>{% trans "Owner:" %}</strong> {{ list.owner.email|default:list.owner.username }}
+                <div class="collab-chips">
+                    <span class="collab-chip collab-chip-owner">
+                        <span class="collab-chip-text">{{ list.owner.email|default:list.owner.username }}</span>
+                    </span>
+                </div>
                 <div id="collaborator-list">
                     {% include "partials/collaborator_list.html" %}
                 </div>

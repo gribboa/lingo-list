@@ -58,7 +58,11 @@ def create_checkout_session(request):
     """Create a Stripe Checkout session for subscription."""
     try:
         price_id = request.POST.get("price_id")
-        if not price_id:
+        allowed_price_ids = {
+            settings.STRIPE_PRICE_ID_MONTHLY,
+            settings.STRIPE_PRICE_ID_ANNUAL,
+        }
+        if not price_id or price_id not in allowed_price_ids:
             messages.error(request, "Invalid pricing option selected.")
             return redirect("subscriptions:pricing")
 

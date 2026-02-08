@@ -11,8 +11,10 @@ services:
       - DJANGO_DEBUG=True
       - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
       - LIBRETRANSLATE_URL=http://libretranslate:5000
+      - REDIS_URL=redis://redis:6379/0
     depends_on:
       - libretranslate
+      - redis
 
   libretranslate:
     image: libretranslate/libretranslate:latest
@@ -23,5 +25,13 @@ services:
     volumes:
       - lt-data:/home/libretranslate/.local
 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
 volumes:
   lt-data:
+  redis-data:

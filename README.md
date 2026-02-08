@@ -32,6 +32,7 @@ Couples, families, and flatmates who speak different languages can collaborate o
 | **HTMX** | Adds interactivity (adding items, toggling checkboxes, removing items) without writing JavaScript or using a SPA framework. |
 | **django-allauth** | Handles signup, login, logout, password reset. Configured for email-based auth. Ready for social login providers later. |
 | **LibreTranslate** | Open-source machine translation API. Runs as a Docker container alongside the app. |
+| **Redis** | Optional hot cache for translations. Provides sub-millisecond access to frequently used translations. |
 | **WhiteNoise** | Serves static files efficiently in production without needing nginx for static assets. |
 | **SQLite** | Default database for development. Swap to PostgreSQL for production by changing `DATABASES` in settings. |
 
@@ -41,7 +42,7 @@ Couples, families, and flatmates who speak different languages can collaborate o
 |---|---|
 | `accounts` | Custom user model with a `preferred_language` field. Profile page to change language preference. Custom signup form that collects language during registration. |
 | `lists` | Core domain: `List`, `ListItem`, `Collaborator`, `TranslationCache` models. Views for creating, viewing, sharing, and managing lists. HTMX endpoints for real-time item operations. |
-| `translations` | LibreTranslate API client and caching layer. Translates items on-the-fly and stores results in `TranslationCache` to avoid redundant API calls. |
+| `translations` | LibreTranslate API client and three-tier caching layer (Redis → Database → API). Translates items on-the-fly and stores results to avoid redundant API calls. |
 
 ## Features
 
@@ -136,11 +137,16 @@ User adds "Milk" (source_language=en)
   ▼
 Collaborator views list (preferred_language=es)
   │
-  ├─ Check TranslationCache for (item, "es")
-  │   ├─ Cache hit → return cached "Leche"
-  │   └─ Cache miss → call LibreTranslate API
-  │       ├─ Success → store in cache, return "Leche"
-  │       └─ Failure → fall back to original "Milk"
+  ├─ 1. Check Redis hot cache for (item, "es")
+  │   └─ Cache hit → return cached "Leche" ⚡ (fastest)
+  │
+  ├─ 2. Check Database (TranslationCache) for (item, "es")
+  │   ├─ Cache hit → populate Redis, return "Leche"
+  │   └─ Cache miss → continue to API
+  │
+  ├─ 3. Call LibreTranslate API
+  │   ├─ Success → store in both Redis & DB, return "Leche"
+  │   └─ Failure → fall back to original "Milk"
   │
   ▼
 Display: "Leche" (translated) with original "Milk" shown
@@ -208,6 +214,30 @@ Key settings in `.env` (or environment variables):
 | `DJANGO_DEBUG` | `True` | Set to `False` in production |
 | `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hostnames |
 | `LIBRETRANSLATE_URL` | `http://localhost:5000` | URL of your LibreTranslate instance |
+| `REDIS_URL` | None | Redis connection URL (e.g., `redis://localhost:6379/0`). Optional - if not set, uses database-only caching |
+| `REDIS_CACHE_TTL` | `2592000` | Redis cache TTL in seconds (default: 30 days) |
+
+## Caching
+
+The app uses a **three-tier caching strategy** for translations:
+
+1. **Redis hot cache** (optional) — Sub-millisecond access for frequently used translations. Requires `REDIS_URL` to be set.
+2. **Database cache** — Persistent cache via the `TranslationCache` model. Always enabled.
+3. **LibreTranslate API** — Called only when both caches miss.
+
+**Benefits:**
+- Redis provides lightning-fast access to hot translations
+- Database cache ensures persistence across restarts
+- Graceful fallback when Redis is unavailable
+
+**Setup Redis** (optional, recommended for production):
+```bash
+# Add to your .env file
+REDIS_URL=redis://localhost:6379/0
+REDIS_CACHE_TTL=2592000  # 30 days in seconds
+```
+
+When using Docker Compose, Redis is automatically included and configured.
 
 ## Supported languages
 

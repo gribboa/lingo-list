@@ -178,6 +178,25 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LIBRETRANSLATE_URL = os.environ.get("LIBRETRANSLATE_URL", "http://localhost:5000")
 
 # ---------------------------------------------------------------------------
+# Redis Cache Configuration
+# ---------------------------------------------------------------------------
+
+# Redis URL - set to None if Redis is not used (falls back to DB-only cache)
+REDIS_URL = os.environ.get("REDIS_URL", None)
+
+# Default TTL: 2592000 seconds = 30 days
+try:
+    REDIS_CACHE_TTL = int(os.environ.get("REDIS_CACHE_TTL", "2592000"))
+    if REDIS_CACHE_TTL <= 0:
+        raise ValueError("REDIS_CACHE_TTL must be positive")
+except ValueError as e:
+    from django.core.exceptions import ImproperlyConfigured
+    raise ImproperlyConfigured(
+        f"REDIS_CACHE_TTL must be a positive integer (seconds). "
+        f"Got: {os.environ.get('REDIS_CACHE_TTL')!r}"
+    ) from e
+
+# ---------------------------------------------------------------------------
 # Supported languages (code -> display name)
 # Must match languages available in your LibreTranslate instance.
 # ---------------------------------------------------------------------------

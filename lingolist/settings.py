@@ -181,7 +181,8 @@ LIBRETRANSLATE_URL = os.environ.get("LIBRETRANSLATE_URL", "http://localhost:5000
 # Redis Cache Configuration
 # ---------------------------------------------------------------------------
 
-REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+# Redis URL - set to None if Redis is not used (falls back to DB-only cache)
+REDIS_URL = os.environ.get("REDIS_URL", None)
 
 # Default TTL: 2592000 seconds = 30 days
 try:

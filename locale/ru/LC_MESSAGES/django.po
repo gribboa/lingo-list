@@ -275,3 +275,183 @@ msgstr "Вернуться к входу"
 #: templates/landing.html
 msgid "Add items in your language. Collaborators see them in theirs. Powered by our real-time translation engine."
 msgstr "Добавляйте элементы на своём языке. Соавторы видят их на своём. Работает на нашем движке перевода в реальном времени."
+
+#: templates/base.html
+msgid "Privacy notice"
+msgstr "Уведомление о конфиденциальности"
+
+#: templates/base.html
+msgid "Buy me a coffee 🍵"
+msgstr "Угостить меня кофе 🍵"
+
+#: templates/privacy_notice.html
+msgid "Privacy Notice"
+msgstr "Уведомление о конфиденциальности"
+
+#: templates/privacy_notice.html
+msgid "LingoList stores the information needed to provide your lists and collaboration features. We do not sell your personal data."
+msgstr "LingoList хранит информацию, необходимую для работы ваших списков и функций совместной работы. Мы не продаем ваши персональные данные."
+
+#: templates/privacy_notice.html
+msgid "If you have questions about data handling or want your account data removed, please contact the site administrator."
+msgstr "Если у вас есть вопросы об обработке данных или вы хотите удалить данные своей учетной записи, свяжитесь с администратором сайта."
+
+#: templates/accounts/profile.html accounts/forms.py
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: templates/accounts/profile.html accounts/forms.py
+msgid "Tip: use your first name so collaborators can recognize you."
+msgstr "Совет: используйте имя, чтобы соавторы могли вас узнать."
+
+#: templates/account/login.html
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: templates/lists/index.html
+msgid "Archived"
+msgstr "Архив"
+
+#: templates/lists/index.html
+msgid "Archive list"
+msgstr "Архивировать список"
+
+#: templates/lists/archived.html
+msgid "Archived Lists"
+msgstr "Архивные списки"
+
+#: templates/lists/archived.html
+msgid "Unarchive list"
+msgstr "Разархивировать список"
+
+#: templates/lists/archived.html
+msgid "You don't have any archived lists."
+msgstr "У вас пока нет архивных списков."
+
+#: templates/partials/collaborator_list.html
+msgid "No collaborators yet. Share the link to invite people."
+msgstr "Соавторов пока нет. Поделитесь ссылкой, чтобы пригласить людей."
+
+#: templates/lists/detail.html
+msgid "Edit"
+msgstr "Изменить"
+
+#: templates/lists/detail.html
+msgid "Unarchive"
+msgstr "Разархивировать"
+
+#: templates/lists/detail.html
+msgid "Archive"
+msgstr "Архивировать"
+
+#: templates/lists/detail.html
+msgid "This list is archived. It is read-only and hidden from collaborators."
+msgstr "Этот список архивирован. Он доступен только для чтения и скрыт от соавторов."
+
+#: templates/lists/detail.html
+#, python-format
+msgid "%(counter)s collaborator"
+msgid_plural "%(counter)s collaborators"
+msgstr[0] "%(counter)s соавтор"
+msgstr[1] "%(counter)s соавтора"
+msgstr[2] "%(counter)s соавторов"
+msgstr[3] "%(counter)s соавтора"
+
+#: templates/lists/detail.html
+msgid "Edit list name"
+msgstr "Изменить название списка"
+
+#: templates/lists/detail.html
+msgid "Close"
+msgstr "Закрыть"
+
+#: templates/lists/detail.html lists/forms.py
+msgid "List name"
+msgstr "Название списка"
+
+#: templates/lists/detail.html
+msgid "Cancel"
+msgstr "Отмена"
+
+#: templates/lists/detail.html
+msgid "Save name"
+msgstr "Сохранить название"
+
+#: accounts/views.py
+msgid "Your profile has been saved."
+msgstr "Ваш профиль сохранен."
+
+#: accounts/views.py
+msgid "Please correct the errors below."
+msgstr "Пожалуйста, исправьте ошибки ниже."
+
+#: lists/forms.py
+msgid "Description"
+msgstr "Описание"
+
+#: lists/forms.py
+msgid "e.g. Weekly groceries"
+msgstr "например, Продукты на неделю"
+
+#: lists/forms.py
+msgid "Optional description..."
+msgstr "Необязательное описание..."
+
+#: lists/forms.py
+msgid "Item"
+msgstr "Элемент"
+
+#: lists/forms.py
+msgid "Add an item..."
+msgstr "Добавьте элемент..."
+
+#: lists/views.py
+#, python-format
+msgid "\"%(title)s\" has been archived."
+msgstr "\"%(title)s\" добавлен в архив."
+
+#: lists/views.py
+#, python-format
+msgid "\"%(title)s\" has been unarchived."
+msgstr "\"%(title)s\" восстановлен из архива."
+
+#: lists/views.py
+msgid "You don't have access to this list."
+msgstr "У вас нет доступа к этому списку."
+
+#: lists/views.py
+msgid "This list has been archived."
+msgstr "Этот список архивирован."
+
+#: lists/views.py
+msgid "Archived lists cannot be renamed."
+msgstr "Нельзя переименовать архивные списки."
+
+#: lists/views.py
+msgid "List name updated."
+msgstr "Название списка обновлено."
+
+#: lists/views.py
+msgid "List name is unchanged."
+msgstr "Название списка не изменилось."
+
+#: lists/views.py
+msgid "Unable to update list name."
+msgstr "Не удалось обновить название списка."
+
+#: lists/views.py
+msgid "This list has been archived and is not accepting new collaborators."
+msgstr "Этот список архивирован и не принимает новых соавторов."
+
+#: lists/views.py
+msgid "You already own this list."
+msgstr "Этот список уже принадлежит вам."
+
+#: lists/views.py
+#, python-format
+msgid "You joined \"%(title)s\"!"
+msgstr "Вы присоединились к списку \"%(title)s\"!"
+
+#: lists/views.py
+msgid "You are already a collaborator on this list."
+msgstr "Вы уже соавтор этого списка."

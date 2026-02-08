@@ -19,9 +19,19 @@
 
         <form method="post">
             {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="mb-2">
+                {% for error in form.non_field_errors %}
+                <p class="text-sm" style="color:var(--color-danger)">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
             <div class="form-group">
                 <label for="id_username">{% trans "Username" %}</label>
                 {{ form.username }}
+                {% for error in form.username.errors %}
+                <p class="text-sm" style="color:var(--color-danger)">{{ error }}</p>
+                {% endfor %}
                 <p class="text-sm text-muted mt-1">
                     {% trans "Tip: use your first name so collaborators can recognize you." %}
                 </p>
@@ -29,6 +39,9 @@
             <div class="form-group">
                 <label for="id_ui_language">{% trans "Interface language" %}</label>
                 {{ form.ui_language }}
+                {% for error in form.ui_language.errors %}
+                <p class="text-sm" style="color:var(--color-danger)">{{ error }}</p>
+                {% endfor %}
                 <p class="text-sm text-muted mt-1">
                     {% trans "The language used for the website interface." %}
                 </p>
@@ -36,6 +49,9 @@
             <div class="form-group">
                 <label for="id_preferred_language">{% trans "Translation language" %}</label>
                 {{ form.preferred_language }}
+                {% for error in form.preferred_language.errors %}
+                <p class="text-sm" style="color:var(--color-danger)">{{ error }}</p>
+                {% endfor %}
                 <p class="text-sm text-muted mt-1">
                     {% trans "Items on shared lists will be translated into this language for you." %}
                 </p>

@@ -5,7 +5,12 @@
 {% block content %}
 <div class="container">
     <div class="detail-header">
-        <h1>{{ list.title }}</h1>
+        <div class="detail-title-row">
+            <h1>{{ list.title }}</h1>
+            {% if is_owner and not list.is_archived %}
+            <button type="button" class="btn btn-outline btn-sm" id="open-rename-modal">{% trans "Edit" %}</button>
+            {% endif %}
+        </div>
         {% if list.description %}
         <p>{{ list.description }}</p>
         {% endif %}
@@ -95,6 +100,28 @@
         </div>
     </details>
     {% endif %}
+
+    {% if is_owner and not list.is_archived %}
+    <div class="modal-backdrop" id="rename-modal" hidden>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="rename-modal-title">
+            <div class="modal-header">
+                <h2 id="rename-modal-title">{% trans "Edit list name" %}</h2>
+                <button type="button" class="btn btn-ghost" id="close-rename-modal" aria-label="{% trans 'Close' %}">&times;</button>
+            </div>
+            <form method="post" action="{% url 'lists:list_rename' pk=list.pk %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ title_form.title.id_for_label }}">{% trans "List name" %}</label>
+                    {{ title_form.title }}
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="cancel-rename-modal">{% trans "Cancel" %}</button>
+                    <button type="submit" class="btn btn-primary">{% trans "Save name" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
@@ -131,5 +158,43 @@ document.body.addEventListener('htmx:afterSwap', function(event) {
         initSortable();
     }
 });
+
+const renameModal = document.getElementById('rename-modal');
+if (renameModal) {
+    const openRenameButton = document.getElementById('open-rename-modal');
+    const closeRenameButton = document.getElementById('close-rename-modal');
+    const cancelRenameButton = document.getElementById('cancel-rename-modal');
+    const titleInput = renameModal.querySelector('input[name="title"]');
+
+    function openRenameModal() {
+        renameModal.hidden = false;
+        document.body.classList.add('modal-open');
+        if (titleInput) {
+            titleInput.focus();
+            titleInput.select();
+        }
+    }
+
+    function closeRenameModal() {
+        renameModal.hidden = true;
+        document.body.classList.remove('modal-open');
+    }
+
+    openRenameButton.addEventListener('click', openRenameModal);
+    closeRenameButton.addEventListener('click', closeRenameModal);
+    cancelRenameButton.addEventListener('click', closeRenameModal);
+
+    renameModal.addEventListener('click', function(event) {
+        if (event.target === renameModal) {
+            closeRenameModal();
+        }
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && !renameModal.hidden) {
+            closeRenameModal();
+        }
+    });
+}
 </script>
 {% endblock %}

@@ -9,6 +9,7 @@ urlpatterns = [
     path("archived/", views.list_archived, name="list_archived"),
     path("new/", views.list_create, name="list_create"),
     path("<int:pk>/", views.list_detail, name="list_detail"),
+    path("<int:pk>/rename/", views.list_rename, name="list_rename"),
     path("<int:pk>/pin/", views.list_pin_toggle, name="list_pin_toggle"),
     path("<int:pk>/archive/", views.list_archive_toggle, name="list_archive_toggle"),
     path("<int:pk>/delete/", views.list_delete, name="list_delete"),

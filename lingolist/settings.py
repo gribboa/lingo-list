@@ -143,10 +143,33 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-LANGUAGES = [
-    ("en", "English"),
-    ("ru", "Русский"),
-]
+# Single source for language settings:
+# (code, UI label for Django locale picker, translation label for app choices)
+LANGUAGE_DEFINITIONS = (
+    ("en", "English", "English"),
+    # ("es", "Spanish", "Spanish"),
+    # ("fr", "French", "French"),
+    # ("de", "German", "German"),
+    # ("it", "Italian", "Italian"),
+    # ("pt", "Portuguese", "Portuguese"),
+    # ("nl", "Dutch", "Dutch"),
+    # ("pl", "Polish", "Polish"),
+    ("ru", "Русский", "Русский"),
+    # ("zh", "Chinese", "Chinese"),
+    # ("ja", "Japanese", "Japanese"),
+    # ("ko", "Korean", "Korean"),
+    # ("ar", "Arabic", "Arabic"),
+    # ("tr", "Turkish", "Turkish"),
+    # ("vi", "Vietnamese", "Vietnamese"),
+)
+
+LANGUAGES = tuple((code, ui_label) for code, ui_label, _ in LANGUAGE_DEFINITIONS)
+LANGUAGES_SUPPORTED = {
+    code: translation_label for code, _, translation_label in LANGUAGE_DEFINITIONS
+}
+LANGUAGES_SUPPORTED_CHOICES = tuple(
+    (code, translation_label) for code, _, translation_label in LANGUAGE_DEFINITIONS
+)
 
 LOCALE_PATHS = [
     BASE_DIR / "locale",
@@ -176,29 +199,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ---------------------------------------------------------------------------
 
 LIBRETRANSLATE_URL = os.environ.get("LIBRETRANSLATE_URL", "http://localhost:5000")
-
-# ---------------------------------------------------------------------------
-# Supported languages (code -> display name)
-# Must match languages available in your LibreTranslate instance.
-# ---------------------------------------------------------------------------
-
-LANGUAGES_SUPPORTED = {
-    "en": "English",
-    # "es": "Spanish",
-    # "fr": "French",
-    # "de": "German",
-    # "it": "Italian",
-    # "pt": "Portuguese",
-    # "nl": "Dutch",
-    # "pl": "Polish",
-    "ru": "Russian",
-    # "zh": "Chinese",
-    # "ja": "Japanese",
-    # "ko": "Korean",
-    # "ar": "Arabic",
-    # "tr": "Turkish",
-    # "vi": "Vietnamese",
-}
 
 # ---------------------------------------------------------------------------
 # Logging

@@ -5,11 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.db import models
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from translations.services import get_items_for_user
 
-from .forms import ListForm, ListItemForm
+from .forms import ListForm, ListItemForm, ListTitleForm
 from .models import Collaborator, List, ListItem
 
 
@@ -53,10 +54,16 @@ def list_archive_toggle(request, pk):
     lst.save(update_fields=["is_archived"])
 
     if lst.is_archived:
-        messages.success(request, f'"{lst.title}" has been archived.')
+        messages.success(
+            request,
+            _('"%(title)s" has been archived.') % {"title": lst.title},
+        )
         return redirect("lists:list_index")
     else:
-        messages.success(request, f'"{lst.title}" has been unarchived.')
+        messages.success(
+            request,
+            _('"%(title)s" has been unarchived.') % {"title": lst.title},
+        )
         return redirect("lists:list_archived")
 
 
@@ -96,17 +103,18 @@ def list_detail(request, pk):
     """View a single list with its items (translated for the current user)."""
     lst = get_object_or_404(List, pk=pk)
     if not lst.is_member(request.user):
-        messages.error(request, "You don't have access to this list.")
+        messages.error(request, _("You don't have access to this list."))
         return redirect("lists:list_index")
 
     is_owner = lst.owner == request.user
 
     # Collaborators cannot access archived lists
     if lst.is_archived and not is_owner:
-        messages.error(request, "This list has been archived.")
+        messages.error(request, _("This list has been archived."))
         return redirect("lists:list_index")
 
     item_form = ListItemForm()
+    title_form = ListTitleForm(instance=lst) if is_owner and not lst.is_archived else None
     items = get_items_for_user(lst, request.user)
     collaborators = lst.collaborators.select_related("user").all()
 
@@ -117,10 +125,37 @@ def list_detail(request, pk):
             "list": lst,
             "items": items,
             "item_form": item_form,
+            "title_form": title_form,
             "collaborators": collaborators,
             "is_owner": is_owner,
         },
     )
+
+
+@login_required
+@require_POST
+def list_rename(request, pk):
+    """Rename a list (owner only)."""
+    lst = get_object_or_404(List, pk=pk, owner=request.user)
+    if lst.is_archived:
+        messages.error(request, _("Archived lists cannot be renamed."))
+        return redirect("lists:list_detail", pk=lst.pk)
+
+    form = ListTitleForm(request.POST, instance=lst)
+    if form.is_valid():
+        if form.has_changed():
+            form.save()
+            messages.success(request, _("List name updated."))
+        else:
+            messages.info(request, _("List name is unchanged."))
+    else:
+        title_errors = form.errors.get("title")
+        messages.error(
+            request,
+            title_errors[0] if title_errors else _("Unable to update list name."),
+        )
+
+    return redirect("lists:list_detail", pk=lst.pk)
 
 
 @login_required
@@ -244,18 +279,24 @@ def list_join(request, token):
     lst = get_object_or_404(List, share_token=token)
 
     if lst.is_archived:
-        messages.error(request, "This list has been archived and is not accepting new collaborators.")
+        messages.error(
+            request,
+            _("This list has been archived and is not accepting new collaborators."),
+        )
         return redirect("lists:list_index")
 
     if lst.owner == request.user:
-        messages.info(request, "You already own this list.")
+        messages.info(request, _("You already own this list."))
         return redirect("lists:list_detail", pk=lst.pk)
 
     _, created = Collaborator.objects.get_or_create(list=lst, user=request.user)
     if created:
-        messages.success(request, f'You joined "{lst.title}"!')
+        messages.success(
+            request,
+            _('You joined "%(title)s"!') % {"title": lst.title},
+        )
     else:
-        messages.info(request, "You are already a collaborator on this list.")
+        messages.info(request, _("You are already a collaborator on this list."))
 
     return redirect("lists:list_detail", pk=lst.pk)
 

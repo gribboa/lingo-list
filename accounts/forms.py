@@ -49,7 +49,7 @@ class CustomSignupForm(SignupForm):
     )
 
     preferred_language = forms.ChoiceField(
-        choices=[(code, name) for code, name in settings.LANGUAGES_SUPPORTED.items()],
+        choices=settings.LANGUAGES_SUPPORTED_CHOICES,
         widget=forms.Select(attrs={"class": "form-select"}),
         label=_("Translation language"),
         help_text=_(
@@ -60,13 +60,13 @@ class CustomSignupForm(SignupForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Pre-fill the language selectors based on the user's browser language
-        current_lang = get_language()
-        if current_lang and current_lang in dict(settings.LANGUAGES):
+        current_lang = (get_language() or "").split("-")[0]
+        if current_lang in settings.LANGUAGES_SUPPORTED:
             self.fields["ui_language"].initial = current_lang
         else:
             self.fields["ui_language"].initial = "en"
 
-        if current_lang and current_lang in settings.LANGUAGES_SUPPORTED:
+        if current_lang in settings.LANGUAGES_SUPPORTED:
             self.fields["preferred_language"].initial = current_lang
         else:
             self.fields["preferred_language"].initial = "en"

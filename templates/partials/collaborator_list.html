@@ -1,20 +1,20 @@
 {% load i18n %}
 {% if collaborators %}
-    <p class="text-sm mt-1 mb-1"><strong>{% trans "Collaborators:" %}</strong></p>
-    {% for collab in collaborators %}
-    <div class="collab-row">
-        <span>{{ collab.user.email|default:collab.user.username }}</span>
-        {% if is_owner %}
-        <button class="btn btn-ghost btn-sm"
-                hx-post="{% url 'lists:collaborator_remove' pk=list.pk collab_pk=collab.pk %}"
-                hx-target="#collaborator-list"
-                hx-swap="innerHTML"
-                hx-confirm="{% blocktrans with user=collab.user %}Remove {{ user }} from this list?{% endblocktrans %}">
-            {% trans "Remove" %}
-        </button>
-        {% endif %}
+    <div class="collab-chips">
+        {% for collab in collaborators %}
+        <span class="collab-chip">
+            <span class="collab-chip-text">{{ collab.user.email|default:collab.user.username }}</span>
+            {% if is_owner %}
+            <button class="collab-chip-remove"
+                    hx-post="{% url 'lists:collaborator_remove' pk=list.pk collab_pk=collab.pk %}"
+                    hx-target="#collaborator-list"
+                    hx-swap="innerHTML"
+                    hx-confirm="{% blocktrans with user=collab.user %}Remove {{ user }} from this list?{% endblocktrans %}"
+                    title="{% trans 'Remove' %}">&times;</button>
+            {% endif %}
+        </span>
+        {% endfor %}
     </div>
-    {% endfor %}
 {% else %}
-    <p class="text-sm text-muted mt-1">{% trans "No collaborators yet. Share the link above to invite people." %}</p>
+    <p class="text-sm text-muted" style="margin: 0.375rem 0 0;">{% trans "No collaborators yet. Share the link to invite people." %}</p>
 {% endif %}

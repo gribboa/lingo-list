@@ -34,7 +34,9 @@ def can_add_collaborator(list_obj):
 
     collab_count = Collaborator.objects.filter(list=list_obj).count()
     if collab_count >= settings.FREE_TIER_MAX_COLLABORATORS_PER_LIST:
-        return False, f"Free tier limited to {settings.FREE_TIER_MAX_COLLABORATORS_PER_LIST} collaborator per list. Upgrade to premium for unlimited collaborators."
+        max_count = settings.FREE_TIER_MAX_COLLABORATORS_PER_LIST
+        collaborator_word = "collaborator" if max_count == 1 else "collaborators"
+        return False, f"Free tier limited to {max_count} {collaborator_word} per list. Upgrade to premium for unlimited collaborators."
 
     return True, None
 

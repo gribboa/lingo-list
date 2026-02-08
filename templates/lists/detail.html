@@ -12,6 +12,14 @@
         <div class="detail-actions">
             <a href="{% url 'lists:list_index' %}" class="btn btn-outline btn-sm">&larr; {% trans "All lists" %}</a>
             {% if is_owner %}
+            <form method="post" action="{% url 'lists:list_archive_toggle' pk=list.pk %}">
+                {% csrf_token %}
+                {% if list.is_archived %}
+                <button type="submit" class="btn btn-outline btn-sm">{% trans "Unarchive" %}</button>
+                {% else %}
+                <button type="submit" class="btn btn-outline btn-sm">{% trans "Archive" %}</button>
+                {% endif %}
+            </form>
             <form method="post" action="{% url 'lists:list_delete' pk=list.pk %}"
                   onsubmit="return confirm('{% trans "Delete this list and all its items?" %}')">
                 {% csrf_token %}
@@ -21,8 +29,15 @@
         </div>
     </div>
 
+    {% if list.is_archived %}
+    <div class="archived-banner mt-2">
+        {% trans "This list is archived. It is read-only and hidden from collaborators." %}
+    </div>
+    {% endif %}
+
     <!-- Add item form -->
     <div class="card mt-2">
+        {% if not list.is_archived %}
         <form class="add-item-form"
               hx-post="{% url 'lists:item_add' pk=list.pk %}"
               hx-target="#item-list"
@@ -33,12 +48,14 @@
             <button type="submit" class="btn btn-primary">{% trans "Add" %}</button>
             <span class="htmx-indicator">...</span>
         </form>
+        {% endif %}
 
         <div id="item-list" data-reorder-url="{% url 'lists:item_reorder' pk=list.pk %}">
             {% include "partials/item_list.html" %}
         </div>
     </div>
 
+    {% if not list.is_archived %}
     <!-- Collaborators (condensed, collapsible) -->
     <details class="collaborator-section" open>
         <summary>
@@ -58,8 +75,7 @@
                 <input type="text" readonly
                        value="{{ request.scheme }}://{{ request.get_host }}{{ list.get_share_url }}"
                        id="share-url"
-                       onclick="this.select()"
-                       placeholder="{% trans 'Share link' %}">
+                       onclick="this.select()">
                 <button class="btn btn-outline btn-sm"
                         onclick="navigator.clipboard.writeText(document.getElementById('share-url').value)">
                     {% trans "Copy" %}
@@ -78,6 +94,7 @@
             </div>
         </div>
     </details>
+    {% endif %}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>

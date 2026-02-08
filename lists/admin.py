@@ -15,7 +15,7 @@ class ListItemInline(admin.TabularInline):
 
 @admin.register(List)
 class ListAdmin(admin.ModelAdmin):
-    list_display = ("title", "owner", "created_at", "updated_at")
+    list_display = ("title", "owner", "is_archived", "created_at", "updated_at")
     readonly_fields = ("share_token",)
     inlines = [CollaboratorInline, ListItemInline]
 

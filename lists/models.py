@@ -31,6 +31,7 @@ class List(models.Model):
         default=generate_share_token,
         editable=False,
     )
+    is_archived = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

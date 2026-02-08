@@ -39,30 +39,41 @@
         </div>
     </div>
 
-    <!-- Collaborators -->
-    <div class="collaborator-section">
-        <h2>{% trans "Sharing" %}</h2>
+    <!-- Collaborators (condensed, collapsible) -->
+    <details class="collaborator-section" open>
+        <summary>
+            <h2>{% trans "Sharing" %}</h2>
+            <span class="collab-count">
+                {% with count=collaborators.count %}
+                    {% if count %}
+                        &middot; {% blocktrans count counter=count %}{{ counter }} collaborator{% plural %}{{ counter }} collaborators{% endblocktrans %}
+                    {% endif %}
+                {% endwith %}
+            </span>
+            <span class="collab-summary-arrow">&#9656;</span>
+        </summary>
 
-        <div class="card">
-            <p class="text-sm text-muted mb-1">{% trans "Share this link to invite collaborators:" %}</p>
+        <div class="card collaborator-card">
             <div class="share-link">
                 <input type="text" readonly
                        value="{{ request.scheme }}://{{ request.get_host }}{{ list.get_share_url }}"
                        id="share-url"
-                       onclick="this.select()">
+                       onclick="this.select()"
+                       placeholder="{% trans 'Share link' %}">
                 <button class="btn btn-outline btn-sm"
                         onclick="navigator.clipboard.writeText(document.getElementById('share-url').value)">
                     {% trans "Copy" %}
                 </button>
             </div>
 
-            <p class="text-sm mb-1"><strong>{% trans "Owner:" %}</strong> {{ list.owner }}</p>
-
-            <div id="collaborator-list">
-                {% include "partials/collaborator_list.html" %}
+            <div class="collab-members">
+                <strong>{% trans "Owner:" %}</strong> {{ list.owner.email|default:list.owner.username }}
+                <div id="collaborator-list">
+                    {% include "partials/collaborator_list.html" %}
+                </div>
             </div>
         </div>
-    </div>
+    </details>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>

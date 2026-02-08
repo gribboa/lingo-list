@@ -109,6 +109,19 @@ nav .container {
     color: var(--color-primary);
 }
 
+.nav-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    display: none;
+    vertical-align: middle;
+}
+
+.nav-hide-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
 /* --- Cards ------------------------------------------------------------ */
 
 .card {
@@ -550,22 +563,57 @@ textarea.form-input {
     color: var(--color-danger);
 }
 
-/* --- Collaborators ---------------------------------------------------- */
+/* --- Collaborators (condensed, collapsible) --------------------------- */
 
-.collaborator-section {
-    margin-top: 2rem;
+details.collaborator-section {
+    margin-top: 1.5rem;
 }
 
-.collaborator-section h2 {
+details.collaborator-section > summary {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    user-select: none;
+}
+
+details.collaborator-section > summary::-webkit-details-marker {
+    display: none;
+}
+
+details.collaborator-section > summary h2 {
     font-size: 1rem;
-    margin: 0 0 0.75rem;
+    margin: 0;
+}
+
+.collab-count {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    font-weight: 400;
+}
+
+.collab-summary-arrow {
+    margin-left: auto;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    transition: transform 0.2s;
+}
+
+details.collaborator-section[open] > summary .collab-summary-arrow {
+    transform: rotate(90deg);
+}
+
+.collaborator-card {
+    padding: 1rem;
 }
 
 .share-link {
     display: flex;
     gap: 0.5rem;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .share-link input {
@@ -578,19 +626,71 @@ textarea.form-input {
     color: var(--color-text-muted);
 }
 
-.collab-row {
+.collab-members {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.collab-chips {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.375rem;
+}
+
+.collab-chip {
+    display: inline-flex;
     align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--color-border);
+    gap: 0.25rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: var(--color-text);
+    white-space: nowrap;
+}
+
+.collab-chip-owner {
+    border-color: var(--color-primary);
+    background: rgba(79, 70, 229, 0.06);
+}
+
+[data-theme="dark"] .collab-chip-owner {
+    background: rgba(99, 102, 241, 0.12);
+}
+
+.collab-chip-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 180px;
+}
+
+.collab-chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
     font-size: 0.875rem;
+    line-height: 1;
+    padding: 0;
+    margin-left: 0.125rem;
+    transition: color 0.15s;
+    flex-shrink: 0;
 }
 
-.collab-row:last-child {
-    border-bottom: none;
+.collab-chip-remove:hover {
+    color: var(--color-danger);
 }
 
+.collab-chip-remove:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
 /* --- Auth pages ------------------------------------------------------- */
 
 .auth-page {
@@ -701,4 +801,134 @@ footer {
 
 [data-theme="dark"] .theme-toggle .icon-moon {
     display: none;
+}
+
+/* --- Responsive: tablet / landscape phone ----------------------------- */
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 3rem 1rem 2rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero .subtitle {
+        font-size: 1rem;
+    }
+
+    .card {
+        padding: 1.125rem;
+    }
+
+    .nav-links {
+        gap: 0.625rem;
+    }
+
+    .features {
+        gap: 1rem;
+        padding: 1.5rem 0 3rem;
+    }
+
+    .list-header h1,
+    .detail-header h1 {
+        font-size: 1.25rem;
+    }
+
+    footer {
+        margin-top: 2rem;
+    }
+}
+
+/* --- Responsive: portrait phone --------------------------------------- */
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 2rem 0.5rem 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero .subtitle {
+        font-size: 0.9375rem;
+    }
+
+    .container,
+    nav .container {
+        padding: 0 0.75rem;
+    }
+
+    .nav-brand {
+        font-size: 1.1rem;
+    }
+
+    .nav-links {
+        gap: 0.375rem;
+    }
+
+    .nav-links a {
+        font-size: 0.75rem;
+    }
+
+    .card {
+        padding: 0.875rem;
+    }
+
+    .collaborator-card {
+        padding: 0.875rem;
+    }
+
+    .share-link {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .share-link input {
+        width: 100%;
+    }
+
+    .feature {
+        padding: 1rem 0.5rem;
+    }
+
+    .list-header,
+    .detail-header {
+        margin: 1.5rem 0 0.75rem;
+    }
+
+    .list-card {
+        padding: 0.75rem;
+    }
+
+    .list-card-title {
+        font-size: 0.9rem;
+    }
+
+    .list-card-meta {
+        font-size: 0.7rem;
+    }
+
+    .item-row {
+        gap: 0.5rem;
+    }
+
+    .collab-chip-text {
+        max-width: 140px;
+    }
+
+    .nav-hide-label .nav-icon {
+        display: block;
+    }
+
+    .nav-hide-label span {
+        display: none;
+    }
+
+    footer {
+        padding: 1.5rem 0;
+        margin-top: 2rem;
+    }
 }

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Privacy Notice" %} | LingoList{% endblock %}
+
+{% block content %}
+<div class="container auth-page">
+    <div class="card">
+        <h1>{% trans "Privacy Notice" %}</h1>
+        <p>
+            {% trans "LingoList stores the information needed to provide your lists and collaboration features. We do not sell your personal data." %}
+        </p>
+        <p>
+            {% trans "If you have questions about data handling or want your account data removed, please contact the site administrator." %}
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -664,7 +664,6 @@ details.collaborator-section[open] > summary .collab-summary-arrow {
 
 .collaborator-card {
     padding: 1rem;
->>>>>>> main
 }
 
 .share-link {
@@ -749,7 +748,6 @@ details.collaborator-section[open] > summary .collab-summary-arrow {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
 }
->>>>>>> main
 /* --- Auth pages ------------------------------------------------------- */
 
 .auth-page {
@@ -815,6 +813,28 @@ footer {
     color: var(--color-text-muted);
     border-top: 1px solid var(--color-border);
     margin-top: 3rem;
+}
+
+.footer-copy {
+    margin: 0 0 0.5rem;
+}
+
+.footer-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-links a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
 }
 
 /* --- Theme Toggle ----------------------------------------------------- */
@@ -991,4 +1011,3 @@ footer {
         margin-top: 2rem;
     }
 }
->>>>>>> main

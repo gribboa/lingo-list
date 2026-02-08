@@ -10,8 +10,11 @@ from .models import User
 class LanguagePreferenceForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("ui_language", "preferred_language")
+        fields = ("username", "ui_language", "preferred_language")
         widgets = {
+            "username": forms.TextInput(
+                attrs={"class": "form-input", "autocomplete": "given-name"},
+            ),
             "ui_language": forms.Select(
                 attrs={"class": "form-select"},
             ),
@@ -20,10 +23,14 @@ class LanguagePreferenceForm(forms.ModelForm):
             ),
         }
         labels = {
+            "username": _("Username"),
             "ui_language": _("Interface language"),
             "preferred_language": _("Translation language"),
         }
         help_texts = {
+            "username": _(
+                "Tip: use your first name so collaborators can recognize you."
+            ),
             "ui_language": _("The language used for the website interface."),
             "preferred_language": _(
                 "Items on shared lists will be translated into this language for you."

@@ -169,7 +169,16 @@ def item_toggle(request, pk, item_pk):
 
     item = get_object_or_404(ListItem, pk=item_pk, list=lst)
     item.is_checked = not item.is_checked
-    item.save(update_fields=["is_checked"])
+
+    # When checking an item, move it to the end of the manual sort order.
+    if item.is_checked:
+        max_order = (
+            ListItem.objects.filter(list=lst).exclude(pk=item.pk).aggregate(models.Max("order"))["order__max"] or 0
+        )
+        item.order = max_order + 1
+        item.save(update_fields=["is_checked", "order"])
+    else:
+        item.save(update_fields=["is_checked"])
 
     items = get_items_for_user(lst, request.user)
     return render(

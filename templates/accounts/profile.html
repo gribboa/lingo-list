@@ -20,6 +20,13 @@
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
+                <label for="id_username">{% trans "Username" %}</label>
+                {{ form.username }}
+                <p class="text-sm text-muted mt-1">
+                    {% trans "Tip: use your first name so collaborators can recognize you." %}
+                </p>
+            </div>
+            <div class="form-group">
                 <label for="id_ui_language">{% trans "Interface language" %}</label>
                 {{ form.ui_language }}
                 <p class="text-sm text-muted mt-1">

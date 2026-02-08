@@ -17,6 +17,7 @@ Performance & Reliability
 - Translation fallback - Add a backup translation service if LibreTranslate is down
 - Pagination - For lists with many items
 - Database indexes - Add indexes on frequently queried fields
+- https://uptimekuma.org/
 
 Security & Production Readiness
 - Rate limiting - Prevent abuse of translation API

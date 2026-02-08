@@ -15,7 +15,7 @@ def profile(request):
             form.save()
             # Activate the new UI language immediately
             translation.activate(request.user.ui_language)
-            messages.success(request, _("Your preferences have been saved."))
+            messages.success(request, _("Your profile has been saved."))
             return redirect("accounts:profile")
     else:
         form = LanguagePreferenceForm(instance=request.user)

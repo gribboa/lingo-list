@@ -16,6 +16,8 @@ from .models import Collaborator, List, ListItem
 @login_required
 def list_index(request):
     """Show all lists the user owns or collaborates on."""
+    from subscriptions.limits import get_list_limit_status
+
     owned = List.objects.filter(owner=request.user)
     collaborated = List.objects.filter(collaborators__user=request.user)
     all_lists = (owned | collaborated).distinct()
@@ -29,7 +31,11 @@ def list_index(request):
         )
     ).order_by("-is_pinned", "-updated_at")
 
-    return render(request, "lists/index.html", {"lists": all_lists})
+    list_status = get_list_limit_status(request.user)
+
+    return render(
+        request, "lists/index.html", {"lists": all_lists, "list_status": list_status}
+    )
 
 
 @login_required
@@ -51,7 +57,15 @@ def list_pin_toggle(request, pk):
 @login_required
 def list_create(request):
     """Create a new list."""
+    from subscriptions.limits import can_create_list
+
     if request.method == "POST":
+        # Check limit before creating
+        can_create, error_msg = can_create_list(request.user)
+        if not can_create:
+            messages.error(request, error_msg)
+            return redirect("subscriptions:pricing")
+
         form = ListForm(request.POST)
         if form.is_valid():
             lst = form.save(commit=False)
@@ -66,6 +80,11 @@ def list_create(request):
 @login_required
 def list_detail(request, pk):
     """View a single list with its items (translated for the current user)."""
+    from subscriptions.limits import (
+        get_collaborator_limit_status,
+        get_item_limit_status,
+    )
+
     lst = get_object_or_404(List, pk=pk)
     if not lst.is_member(request.user):
         messages.error(request, "You don't have access to this list.")
@@ -76,6 +95,9 @@ def list_detail(request, pk):
     collaborators = lst.collaborators.select_related("user").all()
     is_owner = lst.owner == request.user
 
+    item_status = get_item_limit_status(lst)
+    collab_status = get_collaborator_limit_status(lst)
+
     return render(
         request,
         "lists/detail.html",
@@ -85,6 +107,8 @@ def list_detail(request, pk):
             "item_form": item_form,
             "collaborators": collaborators,
             "is_owner": is_owner,
+            "item_status": item_status,
+            "collab_status": collab_status,
         },
     )
 
@@ -93,9 +117,20 @@ def list_detail(request, pk):
 @require_POST
 def item_add(request, pk):
     """Add an item to a list (HTMX endpoint)."""
+    from subscriptions.limits import can_add_item
+
     lst = get_object_or_404(List, pk=pk)
     if not lst.is_member(request.user):
         return HttpResponse(status=403)
+
+    # Check limit before adding
+    can_add, error_msg = can_add_item(lst)
+    if not can_add:
+        # Return error message in the HTMX response
+        return HttpResponse(
+            f'<div class="error-message" style="color: red; padding: 10px;">{error_msg}</div>',
+            status=400,
+        )
 
     form = ListItemForm(request.POST)
     if form.is_valid():
@@ -190,17 +225,27 @@ def item_reorder(request, pk):
 @login_required
 def list_join(request, token):
     """Join a list via a share link."""
+    from subscriptions.limits import can_add_collaborator
+
     lst = get_object_or_404(List, share_token=token)
 
     if lst.owner == request.user:
         messages.info(request, "You already own this list.")
         return redirect("lists:list_detail", pk=lst.pk)
 
-    _, created = Collaborator.objects.get_or_create(list=lst, user=request.user)
-    if created:
-        messages.success(request, f'You joined "{lst.title}"!')
-    else:
+    # Check if user is already a collaborator
+    if Collaborator.objects.filter(list=lst, user=request.user).exists():
         messages.info(request, "You are already a collaborator on this list.")
+        return redirect("lists:list_detail", pk=lst.pk)
+
+    # Check limit before adding collaborator
+    can_add, error_msg = can_add_collaborator(lst)
+    if not can_add:
+        messages.error(request, error_msg)
+        return redirect("subscriptions:pricing")
+
+    Collaborator.objects.create(list=lst, user=request.user)
+    messages.success(request, f'You joined "{lst.title}"!')
 
     return redirect("lists:list_detail", pk=lst.pk)
 

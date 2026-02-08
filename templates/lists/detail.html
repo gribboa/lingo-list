@@ -23,6 +23,17 @@
 
     <!-- Add item form -->
     <div class="card mt-2">
+        {% if not item_status.is_premium and item_status.max %}
+            <div style="background: #f8f9fa; border-bottom: 1px solid #dee2e6; padding: 12px; margin: -16px -16px 16px -16px;">
+                <p style="margin: 0; font-size: 14px;">
+                    {% blocktrans with current=item_status.current max=item_status.max %}Items: {{ current }} / {{ max }}{% endblocktrans %}
+                    {% if item_status.current >= item_status.max %}
+                        <a href="{% url 'subscriptions:pricing' %}" style="font-weight: bold;">{% trans "Upgrade for unlimited" %}</a>
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+        
         <form class="add-item-form"
               hx-post="{% url 'lists:item_add' pk=list.pk %}"
               hx-target="#item-list"
@@ -44,6 +55,17 @@
         <h2>{% trans "Sharing" %}</h2>
 
         <div class="card">
+            {% if not collab_status.is_premium and collab_status.max %}
+                <div style="background: #f8f9fa; border-bottom: 1px solid #dee2e6; padding: 12px; margin: -16px -16px 16px -16px;">
+                    <p style="margin: 0; font-size: 14px;">
+                        {% blocktrans with current=collab_status.current max=collab_status.max %}Collaborators: {{ current }} / {{ max }}{% endblocktrans %}
+                        {% if collab_status.current >= collab_status.max %}
+                            <a href="{% url 'subscriptions:pricing' %}" style="font-weight: bold;">{% trans "Upgrade for unlimited" %}</a>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endif %}
+            
             <p class="text-sm text-muted mb-1">{% trans "Share this link to invite collaborators:" %}</p>
             <div class="share-link">
                 <input type="text" readonly

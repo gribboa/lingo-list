@@ -54,6 +54,7 @@ Couples, families, and flatmates who speak different languages can collaborate o
 - **Translation caching** — each translation is stored so LibreTranslate is called only once per item/language pair
 - **Original text shown** — translated items show the original text alongside, so nothing is hidden
 - **HTMX-powered** — add, check, and delete items without full page reloads
+- **Premium subscriptions** — free tier with limits (2 lists, 10 items per list, 1 collaborator per list); premium tier ($4.99/month or $49/year) with unlimited access
 
 ## Development setup
 
@@ -208,6 +209,11 @@ Key settings in `.env` (or environment variables):
 | `DJANGO_DEBUG` | `True` | Set to `False` in production |
 | `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hostnames |
 | `LIBRETRANSLATE_URL` | `http://localhost:5000` | URL of your LibreTranslate instance |
+| `STRIPE_SECRET_KEY` | (required for payments) | Stripe secret key for processing subscriptions |
+| `STRIPE_PUBLISHABLE_KEY` | (required for payments) | Stripe publishable key for checkout |
+| `STRIPE_WEBHOOK_SECRET` | (required for payments) | Stripe webhook secret for verifying events |
+| `STRIPE_PRICE_ID_MONTHLY` | (required for payments) | Stripe price ID for monthly subscription |
+| `STRIPE_PRICE_ID_ANNUAL` | (required for payments) | Stripe price ID for annual subscription |
 
 ## Supported languages
 
@@ -216,9 +222,8 @@ The app ships with 16 languages enabled (matching common LibreTranslate language
 ## Future plans
 
 - Social logins (Google, GitHub) via allauth social providers
-- Paid tier with premium features
+- Premium-only features: list categories/tagging, due dates/reminders, CSV import/export
 - WebSocket support for real-time multi-user updates
-- List categories and templates
 - Mobile-optimized PWA
 - PostgreSQL for production deployments
 

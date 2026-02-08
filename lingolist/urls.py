@@ -9,4 +9,5 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("allauth.urls")),
     path("lists/", include("lists.urls")),
+    path("subscriptions/", include("subscriptions.urls")),
 ]

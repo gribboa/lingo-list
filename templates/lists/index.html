@@ -9,6 +9,17 @@
         <a href="{% url 'lists:list_create' %}" class="btn btn-primary">{% trans "New list" %}</a>
     </div>
 
+    {% if not list_status.is_premium and list_status.max %}
+        <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+            <p style="margin: 0;">
+                {% blocktrans with current=list_status.current max=list_status.max %}You're using {{ current }} of {{ max }} lists on the free tier.{% endblocktrans %}
+                {% if list_status.current >= list_status.max %}
+                    <a href="{% url 'subscriptions:pricing' %}" style="font-weight: bold;">{% trans "Upgrade to premium for unlimited lists" %}</a>
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+
     {% if lists %}
         {% for lst in lists %}
         <div class="list-card-wrapper">

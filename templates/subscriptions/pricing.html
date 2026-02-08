@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Pricing" %} - LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="max-width: 900px; margin: 40px auto;">
+        <h1 style="text-align: center; margin-bottom: 16px;">{% trans "Upgrade to Premium" %}</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 48px;">
+            {% trans "Unlock unlimited lists, items, and collaborators" %}
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 48px;">
+            <!-- Monthly Plan -->
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 32px; text-align: center;">
+                <h2 style="margin-bottom: 8px;">{% trans "Monthly" %}</h2>
+                <div style="font-size: 48px; font-weight: bold; margin: 24px 0;">
+                    $4.99
+                    <span style="font-size: 18px; font-weight: normal; color: #666;">/month</span>
+                </div>
+                <form method="post" action="{% url 'subscriptions:create_checkout_session' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="price_id" value="{{ stripe_price_id_monthly }}">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px 24px;">
+                        {% trans "Subscribe Monthly" %}
+                    </button>
+                </form>
+            </div>
+
+            <!-- Annual Plan -->
+            <div style="border: 2px solid #0066cc; border-radius: 8px; padding: 32px; text-align: center; position: relative;">
+                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #0066cc; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px; font-weight: bold;">
+                    {% trans "BEST VALUE" %}
+                </div>
+                <h2 style="margin-bottom: 8px;">{% trans "Annual" %}</h2>
+                <div style="font-size: 48px; font-weight: bold; margin: 24px 0;">
+                    $49
+                    <span style="font-size: 18px; font-weight: normal; color: #666;">/year</span>
+                </div>
+                <p style="color: #0066cc; font-weight: bold; margin-bottom: 24px;">
+                    {% trans "Save $10.88 per year" %}
+                </p>
+                <form method="post" action="{% url 'subscriptions:create_checkout_session' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="price_id" value="{{ stripe_price_id_annual }}">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px 24px;">
+                        {% trans "Subscribe Annually" %}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Features Comparison -->
+        <div style="margin-top: 48px;">
+            <h3 style="text-align: center; margin-bottom: 32px;">{% trans "Feature Comparison" %}</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #ddd;">
+                        <th style="text-align: left; padding: 16px;">{% trans "Feature" %}</th>
+                        <th style="text-align: center; padding: 16px;">{% trans "Free" %}</th>
+                        <th style="text-align: center; padding: 16px;">{% trans "Premium" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 16px;">{% trans "Number of lists" %}</td>
+                        <td style="text-align: center; padding: 16px;">2</td>
+                        <td style="text-align: center; padding: 16px; color: #0066cc; font-weight: bold;">{% trans "Unlimited" %}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 16px;">{% trans "Items per list" %}</td>
+                        <td style="text-align: center; padding: 16px;">10</td>
+                        <td style="text-align: center; padding: 16px; color: #0066cc; font-weight: bold;">{% trans "Unlimited" %}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 16px;">{% trans "Collaborators per list" %}</td>
+                        <td style="text-align: center; padding: 16px;">1</td>
+                        <td style="text-align: center; padding: 16px; color: #0066cc; font-weight: bold;">{% trans "Unlimited" %}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 16px;">{% trans "Automatic translation" %}</td>
+                        <td style="text-align: center; padding: 16px;">✓</td>
+                        <td style="text-align: center; padding: 16px;">✓</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 16px;">{% trans "List sharing" %}</td>
+                        <td style="text-align: center; padding: 16px;">✓</td>
+                        <td style="text-align: center; padding: 16px;">✓</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 16px;">{% trans "Coming soon: Categories, reminders, CSV import/export" %}</td>
+                        <td style="text-align: center; padding: 16px;">—</td>
+                        <td style="text-align: center; padding: 16px; color: #0066cc; font-weight: bold;">✓</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin-top: 48px;">
+            <a href="{% url 'lists:list_index' %}" class="btn">{% trans "Maybe later" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

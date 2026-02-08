@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "accounts",
     "lists",
     "translations",
+    "subscriptions",
 ]
 
 MIDDLEWARE = [
@@ -199,6 +200,26 @@ LANGUAGES_SUPPORTED = {
     # "tr": "Turkish",
     # "vi": "Vietnamese",
 }
+
+# ---------------------------------------------------------------------------
+# Stripe
+# ---------------------------------------------------------------------------
+
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
+STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY", "")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+
+# Stripe price IDs for subscriptions
+STRIPE_PRICE_ID_MONTHLY = os.environ.get("STRIPE_PRICE_ID_MONTHLY", "")
+STRIPE_PRICE_ID_ANNUAL = os.environ.get("STRIPE_PRICE_ID_ANNUAL", "")
+
+# ---------------------------------------------------------------------------
+# Free tier limits
+# ---------------------------------------------------------------------------
+
+FREE_TIER_MAX_LISTS = 2
+FREE_TIER_MAX_ITEMS_PER_LIST = 10
+FREE_TIER_MAX_COLLABORATORS_PER_LIST = 1
 
 # ---------------------------------------------------------------------------
 # Logging

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Subscription" %} - LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="max-width: 600px; margin: 40px auto;">
+        <h1>{% trans "Subscription" %}</h1>
+
+        {% if user.has_active_subscription %}
+            <div style="background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; padding: 20px; margin: 24px 0;">
+                <h2 style="margin-top: 0; color: #155724;">{% trans "Premium Active" %} ✓</h2>
+                <p style="margin-bottom: 16px;">{% trans "You have unlimited access to all features." %}</p>
+                
+                {% if user.subscription_status %}
+                    <p style="margin-bottom: 8px;">
+                        <strong>{% trans "Status:" %}</strong> {{ user.subscription_status|title }}
+                    </p>
+                {% endif %}
+                
+                {% if user.subscription_end_date %}
+                    <p style="margin-bottom: 16px;">
+                        <strong>{% trans "Current period ends:" %}</strong> {{ user.subscription_end_date|date:"F j, Y" }}
+                    </p>
+                {% endif %}
+
+                <form method="post" action="{% url 'subscriptions:create_portal_session' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">
+                        {% trans "Manage Subscription" %}
+                    </button>
+                </form>
+            </div>
+        {% else %}
+            <div style="background: #fff3cd; border: 1px solid #ffeeba; border-radius: 8px; padding: 20px; margin: 24px 0;">
+                <h2 style="margin-top: 0;">{% trans "Free Tier" %}</h2>
+                <p>{% trans "You are currently using the free tier with the following limits:" %}</p>
+                
+                <ul style="margin: 16px 0;">
+                    <li>{% trans "Lists:" %} {{ list_status.current }} / {{ list_status.max }}</li>
+                    <li>{% trans "Items per list:" %} 10 maximum</li>
+                    <li>{% trans "Collaborators per list:" %} 1 maximum</li>
+                </ul>
+
+                <a href="{% url 'subscriptions:pricing' %}" class="btn btn-primary">
+                    {% trans "Upgrade to Premium" %}
+                </a>
+            </div>
+        {% endif %}
+
+        <div style="margin-top: 48px;">
+            <h3>{% trans "Premium Features" %}</h3>
+            <ul>
+                <li>{% trans "Unlimited lists" %}</li>
+                <li>{% trans "Unlimited items per list" %}</li>
+                <li>{% trans "Unlimited collaborators per list" %}</li>
+                <li>{% trans "Coming soon: List categories and tagging" %}</li>
+                <li>{% trans "Coming soon: Due dates and reminders" %}</li>
+                <li>{% trans "Coming soon: Import and export to CSV" %}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

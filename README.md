@@ -226,7 +226,6 @@ The app ships with 16 languages enabled (matching common LibreTranslate language
 - WebSocket support for real-time multi-user updates
 - Mobile-optimized PWA
 - PostgreSQL for production deployments
-- PostgreSQL for production deployments
 
 ## License
 

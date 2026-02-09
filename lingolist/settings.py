@@ -40,6 +40,7 @@ DEFAULT_ALLOWED_HOSTS = [
     "127.0.0.1",
     ".sslip.io",
     "lingolist.io",
+    ".lingolist.io",
     "www.lingolist.io",
 ]
 DEFAULT_CSRF_TRUSTED_ORIGINS = [

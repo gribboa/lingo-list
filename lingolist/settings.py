@@ -14,15 +14,19 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in ("true", "1", "yes")
 
-ALLOWED_HOSTS = [
-    h.strip()
-    for h in os.environ.get(
-        "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,.sslip.io"
-    ).split(",")
-    if h.strip()
-]
 
-CSRF_TRUSTED_ORIGINS = ["https://*.ngrok.io", "https://*.ngrok-free.app"]
+DJANGO_ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS")
+
+if DJANGO_ALLOWED_HOSTS:
+    ALLOWED_HOSTS = [h.strip() for h in DJANGO_ALLOWED_HOSTS.split(",")]
+else:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".sslip.io"]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok.io",
+    "https://*.ngrok-free.app",
+    "https://*.sslip.io",
+]
 
 # ---------------------------------------------------------------------------
 # Application definition

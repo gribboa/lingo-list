@@ -2,8 +2,6 @@ services:
   web:
     build: .
     command: gunicorn lingolist.wsgi:application --bind 0.0.0.0:8001
-    ports:
-      - "8001:8001"
     environment:
       - DJANGO_SECRET_KEY=dev-secret-key-change-in-production
       - DJANGO_DEBUG=True
@@ -24,8 +22,6 @@ services:
 
   libretranslate:
     image: libretranslate/libretranslate:latest
-    # ports:
-    #   - "5000:5000"
     environment:
       - LT_LOAD_ONLY=en,ru
     volumes:

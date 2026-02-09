@@ -24,8 +24,8 @@ services:
 
   libretranslate:
     image: libretranslate/libretranslate:latest
-    ports:
-      - "5000:5000"
+    # ports:
+    #   - "5000:5000"
     environment:
       - LT_LOAD_ONLY=en,ru
     volumes:

@@ -20,12 +20,13 @@ DJANGO_ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS")
 if DJANGO_ALLOWED_HOSTS:
     ALLOWED_HOSTS = [h.strip() for h in DJANGO_ALLOWED_HOSTS.split(",")]
 else:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".sslip.io"]
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".sslip.io", "lingolist.io"]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.ngrok.io",
     "https://*.ngrok-free.app",
     "https://*.sslip.io",
+    "https://*.lingolist.io",
 ]
 
 # ---------------------------------------------------------------------------

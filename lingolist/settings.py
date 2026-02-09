@@ -15,32 +15,51 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in ("true", "1", "yes")
 
 
-def _csv_env(var_name: str, default: list[str]) -> list[str]:
-    value = os.getenv(var_name)
-    if not value:
-        return default
-    return [item.strip() for item in value.split(",") if item.strip()]
+def _csv_env(var_name: str) -> list[str]:
+    value = os.getenv(var_name, "")
+    items: list[str] = []
+    for raw_item in value.replace(",", " ").split():
+        item = raw_item.strip().strip('"').strip("'").rstrip("/")
+        if item:
+            items.append(item)
+    return items
 
 
-ALLOWED_HOSTS = _csv_env(
-    "DJANGO_ALLOWED_HOSTS",
-    ["localhost", "127.0.0.1", ".sslip.io", "lingolist.io", "www.lingolist.io"],
-)
+def _merge_unique(*groups: list[str]) -> list[str]:
+    merged: list[str] = []
+    for group in groups:
+        for item in group:
+            if item not in merged:
+                merged.append(item)
+    return merged
 
-CSRF_TRUSTED_ORIGINS = _csv_env(
-    "DJANGO_CSRF_TRUSTED_ORIGINS",
-    [
-        "https://lingolist.io",
-        "https://www.lingolist.io",
-        "https://*.lingolist.io",
-        "https://*.sslip.io",
-        "https://*.ngrok.io",
-        "https://*.ngrok-free.app",
-    ],
+
+DEFAULT_ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".sslip.io",
+    "lingolist.io",
+    "www.lingolist.io",
+]
+DEFAULT_CSRF_TRUSTED_ORIGINS = [
+    "https://lingolist.io",
+    "https://www.lingolist.io",
+    "https://*.lingolist.io",
+    "https://*.sslip.io",
+    "https://*.ngrok.io",
+    "https://*.ngrok-free.app",
+]
+
+ALLOWED_HOSTS = _merge_unique(DEFAULT_ALLOWED_HOSTS, _csv_env("DJANGO_ALLOWED_HOSTS"))
+CSRF_TRUSTED_ORIGINS = _merge_unique(
+    DEFAULT_CSRF_TRUSTED_ORIGINS,
+    _csv_env("DJANGO_CSRF_TRUSTED_ORIGINS"),
 )
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-USE_X_FORWARDED_HOST = os.environ.get("DJANGO_USE_X_FORWARDED_HOST", "True").lower() in (
+USE_X_FORWARDED_HOST = os.environ.get(
+    "DJANGO_USE_X_FORWARDED_HOST", "True"
+).lower() in (
     "true",
     "1",
     "yes",

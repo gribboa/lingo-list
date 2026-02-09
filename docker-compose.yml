@@ -8,7 +8,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,.sslip.io,lingolist.io
       - DJANGO_CSRF_TRUSTED_ORIGINS=http://localhost,http://127.0.0.1,https://lingolist.io,https://www.lingolist.io
       - SQLITE_PATH=/data/db.sqlite3
-      - LIBRETRANSLATE_URL=http://libretranslate:5000
+      - LIBRETRANSLATE_URL=http://libretranslate-vk0so0wsg4sk4sgkg4oo44cw:5000
     volumes:
       - db-data:/data
     depends_on:

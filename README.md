@@ -207,6 +207,7 @@ Key settings in `.env` (or environment variables):
 | `DJANGO_SECRET_KEY` | insecure dev key | Set a real secret in production |
 | `DJANGO_DEBUG` | `True` | Set to `False` in production |
 | `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hostnames |
+| `DJANGO_CSRF_TRUSTED_ORIGINS` | `http://localhost,http://127.0.0.1` | Comma-separated origins (scheme + host) used for CSRF origin checks |
 | `LIBRETRANSLATE_URL` | `http://localhost:5000` | URL of your LibreTranslate instance |
 
 ## Supported languages

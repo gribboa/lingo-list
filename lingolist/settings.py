@@ -15,22 +15,36 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in ("true", "1", "yes")
 
 
-DJANGO_ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS")
+def _csv_env(var_name: str, default: list[str]) -> list[str]:
+    value = os.getenv(var_name)
+    if not value:
+        return default
+    return [item.strip() for item in value.split(",") if item.strip()]
 
-if DJANGO_ALLOWED_HOSTS:
-    ALLOWED_HOSTS = [h.strip() for h in DJANGO_ALLOWED_HOSTS.split(",")]
-else:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".sslip.io", "lingolist.io"]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.ngrok.io",
-    "https://*.ngrok-free.app",
-    "https://*.sslip.io",
-    "https://*.lingolist.io",
-    "https://lingolist.io",
-]
+ALLOWED_HOSTS = _csv_env(
+    "DJANGO_ALLOWED_HOSTS",
+    ["localhost", "127.0.0.1", ".sslip.io", "lingolist.io", "www.lingolist.io"],
+)
+
+CSRF_TRUSTED_ORIGINS = _csv_env(
+    "DJANGO_CSRF_TRUSTED_ORIGINS",
+    [
+        "https://lingolist.io",
+        "https://www.lingolist.io",
+        "https://*.lingolist.io",
+        "https://*.sslip.io",
+        "https://*.ngrok.io",
+        "https://*.ngrok-free.app",
+    ],
+)
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = os.environ.get("DJANGO_USE_X_FORWARDED_HOST", "True").lower() in (
+    "true",
+    "1",
+    "yes",
+)
 
 # ---------------------------------------------------------------------------
 # Application definition

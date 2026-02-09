@@ -12,6 +12,6 @@ COPY . .
 
 RUN python manage.py collectstatic --noinput
 
-EXPOSE 8000
+EXPOSE 8001
 
-CMD ["gunicorn", "lingolist.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "lingolist.wsgi:application", "--bind", "0.0.0.0:8001"]

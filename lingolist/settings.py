@@ -128,10 +128,13 @@ WSGI_APPLICATION = "lingolist.wsgi.application"
 # Database
 # ---------------------------------------------------------------------------
 
+SQLITE_PATH = os.environ.get("SQLITE_PATH")
+SQLITE_DB_PATH = Path(SQLITE_PATH) if SQLITE_PATH else BASE_DIR / "db.sqlite3"
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": SQLITE_DB_PATH,
     }
 }
 

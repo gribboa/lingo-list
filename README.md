@@ -208,6 +208,7 @@ Key settings in `.env` (or environment variables):
 | `DJANGO_DEBUG` | `True` | Set to `False` in production |
 | `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hostnames |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | `http://localhost,http://127.0.0.1` | Comma-separated origins (scheme + host) used for CSRF origin checks |
+| `SQLITE_PATH` | `db.sqlite3` | SQLite file path. In Docker/Coolify, point this to a mounted persistent volume (for example `/data/db.sqlite3`). |
 | `LIBRETRANSLATE_URL` | `http://localhost:5000` | URL of your LibreTranslate instance |
 
 ## Supported languages

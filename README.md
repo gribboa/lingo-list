@@ -33,7 +33,7 @@ Couples, families, and flatmates who speak different languages can collaborate o
 | **django-allauth** | Handles signup, login, logout, password reset. Configured for email-based auth. Ready for social login providers later. |
 | **LibreTranslate** | Open-source machine translation API. Runs as a Docker container alongside the app. |
 | **WhiteNoise** | Serves static files efficiently in production without needing nginx for static assets. |
-| **SQLite** | Default database for development. Swap to PostgreSQL for production by changing `DATABASES` in settings. |
+| **SQLite + PostgreSQL** | SQLite is the default for local development. Production uses PostgreSQL via `DATABASE_URL` (for example in Coolify). |
 
 ### Django apps
 
@@ -115,6 +115,23 @@ python manage.py runserver
 For LibreTranslate, either:
 - Run it via Docker: `docker run -p 5000:5000 libretranslate/libretranslate`
 - Or install it natively: see [LibreTranslate docs](https://github.com/LibreTranslate/LibreTranslate)
+
+## Production setup (Coolify + PostgreSQL)
+
+1. Create a PostgreSQL service in Coolify with persistent storage.
+2. In your Django app service, set `DATABASE_URL` to your Postgres connection string:
+   - `postgresql://<user>:<password>@<host>:5432/<database>`
+3. Set production Django env vars (`DJANGO_SECRET_KEY`, `DJANGO_DEBUG=False`, `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS`).
+4. Deploy, then run bootstrap commands in the app container:
+
+```bash
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py shell -c "
+from django.contrib.sites.models import Site
+Site.objects.update_or_create(id=1, defaults={'domain': 'your-domain.com', 'name': 'LingoList'})
+"
+```
 
 ## How it works
 
@@ -208,7 +225,8 @@ Key settings in `.env` (or environment variables):
 | `DJANGO_DEBUG` | `True` | Set to `False` in production |
 | `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hostnames |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | `http://localhost,http://127.0.0.1` | Comma-separated origins (scheme + host) used for CSRF origin checks |
-| `SQLITE_PATH` | `db.sqlite3` | SQLite file path. In Docker/Coolify, point this to a mounted persistent volume (for example `/data/db.sqlite3`). |
+| `SQLITE_PATH` | `db.sqlite3` | Local SQLite file path used when `DATABASE_URL` is not set. |
+| `DATABASE_URL` | empty | Production database URL (PostgreSQL in Coolify). If unset, app falls back to SQLite. |
 | `LIBRETRANSLATE_URL` | `http://localhost:5000` | URL of your LibreTranslate instance |
 
 ## Supported languages

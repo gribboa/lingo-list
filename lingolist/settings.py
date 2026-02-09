@@ -27,7 +27,10 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.ngrok-free.app",
     "https://*.sslip.io",
     "https://*.lingolist.io",
+    "https://lingolist.io",
 ]
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # ---------------------------------------------------------------------------
 # Application definition

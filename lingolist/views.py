@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 
 
@@ -9,3 +10,7 @@ def landing_page(request):
 
 def privacy_notice_page(request):
     return render(request, "privacy_notice.html")
+
+
+def healthz(request):
+    return JsonResponse({"status": "ok"})

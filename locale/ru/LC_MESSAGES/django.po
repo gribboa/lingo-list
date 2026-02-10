@@ -455,3 +455,7 @@ msgstr "Вы присоединились к списку \"%(title)s\"!"
 #: lists/views.py
 msgid "You are already a collaborator on this list."
 msgstr "Вы уже соавтор этого списка."
+
+#: templates/partials/item_list.html
+msgid "Translating..."
+msgstr "Перевод..."

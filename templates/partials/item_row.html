@@ -1,0 +1,36 @@
+{% load i18n %}
+{% if entry.translation_pending %}
+<div class="item-row" data-item-id="{{ entry.item.pk }}"
+     hx-post="{% url 'lists:item_translate' pk=list.pk item_pk=entry.item.pk %}"
+     hx-trigger="load"
+     hx-swap="outerHTML">
+{% else %}
+<div class="item-row" data-item-id="{{ entry.item.pk }}">
+{% endif %}
+    <span class="drag-handle" title="{% trans 'Drag to reorder' %}">⋮⋮</span>
+    <input type="checkbox"
+           class="item-checkbox"
+           {% if entry.item.is_checked %}checked{% endif %}
+           hx-post="{% url 'lists:item_toggle' pk=list.pk item_pk=entry.item.pk %}"
+           hx-target="#item-list"
+           hx-swap="innerHTML">
+
+    <span class="item-text {% if entry.item.is_checked %}checked{% endif %}">
+        {% if entry.translation_pending %}
+            <span class="translating-placeholder">{% trans "Translating..." %}</span>
+        {% else %}
+            {{ entry.display_text }}
+            {% if entry.is_translated %}
+                <span class="item-badge">{{ entry.item.source_language }}</span>
+                <span class="item-original">({{ entry.item.text }})</span>
+            {% endif %}
+        {% endif %}
+    </span>
+
+    <button class="item-delete"
+            hx-post="{% url 'lists:item_delete' pk=list.pk item_pk=entry.item.pk %}"
+            hx-target="#item-list"
+            hx-swap="innerHTML"
+            hx-confirm="{% trans "Remove this item?" %}"
+            title="{% trans "Delete item" %}">&times;</button>
+</div>

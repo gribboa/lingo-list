@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
-from translations.services import get_items_for_user
+from translations.services import get_items_for_user, get_translated_text
 
 from .forms import ListForm, ListItemForm, ListTitleForm
 from .models import Collaborator, List, ListItem
@@ -271,6 +271,35 @@ def item_reorder(request, pk):
         ListItem.objects.filter(pk=item_id, list=lst).update(order=index)
 
     return HttpResponse(status=204)
+
+
+@login_required
+@require_POST
+def item_translate(request, pk, item_pk):
+    """Translate a single item and return its rendered row (HTMX endpoint)."""
+    lst = get_object_or_404(List, pk=pk)
+    if not lst.is_member(request.user):
+        return HttpResponse(status=403)
+
+    item = get_object_or_404(ListItem, pk=item_pk, list=lst)
+    target = request.user.preferred_language
+
+    display_text = get_translated_text(item, target)
+    is_translated = item.source_language != target and display_text != item.text
+
+    return render(
+        request,
+        "partials/item_row.html",
+        {
+            "entry": {
+                "item": item,
+                "display_text": display_text,
+                "is_translated": is_translated,
+                "translation_pending": False,
+            },
+            "list": lst,
+        },
+    )
 
 
 @login_required

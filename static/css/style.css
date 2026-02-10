@@ -669,6 +669,27 @@ body.modal-open {
     font-style: italic;
 }
 
+.translating-placeholder {
+    color: var(--color-primary);
+    font-style: italic;
+    font-size: 0.85rem;
+    animation: translating-glow 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .translating-placeholder {
+        animation: none;
+    }
+}
+@keyframes translating-glow {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
 .item-delete {
     background: none;
     border: none;

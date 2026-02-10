@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Forbidden" %} | LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <p class="error-code">403</p>
+        <h1>{% trans "Forbidden" %}</h1>
+        <p class="subtitle">{% trans "You don't have permission to access this page." %}</p>
+        <div class="hero-actions">
+            <a href="{% url 'landing' %}" class="btn btn-primary">{% trans "Go home" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

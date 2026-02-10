@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Server error" %} | LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <p class="error-code">500</p>
+        <h1>{% trans "Something went wrong" %}</h1>
+        <p class="subtitle">{% trans "An unexpected error occurred. Please try again later." %}</p>
+        <div class="hero-actions">
+            <a href="{% url 'landing' %}" class="btn btn-primary">{% trans "Go home" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

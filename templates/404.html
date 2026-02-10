@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Page not found" %} | LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <p class="error-code">404</p>
+        <h1>{% trans "Page not found" %}</h1>
+        <p class="subtitle">{% trans "The page you're looking for doesn't exist or has been moved." %}</p>
+        <div class="hero-actions">
+            <a href="{% url 'landing' %}" class="btn btn-primary">{% trans "Go home" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,8 @@
 Django>=5.1,<5.2
 django-allauth>=65.0,<66.0
 django-htmx>=1.19,<2.0
+dj-database-url>=2.2,<3.0
+psycopg[binary]>=3.2,<4.0
 requests>=2.32,<3.0
 gunicorn>=23.0,<24.0
 python-dotenv>=1.0,<2.0

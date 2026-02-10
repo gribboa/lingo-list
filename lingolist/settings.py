@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -39,6 +40,7 @@ DEFAULT_ALLOWED_HOSTS = [
     "127.0.0.1",
     ".sslip.io",
     "lingolist.io",
+    ".lingolist.io",
     "www.lingolist.io",
 ]
 DEFAULT_CSRF_TRUSTED_ORIGINS = [
@@ -130,13 +132,22 @@ WSGI_APPLICATION = "lingolist.wsgi.application"
 
 SQLITE_PATH = os.environ.get("SQLITE_PATH")
 SQLITE_DB_PATH = Path(SQLITE_PATH) if SQLITE_PATH else BASE_DIR / "db.sqlite3"
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": SQLITE_DB_PATH,
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+        )
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": SQLITE_DB_PATH,
+        }
+    }
 
 # ---------------------------------------------------------------------------
 # Auth

@@ -64,7 +64,7 @@ def get_items_for_user(lst, user) -> list[dict]:
                 result.append({
                     "item": item,
                     "display_text": cached.translated_text,
-                    "is_translated": True,
+                    "is_translated": cached.translated_text != item.text,
                     "translation_pending": False,
                 })
             else:

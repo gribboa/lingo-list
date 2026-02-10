@@ -274,6 +274,7 @@ def item_reorder(request, pk):
 
 
 @login_required
+@require_POST
 def item_translate(request, pk, item_pk):
     """Translate a single item and return its rendered row (HTMX endpoint)."""
     lst = get_object_or_404(List, pk=pk)

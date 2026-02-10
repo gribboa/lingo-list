@@ -54,6 +54,7 @@ Couples, families, and flatmates who speak different languages can collaborate o
 - **Translation caching** — each translation is stored so LibreTranslate is called only once per item/language pair
 - **Original text shown** — translated items show the original text alongside, so nothing is hidden
 - **HTMX-powered** — add, check, and delete items without full page reloads
+- **PWA-ready** — installable on mobile devices with manifest.json and app icons
 
 ## Development setup
 
@@ -239,7 +240,7 @@ The app ships with 16 languages enabled (matching common LibreTranslate language
 - Paid tier with premium features
 - WebSocket support for real-time multi-user updates
 - List categories and templates
-- Mobile-optimized PWA
+- Service worker for offline PWA support
 - PostgreSQL for production deployments
 
 ## License

@@ -3,7 +3,7 @@ services:
     build: .
     command: gunicorn lingolist.wsgi:application --bind 0.0.0.0:8001
     environment:
-      - VAR_EXAMPLE=example
+      - LIBRETRANSLATE_URL=http://libretranslate:5000
     volumes:
       - db-data:/data
     depends_on:

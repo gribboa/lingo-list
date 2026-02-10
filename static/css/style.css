@@ -331,6 +331,17 @@ textarea.form-input {
     margin: 0;
 }
 
+/* --- Error pages ------------------------------------------------------ */
+
+.error-code {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1;
+    opacity: 0.3;
+}
+
 /* --- List index ------------------------------------------------------- */
 
 .list-header {

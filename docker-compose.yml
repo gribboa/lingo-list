@@ -3,10 +3,7 @@ services:
     build: .
     command: gunicorn lingolist.wsgi:application --bind 0.0.0.0:8001
     environment:
-      - DJANGO_SECRET_KEY=dev-secret-key-change-in-production
-      - DJANGO_DEBUG=True
-      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,.sslip.io,lingolist.io
-      - DJANGO_CSRF_TRUSTED_ORIGINS=http://localhost,http://127.0.0.1,https://lingolist.io,https://www.lingolist.io
+      - VAR_EXAMPLE=example
     volumes:
       - db-data:/data
     depends_on:

@@ -17,6 +17,7 @@ def get_translated_text(item: ListItem, target_language: str) -> str:
     # Check cache first
     cached = TranslationCache.objects.filter(
         item=item,
+        source_language=item.source_language,
         target_language=target_language,
     ).first()
     if cached:
@@ -30,6 +31,7 @@ def get_translated_text(item: ListItem, target_language: str) -> str:
     # Store in cache
     TranslationCache.objects.create(
         item=item,
+        source_language=item.source_language,
         target_language=target_language,
         translated_text=translated,
     )
@@ -58,6 +60,7 @@ def get_items_for_user(lst, user) -> list[dict]:
         else:
             cached = TranslationCache.objects.filter(
                 item=item,
+                source_language=item.source_language,
                 target_language=target,
             ).first()
             if cached:

@@ -110,12 +110,13 @@ class TranslationCache(models.Model):
         on_delete=models.CASCADE,
         related_name="translations",
     )
+    source_language = models.CharField(max_length=10)
     target_language = models.CharField(max_length=10)
     translated_text = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("item", "target_language")
+        unique_together = ("item", "source_language", "target_language")
 
     def __str__(self):
-        return f"{self.item.text} -> {self.translated_text} ({self.target_language})"
+        return f"{self.item.text} -> {self.translated_text} ({self.source_language}->{self.target_language})"

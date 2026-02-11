@@ -400,6 +400,7 @@ textarea.form-input {
 @media (min-width: 900px) {
     .features {
         grid-template-columns: repeat(2, 1fr);
+        /* Constrain width for comfortable 2x2 layout on large screens */
         max-width: 700px;
         margin: 0 auto;
     }

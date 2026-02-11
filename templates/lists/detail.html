@@ -13,6 +13,7 @@
         </div>
         {% if list.description %}
         <p>{{ list.description }}</p>
+        {% endif %}
         <div class="detail-actions">
             <a href="{% url 'lists:list_index' %}" class="btn btn-outline btn-sm">&larr; {% trans "All lists" %}</a>
             {% if is_owner %}

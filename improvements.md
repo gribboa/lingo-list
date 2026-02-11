@@ -44,7 +44,7 @@
 - **Pagination** — Lists with hundreds of items load all items at once. Paginated or infinite-scroll loading would improve performance for large lists.
 - **CDN scripts lack Subresource Integrity (SRI)** — HTMX and Sortable.js are loaded from CDN without `integrity` hashes, allowing tampered scripts if the CDN is compromised.
 - **Translation timeout** — The LibreTranslate client has a 10-second timeout. If LibreTranslate is slow, each `item_translate` HTMX call will block for up to 10 seconds with no client-side timeout or abort mechanism.
-- ~~**`lst.items.count` in template** — The list index template calls `lst.items.count` for every list card, which is a query per list. This should be annotated in the queryset (`annotate(item_count=Count('items'))`)~~.
+- ~~**`lst.items.count` in template** — The list index template calls `lst.items.count` for every list card, which is a query per list. This should be annotated in the queryset (`annotate(item_count=Count('items'))`).~~
 - **Translation fallback** — If LibreTranslate is down, translations silently fail and fall back to the original text. A secondary translation service or user notification would improve reliability.
 
 ## Security & Production Hardness

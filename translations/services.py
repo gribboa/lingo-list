@@ -44,7 +44,7 @@ def get_items_for_user(lst, user) -> list[dict]:
     Each dict contains: item, display_text, is_translated.
     """
     target = user.preferred_language
-    
+
     # Prefetch only translations for the target language to avoid N+1 queries
     target_translations = Prefetch(
         "translations",
@@ -52,7 +52,7 @@ def get_items_for_user(lst, user) -> list[dict]:
         to_attr="target_translations_list"
     )
     items = lst.items.select_related("added_by").prefetch_related(target_translations).all()
-    
+
     result = []
     for item in items:
         if item.source_language == target:

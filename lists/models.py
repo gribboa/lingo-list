@@ -97,6 +97,9 @@ class ListItem(models.Model):
 
     class Meta:
         ordering = ["order", "created_at"]
+        indexes = [
+            models.Index(fields=["list", "order"], name="listitem_list_order_idx"),
+        ]
 
     def __str__(self):
         return self.text

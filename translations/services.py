@@ -60,11 +60,8 @@ def get_items_for_user(lst, user) -> list[dict]:
             is_translated = False
         else:
             # Check if we have a cached translation (prefetched)
-            cached_translation = None
             if item.target_translations_list:
                 cached_translation = item.target_translations_list[0].translated_text
-            
-            if cached_translation:
                 display_text = cached_translation
                 is_translated = True
             else:

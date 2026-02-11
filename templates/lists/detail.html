@@ -13,11 +13,6 @@
         </div>
         {% if list.description %}
         <p>{{ list.description }}</p>
-        {% elif is_owner and not list.is_archived %}
-        <p class="text-muted text-sm">
-            <button type="button" class="btn-link" id="open-rename-modal-desc">{% trans "Add a description" %}</button>
-        </p>
-        {% endif %}
         <div class="detail-actions">
             <a href="{% url 'lists:list_index' %}" class="btn btn-outline btn-sm">&larr; {% trans "All lists" %}</a>
             {% if is_owner %}

@@ -82,7 +82,8 @@
                        id="share-url"
                        onclick="this.select()">
                 <button class="btn btn-outline btn-sm" id="copy-share-btn"
-                        onclick="copyShareLink()">
+                        onclick="copyShareLink()"
+                        data-copied-text="✓ {% trans 'Copied!' %}">
                     {% trans "Copy" %}
                 </button>
             </div>
@@ -185,9 +186,10 @@ function copyShareLink() {
     const shareUrl = document.getElementById('share-url').value;
     const copyBtn = document.getElementById('copy-share-btn');
     const originalText = copyBtn.textContent;
+    const copiedText = copyBtn.dataset.copiedText;
     
     navigator.clipboard.writeText(shareUrl).then(function() {
-        copyBtn.textContent = '✓ {% trans "Copied!" %}';
+        copyBtn.textContent = copiedText;
         copyBtn.classList.add('btn-success');
         setTimeout(function() {
             copyBtn.textContent = originalText;
@@ -221,12 +223,6 @@ if (deleteModal) {
 
     deleteModal.addEventListener('click', function(event) {
         if (event.target === deleteModal) {
-            closeDeleteModal();
-        }
-    });
-
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && !deleteModal.hidden) {
             closeDeleteModal();
         }
     });
@@ -267,12 +263,22 @@ if (renameModal) {
             closeRenameModal();
         }
     });
-
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && !renameModal.hidden) {
-            closeRenameModal();
-        }
-    });
 }
+
+// Global escape key handler for modals
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const deleteModal = document.getElementById('delete-modal');
+        const renameModal = document.getElementById('rename-modal');
+        
+        if (deleteModal && !deleteModal.hidden) {
+            deleteModal.hidden = true;
+            document.body.classList.remove('modal-open');
+        } else if (renameModal && !renameModal.hidden) {
+            renameModal.hidden = true;
+            document.body.classList.remove('modal-open');
+        }
+    }
+});
 </script>
 {% endblock %}

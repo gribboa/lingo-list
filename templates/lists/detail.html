@@ -182,18 +182,25 @@ document.body.addEventListener('htmx:afterSwap', function(event) {
 });
 
 // Copy share link with feedback
+let copyTimeout;
 function copyShareLink() {
     const shareUrl = document.getElementById('share-url').value;
     const copyBtn = document.getElementById('copy-share-btn');
     const originalText = copyBtn.textContent;
     const copiedText = copyBtn.dataset.copiedText;
     
+    // Clear any existing timeout
+    if (copyTimeout) {
+        clearTimeout(copyTimeout);
+    }
+    
     navigator.clipboard.writeText(shareUrl).then(function() {
         copyBtn.textContent = copiedText;
         copyBtn.classList.add('btn-success');
-        setTimeout(function() {
+        copyTimeout = setTimeout(function() {
             copyBtn.textContent = originalText;
             copyBtn.classList.remove('btn-success');
+            copyTimeout = null;
         }, 2000);
     }).catch(function(err) {
         console.error('Failed to copy:', err);
@@ -271,10 +278,13 @@ document.addEventListener('keydown', function(event) {
         const deleteModal = document.getElementById('delete-modal');
         const renameModal = document.getElementById('rename-modal');
         
+        // Check which modal is open and use its close function
         if (deleteModal && !deleteModal.hidden) {
+            // Close delete modal
             deleteModal.hidden = true;
             document.body.classList.remove('modal-open');
         } else if (renameModal && !renameModal.hidden) {
+            // Close rename modal
             renameModal.hidden = true;
             document.body.classList.remove('modal-open');
         }

@@ -8,7 +8,7 @@ Features
 User Experience
 - Dark mode - Add a theme toggle in the profile settings
 - Keyboard shortcuts - Quick add items, navigate lists
-- Mobile PWA - Add a manifest.json for installable mobile experience
+- ✅ Mobile PWA - Add a manifest.json for installable mobile experience
 - Offline support - Service worker to cache lists for offline viewing
 - Search - Search across all your lists and items
 

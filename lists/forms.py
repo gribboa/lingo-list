@@ -28,14 +28,20 @@ class ListForm(forms.ModelForm):
 class ListTitleForm(forms.ModelForm):
     class Meta:
         model = List
-        fields = ("title",)
+        fields = ("title", "description")
         labels = {
             "title": _("List name"),
+            "description": _("Description"),
         }
         widgets = {
             "title": forms.TextInput(attrs={
                 "class": "form-input",
                 "placeholder": _("List name"),
+            }),
+            "description": forms.Textarea(attrs={
+                "class": "form-input",
+                "placeholder": _("Optional description..."),
+                "rows": 2,
             }),
         }
 

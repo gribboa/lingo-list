@@ -119,9 +119,6 @@ class TranslationCache(models.Model):
 
     class Meta:
         unique_together = ("item", "target_language")
-        indexes = [
-            models.Index(fields=["item", "target_language"], name="lists_trans_item_lang"),
-        ]
 
     def __str__(self):
         return f"{self.item.text} -> {self.translated_text} ({self.target_language})"

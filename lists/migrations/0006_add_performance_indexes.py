@@ -15,11 +15,4 @@ class Migration(migrations.Migration):
             model_name='listitem',
             index=models.Index(fields=['list', 'order'], name='lists_item_list_order'),
         ),
-        # Add index on TranslationCache for efficient lookups
-        # Note: unique_together already creates an index on (item, target_language)
-        # but we also add an index on (item, target_language) for explicit clarity
-        migrations.AddIndex(
-            model_name='translationcache',
-            index=models.Index(fields=['item', 'target_language'], name='lists_trans_item_lang'),
-        ),
     ]

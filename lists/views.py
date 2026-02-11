@@ -269,13 +269,21 @@ def item_reorder(request, pk):
     except json.JSONDecodeError:
         return HttpResponse(status=400)
 
-    # Bulk update order for all items
+    # Fetch items that belong to this list and create a mapping
+    items = ListItem.objects.filter(pk__in=item_ids, list=lst)
+    item_dict = {item.pk: item for item in items}
+    
+    # Update order for each item
     items_to_update = []
     for index, item_id in enumerate(item_ids):
-        item = ListItem(pk=item_id, order=index)
-        items_to_update.append(item)
+        item = item_dict.get(item_id)
+        if item:
+            item.order = index
+            items_to_update.append(item)
     
-    ListItem.objects.bulk_update(items_to_update, ["order"])
+    # Bulk update all items
+    if items_to_update:
+        ListItem.objects.bulk_update(items_to_update, ["order"])
 
     return HttpResponse(status=204)
 

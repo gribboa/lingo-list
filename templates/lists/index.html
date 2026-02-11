@@ -32,7 +32,7 @@
                         {{ lst.title }}
                     </p>
                     <p class="list-card-meta">
-                        {% blocktrans count counter=lst.items.count %}{{ counter }} item{% plural %}{{ counter }} items{% endblocktrans %}
+                        {% blocktrans count counter=lst.item_count %}{{ counter }} item{% plural %}{{ counter }} items{% endblocktrans %}
                         &middot;
                         {% blocktrans with time=lst.updated_at|timesince %}Updated {{ time }} ago{% endblocktrans %}
                         {% if lst.owner != request.user %}

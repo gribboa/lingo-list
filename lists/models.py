@@ -97,6 +97,9 @@ class ListItem(models.Model):
 
     class Meta:
         ordering = ["order", "created_at"]
+        indexes = [
+            models.Index(fields=["list", "order"], name="lists_item_list_order"),
+        ]
 
     def __str__(self):
         return self.text
@@ -116,6 +119,9 @@ class TranslationCache(models.Model):
 
     class Meta:
         unique_together = ("item", "target_language")
+        indexes = [
+            models.Index(fields=["item", "target_language"], name="lists_trans_item_lang"),
+        ]
 
     def __str__(self):
         return f"{self.item.text} -> {self.translated_text} ({self.target_language})"

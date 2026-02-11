@@ -16,7 +16,10 @@ Performance & Reliability
 - Batch translations - Queue multiple items for translation instead of one-by-one
 - Translation fallback - Add a backup translation service if LibreTranslate is down
 - Pagination - For lists with many items
-- Database indexes - Add indexes on frequently queried fields
+- ~~Database indexes - Add indexes on frequently queried fields~~ ✓
+- ~~N+1 query in get_items_for_user - Batch prefetch translation cache~~ ✓
+- ~~N+1 query in item_reorder - Use bulk update instead of separate UPDATEs~~ ✓
+- ~~lst.items.count in templates - Annotate queryset with item_count~~ ✓
 - https://uptimekuma.org/
 
 Security & Production Readiness

@@ -21,13 +21,14 @@ def list_index(request):
     collaborated = List.objects.filter(collaborators__user=request.user)
     all_lists = (owned | collaborated).distinct().filter(is_archived=False)
 
-    # Annotate with is_pinned and order pinned first, then by updated_at
+    # Annotate with is_pinned, item_count and order pinned first, then by updated_at
     all_lists = all_lists.annotate(
         is_pinned=models.Exists(
             List.pinned_by.through.objects.filter(
                 list_id=models.OuterRef("pk"), user_id=request.user.id
             )
-        )
+        ),
+        item_count=models.Count("items")
     ).order_by("-is_pinned", "-updated_at")
 
     has_archived = List.objects.filter(owner=request.user, is_archived=True).exists()
@@ -40,6 +41,8 @@ def list_archived(request):
     """Show all archived lists owned by the current user."""
     archived_lists = List.objects.filter(
         owner=request.user, is_archived=True
+    ).annotate(
+        item_count=models.Count("items")
     ).order_by("-updated_at")
 
     return render(request, "lists/archived.html", {"lists": archived_lists})
@@ -266,9 +269,13 @@ def item_reorder(request, pk):
     except json.JSONDecodeError:
         return HttpResponse(status=400)
 
-    # Update order for each item
+    # Bulk update order for all items
+    items_to_update = []
     for index, item_id in enumerate(item_ids):
-        ListItem.objects.filter(pk=item_id, list=lst).update(order=index)
+        item = ListItem(pk=item_id, order=index)
+        items_to_update.append(item)
+    
+    ListItem.objects.bulk_update(items_to_update, ["order"])
 
     return HttpResponse(status=204)
 

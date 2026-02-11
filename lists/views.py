@@ -135,24 +135,24 @@ def list_detail(request, pk):
 @login_required
 @require_POST
 def list_rename(request, pk):
-    """Rename a list (owner only)."""
+    """Rename a list and update description (owner only)."""
     lst = get_object_or_404(List, pk=pk, owner=request.user)
     if lst.is_archived:
-        messages.error(request, _("Archived lists cannot be renamed."))
+        messages.error(request, _("Archived lists cannot be edited."))
         return redirect("lists:list_detail", pk=lst.pk)
 
     form = ListTitleForm(request.POST, instance=lst)
     if form.is_valid():
         if form.has_changed():
             form.save()
-            messages.success(request, _("List name updated."))
+            messages.success(request, _("List updated."))
         else:
-            messages.info(request, _("List name is unchanged."))
+            messages.info(request, _("No changes made."))
     else:
         title_errors = form.errors.get("title")
         messages.error(
             request,
-            title_errors[0] if title_errors else _("Unable to update list name."),
+            title_errors[0] if title_errors else _("Unable to update list."),
         )
 
     return redirect("lists:list_detail", pk=lst.pk)

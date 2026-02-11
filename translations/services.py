@@ -1,5 +1,7 @@
 """High-level translation helpers that use the cache."""
 
+from django.db.models import Prefetch
+
 from lists.models import ListItem, TranslationCache
 
 from .client import translate_text
@@ -43,18 +45,13 @@ def get_items_for_user(lst, user) -> list[dict]:
     """
     target = user.preferred_language
     
-    # Prefetch all translations for the target language to avoid N+1 queries
-    items = lst.items.select_related("added_by").prefetch_related(
-        "translations"
-    ).all()
-    
-    # Build a mapping of item_id -> cached translation for this target language
-    translation_map = {}
-    for item in items:
-        for translation in item.translations.all():
-            if translation.target_language == target:
-                translation_map[item.id] = translation.translated_text
-                break
+    # Prefetch only translations for the target language to avoid N+1 queries
+    target_translations = Prefetch(
+        "translations",
+        queryset=TranslationCache.objects.filter(target_language=target),
+        to_attr="target_translations_list"
+    )
+    items = lst.items.select_related("added_by").prefetch_related(target_translations).all()
     
     result = []
     for item in items:
@@ -62,8 +59,11 @@ def get_items_for_user(lst, user) -> list[dict]:
             display_text = item.text
             is_translated = False
         else:
-            # Check if we have a cached translation
-            cached_translation = translation_map.get(item.id)
+            # Check if we have a cached translation (prefetched)
+            cached_translation = None
+            if item.target_translations_list:
+                cached_translation = item.target_translations_list[0].translated_text
+            
             if cached_translation:
                 display_text = cached_translation
                 is_translated = True

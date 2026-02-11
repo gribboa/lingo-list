@@ -392,9 +392,15 @@ textarea.form-input {
 
 .features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
     padding: 3rem 0 2rem;
+}
+
+@media (min-width: 900px) {
+    .features {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 .feature-card {
@@ -462,6 +468,12 @@ textarea.form-input {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+    .use-cases-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .use-case {

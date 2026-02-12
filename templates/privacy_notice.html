@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Privacy Notice" %} | LingoList{% endblock %}
+{% block meta_description %}{% trans "Read how LingoList stores and protects account and list data used to deliver collaboration and translation features." %}{% endblock %}
+{% block canonical_url %}{{ SITE_URL }}{% url 'privacy_notice' %}{% endblock %}
+{% block og_title %}{% trans "Privacy Notice | LingoList" %}{% endblock %}
+{% block og_description %}{% trans "Read how LingoList stores and protects account and list data used to deliver collaboration and translation features." %}{% endblock %}
+{% block og_url %}{{ SITE_URL }}{% url 'privacy_notice' %}{% endblock %}
+{% block twitter_title %}{% trans "Privacy Notice | LingoList" %}{% endblock %}
+{% block twitter_description %}{% trans "Read how LingoList stores and protects account and list data used to deliver collaboration and translation features." %}{% endblock %}
 
 {% block content %}
 <div class="container auth-page">

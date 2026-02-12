@@ -226,9 +226,24 @@ Key settings in `.env` (or environment variables):
 | `DJANGO_DEBUG` | `True` | Set to `False` in production |
 | `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hostnames |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | `http://localhost,http://127.0.0.1` | Comma-separated origins (scheme + host) used for CSRF origin checks |
+| `SITE_URL` | `https://lingolist.io` | Absolute canonical site URL used for canonical tags, OpenGraph URLs, and sitemap links. |
+| `SEO_CANONICAL_HOST` | `lingolist.io` | Canonical host used by optional app-level host redirect middleware. |
+| `SEO_DEFAULT_IMAGE` | `/static/og/lingolist-default.png` | Default social preview image path. |
+| `DJANGO_ENFORCE_CANONICAL_HOST` | `False` | Enable Django fallback host/protocol redirect to canonical URL when proxy-level redirects are not available. |
 | `SQLITE_PATH` | `db.sqlite3` | Local SQLite file path used when `DATABASE_URL` is not set. |
 | `DATABASE_URL` | empty | Production database URL (PostgreSQL in Coolify). If unset, app falls back to SQLite. |
 | `LIBRETRANSLATE_URL` | `http://localhost:5000` | URL of your LibreTranslate instance |
+
+## SEO and indexing
+
+- Public SEO files:
+  - `https://lingolist.io/robots.txt`
+  - `https://lingolist.io/sitemap.xml`
+- Indexable pages include landing, privacy, login, signup, password reset, and use-case pages.
+- Private app pages (`/lists/*`, profile, and error pages) are marked `noindex,nofollow`.
+- Recommended deployment redirect rules in Coolify/reverse proxy:
+  - `http://*` -> `https://lingolist.io`
+  - `https://www.lingolist.io/*` -> `https://lingolist.io/*`
 
 ## Supported languages
 
@@ -241,7 +256,6 @@ The app ships with 16 languages enabled (matching common LibreTranslate language
 - WebSocket support for real-time multi-user updates
 - List categories and templates
 - Service worker for offline PWA support
-- PostgreSQL for production deployments
 
 ## License
 

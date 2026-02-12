@@ -15,6 +15,16 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() in ("true", "1", "yes")
 
+SITE_URL = os.environ.get("SITE_URL", "https://lingolist.io").rstrip("/")
+SEO_CANONICAL_HOST = os.environ.get("SEO_CANONICAL_HOST", "lingolist.io").strip().lower()
+SEO_DEFAULT_IMAGE = os.environ.get("SEO_DEFAULT_IMAGE", "/static/og/lingolist-default.png")
+if not SEO_DEFAULT_IMAGE.startswith(("http://", "https://", "/")):
+    SEO_DEFAULT_IMAGE = f"/{SEO_DEFAULT_IMAGE}"
+
+DJANGO_ENFORCE_CANONICAL_HOST = os.environ.get(
+    "DJANGO_ENFORCE_CANONICAL_HOST", "False"
+).lower() in ("true", "1", "yes")
+
 
 def _csv_env(var_name: str) -> list[str]:
     value = os.getenv(var_name, "")
@@ -79,6 +89,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django.contrib.sitemaps",
     # Third-party
     "allauth",
     "allauth.account",
@@ -92,6 +103,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "lingolist.middleware.CanonicalHostMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -119,6 +131,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.i18n",
+                "lingolist.context_processors.seo_context",
             ],
         },
     },

@@ -25,11 +25,7 @@
                 <button type="submit" class="btn btn-outline btn-sm">{% trans "Archive" %}</button>
                 {% endif %}
             </form>
-            <form method="post" action="{% url 'lists:list_delete' pk=list.pk %}"
-                  onsubmit="return confirm('{% trans "Delete this list and all its items?" %}')">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-sm">{% trans "Delete list" %}</button>
-            </form>
+            <button type="button" class="btn btn-danger btn-sm" id="open-delete-modal">{% trans "Delete list" %}</button>
             {% endif %}
         </div>
     </div>
@@ -47,7 +43,7 @@
               hx-post="{% url 'lists:item_add' pk=list.pk %}"
               hx-target="#item-list"
               hx-swap="innerHTML"
-              hx-on::after-request="if(event.detail.successful) { this.reset(); initSortable(); }">
+              hx-on::after-request="if(event.detail.successful) { this.reset(); initSortable(); this.querySelector('input[name=text]').focus(); }">
             {% csrf_token %}
             {{ item_form.text }}
             <button type="submit" class="btn btn-primary">{% trans "Add" %}</button>
@@ -81,8 +77,9 @@
                        value="{{ request.scheme }}://{{ request.get_host }}{{ list.get_share_url }}"
                        id="share-url"
                        onclick="this.select()">
-                <button class="btn btn-outline btn-sm"
-                        onclick="navigator.clipboard.writeText(document.getElementById('share-url').value)">
+                <button class="btn btn-outline btn-sm" id="copy-share-btn"
+                        onclick="copyShareLink()"
+                        data-copied-text="✓ {% trans 'Copied!' %}">
                     {% trans "Copy" %}
                 </button>
             </div>
@@ -102,10 +99,27 @@
     {% endif %}
 
     {% if is_owner and not list.is_archived %}
+    <div class="modal-backdrop" id="delete-modal" hidden>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+            <div class="modal-header">
+                <h2 id="delete-modal-title">{% trans "Delete list?" %}</h2>
+                <button type="button" class="btn btn-ghost" id="close-delete-modal" aria-label="{% trans 'Close' %}">&times;</button>
+            </div>
+            <p class="text-muted">{% trans "Delete this list and all its items? This action cannot be undone." %}</p>
+            <form method="post" action="{% url 'lists:list_delete' pk=list.pk %}">
+                {% csrf_token %}
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="cancel-delete-modal">{% trans "Cancel" %}</button>
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="modal-backdrop" id="rename-modal" hidden>
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="rename-modal-title">
             <div class="modal-header">
-                <h2 id="rename-modal-title">{% trans "Edit list name" %}</h2>
+                <h2 id="rename-modal-title">{% trans "Edit list" %}</h2>
                 <button type="button" class="btn btn-ghost" id="close-rename-modal" aria-label="{% trans 'Close' %}">&times;</button>
             </div>
             <form method="post" action="{% url 'lists:list_rename' pk=list.pk %}">
@@ -114,9 +128,13 @@
                     <label for="{{ title_form.title.id_for_label }}">{% trans "List name" %}</label>
                     {{ title_form.title }}
                 </div>
+                <div class="form-group">
+                    <label for="{{ title_form.description.id_for_label }}">{% trans "Description" %}</label>
+                    {{ title_form.description }}
+                </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-outline" id="cancel-rename-modal">{% trans "Cancel" %}</button>
-                    <button type="submit" class="btn btn-primary">{% trans "Save name" %}</button>
+                    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
                 </div>
             </form>
         </div>
@@ -159,9 +177,65 @@ document.body.addEventListener('htmx:afterSwap', function(event) {
     }
 });
 
+// Copy share link with feedback
+let copyTimeout;
+function copyShareLink() {
+    const shareUrl = document.getElementById('share-url').value;
+    const copyBtn = document.getElementById('copy-share-btn');
+    const originalText = copyBtn.textContent;
+    const copiedText = copyBtn.dataset.copiedText;
+    
+    // Clear any existing timeout
+    if (copyTimeout) {
+        clearTimeout(copyTimeout);
+    }
+    
+    navigator.clipboard.writeText(shareUrl).then(function() {
+        copyBtn.textContent = copiedText;
+        copyBtn.classList.add('btn-success');
+        copyTimeout = setTimeout(function() {
+            copyBtn.textContent = originalText;
+            copyBtn.classList.remove('btn-success');
+            copyTimeout = null;
+        }, 2000);
+    }).catch(function(err) {
+        console.error('Failed to copy:', err);
+    });
+}
+
+// Delete modal
+const deleteModal = document.getElementById('delete-modal');
+if (deleteModal) {
+    const openDeleteButton = document.getElementById('open-delete-modal');
+    const closeDeleteButton = document.getElementById('close-delete-modal');
+    const cancelDeleteButton = document.getElementById('cancel-delete-modal');
+
+    function openDeleteModal() {
+        deleteModal.hidden = false;
+        document.body.classList.add('modal-open');
+    }
+
+    function closeDeleteModal() {
+        deleteModal.hidden = true;
+        document.body.classList.remove('modal-open');
+    }
+
+    openDeleteButton.addEventListener('click', openDeleteModal);
+    closeDeleteButton.addEventListener('click', closeDeleteModal);
+    cancelDeleteButton.addEventListener('click', closeDeleteModal);
+
+    deleteModal.addEventListener('click', function(event) {
+        if (event.target === deleteModal) {
+            closeDeleteModal();
+        }
+    });
+}
+
+// Rename modal
 const renameModal = document.getElementById('rename-modal');
 if (renameModal) {
     const openRenameButton = document.getElementById('open-rename-modal');
+    const openRenameDescButton = document.getElementById('open-rename-modal-desc');
     const closeRenameButton = document.getElementById('close-rename-modal');
     const cancelRenameButton = document.getElementById('cancel-rename-modal');
     const titleInput = renameModal.querySelector('input[name="title"]');
@@ -181,6 +255,9 @@ if (renameModal) {
     }
 
     openRenameButton.addEventListener('click', openRenameModal);
+    if (openRenameDescButton) {
+        openRenameDescButton.addEventListener('click', openRenameModal);
+    }
     closeRenameButton.addEventListener('click', closeRenameModal);
     cancelRenameButton.addEventListener('click', closeRenameModal);
 
@@ -189,12 +266,25 @@ if (renameModal) {
             closeRenameModal();
         }
     });
-
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && !renameModal.hidden) {
-            closeRenameModal();
-        }
-    });
 }
+
+// Global escape key handler for modals
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const deleteModal = document.getElementById('delete-modal');
+        const renameModal = document.getElementById('rename-modal');
+        
+        // Check which modal is open and use its close function
+        if (deleteModal && !deleteModal.hidden) {
+            // Close delete modal
+            deleteModal.hidden = true;
+            document.body.classList.remove('modal-open');
+        } else if (renameModal && !renameModal.hidden) {
+            // Close rename modal
+            renameModal.hidden = true;
+            document.body.classList.remove('modal-open');
+        }
+    }
+});
 </script>
 {% endblock %}

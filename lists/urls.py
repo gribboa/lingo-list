@@ -16,6 +16,7 @@ urlpatterns = [
     path("<int:pk>/items/add/", views.item_add, name="item_add"),
     path("<int:pk>/items/reorder/", views.item_reorder, name="item_reorder"),
     path("<int:pk>/items/<int:item_pk>/toggle/", views.item_toggle, name="item_toggle"),
+    path("<int:pk>/items/<int:item_pk>/translate/", views.item_translate, name="item_translate"),
     path("<int:pk>/items/<int:item_pk>/delete/", views.item_delete, name="item_delete"),
     path(
         "<int:pk>/collaborators/<int:collab_pk>/remove/",

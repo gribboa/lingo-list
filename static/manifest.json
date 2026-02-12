@@ -1,0 +1,26 @@
+{
+  "name": "LingoList",
+  "short_name": "LingoList",
+  "description": "Collaborative multilingual lists. Create shared shopping lists, wish lists, or any kind of list — each collaborator sees items translated into their own language automatically.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/static/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "en"
+}

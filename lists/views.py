@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
-from translations.services import get_items_for_user
+from translations.services import get_items_for_user, get_translated_text
 
 from .forms import ListForm, ListItemForm, ListTitleForm
 from .models import Collaborator, List, ListItem
@@ -135,24 +135,24 @@ def list_detail(request, pk):
 @login_required
 @require_POST
 def list_rename(request, pk):
-    """Rename a list (owner only)."""
+    """Rename a list and update description (owner only)."""
     lst = get_object_or_404(List, pk=pk, owner=request.user)
     if lst.is_archived:
-        messages.error(request, _("Archived lists cannot be renamed."))
+        messages.error(request, _("Archived lists cannot be edited."))
         return redirect("lists:list_detail", pk=lst.pk)
 
     form = ListTitleForm(request.POST, instance=lst)
     if form.is_valid():
         if form.has_changed():
             form.save()
-            messages.success(request, _("List name updated."))
+            messages.success(request, _("List updated."))
         else:
-            messages.info(request, _("List name is unchanged."))
+            messages.info(request, _("No changes made."))
     else:
         title_errors = form.errors.get("title")
         messages.error(
             request,
-            title_errors[0] if title_errors else _("Unable to update list name."),
+            title_errors[0] if title_errors else _("Unable to update list."),
         )
 
     return redirect("lists:list_detail", pk=lst.pk)
@@ -271,6 +271,35 @@ def item_reorder(request, pk):
         ListItem.objects.filter(pk=item_id, list=lst).update(order=index)
 
     return HttpResponse(status=204)
+
+
+@login_required
+@require_POST
+def item_translate(request, pk, item_pk):
+    """Translate a single item and return its rendered row (HTMX endpoint)."""
+    lst = get_object_or_404(List, pk=pk)
+    if not lst.is_member(request.user):
+        return HttpResponse(status=403)
+
+    item = get_object_or_404(ListItem, pk=item_pk, list=lst)
+    target = request.user.preferred_language
+
+    display_text = get_translated_text(item, target)
+    is_translated = item.source_language != target and display_text != item.text
+
+    return render(
+        request,
+        "partials/item_row.html",
+        {
+            "entry": {
+                "item": item,
+                "display_text": display_text,
+                "is_translated": is_translated,
+                "translation_pending": False,
+            },
+            "list": lst,
+        },
+    )
 
 
 @login_required

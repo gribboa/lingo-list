@@ -17,6 +17,7 @@ def get_translated_text(item: ListItem, target_language: str) -> str:
     # Check cache first
     cached = TranslationCache.objects.filter(
         item=item,
+        source_language=item.source_language,
         target_language=target_language,
     ).first()
     if cached:
@@ -30,6 +31,7 @@ def get_translated_text(item: ListItem, target_language: str) -> str:
     # Store in cache
     TranslationCache.objects.create(
         item=item,
+        source_language=item.source_language,
         target_language=target_language,
         translated_text=translated,
     )
@@ -39,20 +41,40 @@ def get_translated_text(item: ListItem, target_language: str) -> str:
 def get_items_for_user(lst, user) -> list[dict]:
     """Return list items annotated with translated text for *user*.
 
-    Each dict contains: item, display_text, is_translated.
+    Non-blocking: uses cached translations where available. Items that
+    need translation but have no cache entry are marked as pending so
+    the page can load immediately and fetch translations asynchronously.
+
+    Each dict contains: item, display_text, is_translated, translation_pending.
     """
     target = user.preferred_language
     result = []
     for item in lst.items.select_related("added_by").all():
         if item.source_language == target:
-            display_text = item.text
-            is_translated = False
+            result.append({
+                "item": item,
+                "display_text": item.text,
+                "is_translated": False,
+                "translation_pending": False,
+            })
         else:
-            display_text = get_translated_text(item, target)
-            is_translated = display_text != item.text
-        result.append({
-            "item": item,
-            "display_text": display_text,
-            "is_translated": is_translated,
-        })
+            cached = TranslationCache.objects.filter(
+                item=item,
+                source_language=item.source_language,
+                target_language=target,
+            ).first()
+            if cached:
+                result.append({
+                    "item": item,
+                    "display_text": cached.translated_text,
+                    "is_translated": cached.translated_text != item.text,
+                    "translation_pending": False,
+                })
+            else:
+                result.append({
+                    "item": item,
+                    "display_text": item.text,
+                    "is_translated": False,
+                    "translation_pending": True,
+                })
     return result

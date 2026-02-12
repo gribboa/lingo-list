@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Multilingual Shopping Lists for Families | LingoList{% endblock %}
+{% block meta_description %}Build shared shopping lists where each person reads and updates items in their own language. Keep groceries clear for multilingual households.{% endblock %}
+{% block canonical_url %}{{ SITE_URL }}{% url 'use_case_multilingual_shopping_lists' %}{% endblock %}
+{% block og_title %}Multilingual Shopping Lists for Families{% endblock %}
+{% block og_description %}Create grocery lists that stay clear across languages with automatic translation for every collaborator.{% endblock %}
+{% block og_url %}{{ SITE_URL }}{% url 'use_case_multilingual_shopping_lists' %}{% endblock %}
+{% block twitter_title %}Multilingual Shopping Lists for Families{% endblock %}
+{% block twitter_description %}Create grocery lists that stay clear across languages with automatic translation for every collaborator.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can each person add items in their own language?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every collaborator can add items in their own language and others will see translated text."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do we need a separate translation service account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Translation is handled directly in LingoList using the configured translation backend."
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h1>Multilingual shopping lists for families</h1>
+        <p class="subtitle">
+            Keep grocery planning simple even when household members prefer different languages.
+        </p>
+        <div class="hero-actions">
+            <a href="{% url 'account_signup' %}" class="btn btn-primary">Start free</a>
+            <a href="{% url 'landing' %}" class="btn btn-outline">Back to home</a>
+        </div>
+    </div>
+
+    <div class="card mt-2">
+        <h2>Why this helps</h2>
+        <ul>
+            <li>Each person reads the list in a familiar language.</li>
+            <li>Fewer mistakes when buying specific products.</li>
+            <li>Shared ownership with one live list for everyone.</li>
+        </ul>
+    </div>
+
+    <div class="card mt-2">
+        <h2>Best practices</h2>
+        <ul>
+            <li>Use clear item names and quantities.</li>
+            <li>Group items by section (produce, dairy, pantry).</li>
+            <li>Pin your weekly shopping list for quick access.</li>
+        </ul>
+    </div>
+
+    <div class="card mt-2">
+        <h2>FAQ</h2>
+        <h3>Can each person add items in their own language?</h3>
+        <p>Yes. Everyone can write in their own language and collaborators see translated text.</p>
+        <h3>Do we need a separate translation service account?</h3>
+        <p>No. Translation is integrated into the app configuration.</p>
+    </div>
+
+    <div class="card mt-2">
+        <h2>Explore more</h2>
+        <p><a href="{% url 'use_case_travel_planning_shared_lists' %}">Travel planning shared lists</a></p>
+        <p><a href="{% url 'use_case_roommate_household_task_lists' %}">Roommate household task lists</a></p>
+    </div>
+</div>
+{% endblock %}

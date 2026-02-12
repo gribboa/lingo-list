@@ -27,13 +27,13 @@
             </div>
             {% endif %}
             <div class="form-group">
-                <label for="id_username">{% trans "Username" %}</label>
+                <label for="id_username">{% trans "Display name" %}</label>
                 {{ form.username }}
                 {% for error in form.username.errors %}
                 <p class="text-sm" style="color:var(--color-danger)">{{ error }}</p>
                 {% endfor %}
                 <p class="text-sm text-muted mt-1">
-                    {% trans "Tip: use your first name so collaborators can recognize you." %}
+                    {% trans "This name is shown to collaborators on shared lists." %}
                 </p>
             </div>
             <div class="form-group">

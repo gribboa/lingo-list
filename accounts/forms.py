@@ -23,13 +23,13 @@ class LanguagePreferenceForm(forms.ModelForm):
             ),
         }
         labels = {
-            "username": _("Username"),
+            "username": _("Display name"),
             "ui_language": _("Interface language"),
             "preferred_language": _("Translation language"),
         }
         help_texts = {
             "username": _(
-                "Tip: use your first name so collaborators can recognize you."
+                "This name is shown to collaborators on shared lists."
             ),
             "ui_language": _("The language used for the website interface."),
             "preferred_language": _(

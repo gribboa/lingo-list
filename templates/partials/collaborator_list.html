@@ -3,7 +3,7 @@
     <div class="collab-chips">
         {% for collab in collaborators %}
         <span class="collab-chip">
-            <span class="collab-chip-text">{{ collab.user.email|default:collab.user.username }}</span>
+            <span class="collab-chip-text">{{ collab.user.username|default:collab.user.email }}</span>
             {% if is_owner %}
             <button class="collab-chip-remove"
                     hx-post="{% url 'lists:collaborator_remove' pk=list.pk collab_pk=collab.pk %}"

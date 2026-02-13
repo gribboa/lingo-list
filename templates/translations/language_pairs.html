@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Language Pairs" %} — LingoList{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="list-header">
+        <h1>{% trans "Supported Language Pairs" %}</h1>
+    </div>
+
+    <form method="get" class="language-filter-form">
+        <label for="source-select">{% trans "Filter by source language:" %}</label>
+        <div class="language-filter-controls">
+            <select id="source-select" name="source" class="form-select" onchange="this.form.submit()">
+                <option value="">{% trans "All languages" %}</option>
+                {% for code, name in source_languages %}
+                    <option value="{{ code }}" {% if code == selected_source %}selected{% endif %}>
+                        {{ name }} ({{ code }})
+                    </option>
+                {% endfor %}
+            </select>
+            {% if selected_source %}
+                <a href="{% url 'translations:language_pairs' %}" class="btn btn-outline btn-sm">{% trans "Clear" %}</a>
+            {% endif %}
+        </div>
+    </form>
+
+    {% if pairs %}
+    <div class="language-pairs-table-wrapper">
+        <table class="language-pairs-table">
+            <thead>
+                <tr>
+                    <th>{% trans "Source Language" %}</th>
+                    <th>{% trans "Target Language" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pair in pairs %}
+                <tr>
+                    <td>{{ pair.source_name }} <span class="lang-code">{{ pair.source_code }}</span></td>
+                    <td>{{ pair.target_name }} <span class="lang-code">{{ pair.target_code }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted text-sm mt-1">
+        {% blocktrans count counter=pairs|length %}{{ counter }} language pair{% plural %}{{ counter }} language pairs{% endblocktrans %}
+    </p>
+    {% else %}
+    <div class="empty-state">
+        <p>{% trans "No language pairs found." %}</p>
+        <p class="text-sm text-muted">
+            {% trans "Run the management command to load language pairs:" %}
+            <code>python manage.py fetch_language_pairs</code>
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

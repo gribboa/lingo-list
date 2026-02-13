@@ -49,6 +49,7 @@
         <div class="container">
             <a href="{% url 'landing' %}" class="nav-brand">LingoList</a>
             <div class="nav-links">
+                <a href="{% url 'translations:language_pairs' %}">{% trans "Languages" %}</a>
                 {% if user.is_authenticated %}
                     <a href="{% url 'lists:list_index' %}">{% trans "My Lists" %}</a>
                     <a href="{% url 'accounts:profile' %}" class="nav-hide-label" aria-label="{% trans 'Profile' %}">

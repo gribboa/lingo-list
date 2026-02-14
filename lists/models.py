@@ -83,7 +83,6 @@ class ListItem(models.Model):
     text = models.CharField(max_length=500)
     source_language = models.CharField(
         max_length=10,
-        choices=settings.LANGUAGES_SUPPORTED_CHOICES,
     )
     added_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LingoList 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 10:00+0000\n"
-"PO-Revision-Date: 2026-02-07 10:00+0000\n"
+"POT-Creation-Date: 2026-02-14 17:14+0000\n"
+"PO-Revision-Date: 2026-02-14 17:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -16,111 +16,353 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: templates/base.html
-msgid "My Lists"
-msgstr "Мои списки"
+#: accounts/forms.py:16 accounts/forms.py:58 templates/accounts/profile.html:40
+msgid "Interface language"
+msgstr "Язык интерфейса"
 
-#: templates/base.html
-msgid "Profile"
-msgstr "Профиль"
+#: accounts/forms.py:17 accounts/forms.py:59 accounts/models.py:20
+#: templates/accounts/profile.html:46
+msgid "The language used for the website interface."
+msgstr "Язык, используемый для интерфейса сайта."
 
-#: templates/base.html
-msgid "Log out"
-msgstr "Выйти"
+#: accounts/forms.py:23 accounts/forms.py:65 templates/accounts/profile.html:50
+msgid "Translation language"
+msgstr "Язык перевода"
 
-#: templates/base.html
-msgid "Log in"
-msgstr "Войти"
-
-#: templates/base.html
-msgid "Sign up"
-msgstr "Регистрация"
-
-#: templates/base.html
-msgid "Collaborative multilingual lists"
-msgstr "Совместные многоязычные списки"
-
-#: templates/landing.html
-msgid "Collaborative Multilingual Lists"
-msgstr "Совместные многоязычные списки"
-
-#: templates/landing.html
-msgid "Lists without"
-msgstr "Списки без"
-
-#: templates/landing.html
-msgid "language barriers"
-msgstr "языковых барьеров"
-
-#: templates/landing.html
-msgid "Create shared lists with anyone, in any language. Each person sees items translated into their own language automatically."
-msgstr "Создавайте общие списки с кем угодно, на любом языке. Каждый видит элементы, автоматически переведённые на свой язык."
-
-#: templates/landing.html
-msgid "Get started free"
-msgstr "Начать бесплатно"
-
-#: templates/landing.html
-msgid "Multilingual"
-msgstr "Многоязычность"
-
-#: templates/landing.html
-msgid "Add items in your language. Collaborators see them in theirs. Powered by LibreTranslate."
-msgstr "Добавляйте элементы на своём языке. Соавторы видят их на своём. Работает на LibreTranslate."
-
-#: templates/landing.html
-msgid "Collaborative"
-msgstr "Совместная работа"
-
-#: templates/landing.html
-msgid "Share a link and anyone can join your list. Perfect for couples, families, or flatmates."
-msgstr "Поделитесь ссылкой, и любой сможет присоединиться к вашему списку. Идеально для пар, семей или соседей."
-
-#: templates/landing.html
-msgid "Real-time"
-msgstr "В реальном времени"
-
-#: templates/landing.html
-msgid "Add, check off, and remove items instantly — no page reloads needed."
-msgstr "Добавляйте, отмечайте и удаляйте элементы мгновенно — без перезагрузки страницы."
-
-#: templates/account/login.html
-msgid "Don't have an account?"
-msgstr "Нет аккаунта?"
-
-#: templates/account/signup.html
-msgid "Create your account"
-msgstr "Создайте свой аккаунт"
-
-#: templates/account/signup.html
-msgid "Already have an account?"
-msgstr "Уже есть аккаунт?"
-
-#: templates/account/logout.html
-msgid "Are you sure you want to log out?"
-msgstr "Вы уверены, что хотите выйти?"
-
-#: templates/accounts/profile.html
-msgid "Your Profile"
-msgstr "Ваш профиль"
-
-#: templates/accounts/profile.html accounts/forms.py
-msgid "Preferred language"
-msgstr "Предпочитаемый язык"
-
-#: templates/accounts/profile.html
+#: accounts/forms.py:25 accounts/forms.py:67 accounts/models.py:13
+#: templates/accounts/profile.html:56
 msgid "Items on shared lists will be translated into this language for you."
 msgstr "Элементы в общих списках будут переведены на этот язык для вас."
 
-#: templates/accounts/profile.html
+#: accounts/forms.py:38 templates/accounts/profile.html:30
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: accounts/forms.py:42 templates/accounts/profile.html:36
+msgid "Tip: use your first name so collaborators can recognize you."
+msgstr "Совет: используйте имя, чтобы соавторы могли вас узнать."
+
+#: accounts/views.py:19
+msgid "Your profile has been saved."
+msgstr "Ваш профиль сохранён."
+
+#: accounts/views.py:32
+msgid "Please correct the errors below."
+msgstr "Пожалуйста, исправьте ошибки ниже."
+
+#: lists/forms.py:12 lists/forms.py:33 lists/forms.py:39
+#: templates/lists/detail.html:128
+msgid "List name"
+msgstr "Название списка"
+
+#: lists/forms.py:13 lists/forms.py:34 templates/lists/detail.html:132
+msgid "Description"
+msgstr "Описание"
+
+#: lists/forms.py:18
+msgid "e.g. Weekly groceries"
+msgstr "например, Продукты на неделю"
+
+#: lists/forms.py:22 lists/forms.py:43
+msgid "Optional description..."
+msgstr "Необязательное описание..."
+
+#: lists/forms.py:54
+msgid "Item"
+msgstr "Элемент"
+
+#: lists/forms.py:59
+msgid "Add an item..."
+msgstr "Добавьте элемент..."
+
+#: lists/views.py:59
+#, python-format
+msgid "\"%(title)s\" has been archived."
+msgstr "\"%(title)s\" добавлен в архив."
+
+#: lists/views.py:65
+#, python-format
+msgid "\"%(title)s\" has been unarchived."
+msgstr "\"%(title)s\" восстановлен из архива."
+
+#: lists/views.py:106
+msgid "You don't have access to this list."
+msgstr "У вас нет доступа к этому списку."
+
+#: lists/views.py:113
+msgid "This list has been archived."
+msgstr "Этот список архивирован."
+
+#: lists/views.py:141
+msgid "Archived lists cannot be edited."
+msgstr "Нельзя редактировать архивные списки."
+
+#: lists/views.py:148
+msgid "List updated."
+msgstr "Список обновлён."
+
+#: lists/views.py:150
+msgid "No changes made."
+msgstr "Изменений не внесено."
+
+#: lists/views.py:155
+msgid "Unable to update list."
+msgstr "Не удалось обновить список."
+
+#: lists/views.py:313
+msgid "This list has been archived and is not accepting new collaborators."
+msgstr "Этот список архивирован и не принимает новых соавторов."
+
+#: lists/views.py:318
+msgid "You already own this list."
+msgstr "Этот список уже принадлежит вам."
+
+#: lists/views.py:325
+#, python-format
+msgid "You joined \"%(title)s\"!"
+msgstr "Вы присоединились к списку \"%(title)s\"!"
+
+#: lists/views.py:328
+msgid "You are already a collaborator on this list."
+msgstr "Вы уже соавтор этого списка."
+
+#: templates/403.html:3 templates/403.html:9
+msgid "Forbidden"
+msgstr "Доступ запрещён"
+
+#: templates/403.html:10
+msgid "Whoops - you don't have permission to access this page!"
+msgstr "Упс — у вас нет прав для доступа к этой странице!"
+
+#: templates/403.html:12 templates/404.html:12 templates/500.html:12
+msgid "Go home"
+msgstr "На главную"
+
+#: templates/404.html:3 templates/404.html:9
+msgid "Page not found"
+msgstr "Страница не найдена"
+
+#: templates/404.html:10
+msgid "Whoops - the page you're looking for doesn't exist or has been moved!"
+msgstr "Упс — страница, которую вы ищете, не существует или была перемещена!"
+
+#: templates/500.html:3
+msgid "Server error"
+msgstr "Ошибка сервера"
+
+#: templates/500.html:9
+msgid "Something went wrong"
+msgstr "Что-то пошло не так"
+
+#: templates/500.html:10
+msgid "An unexpected error occurred. Please try again later."
+msgstr "Произошла непредвиденная ошибка. Пожалуйста, попробуйте позже."
+
+#: templates/account/login.html:3 templates/account/login.html:7
+#: templates/account/login.html:50 templates/account/signup.html:52
+#: templates/base.html:63 templates/landing.html:22
+msgid "Log in"
+msgstr "Войти"
+
+#: templates/account/login.html:53
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: templates/account/login.html:58
+msgid "Don't have an account?"
+msgstr "Нет аккаунта?"
+
+#: templates/account/login.html:58 templates/account/signup.html:3
+#: templates/account/signup.html:47 templates/base.html:64
+msgid "Sign up"
+msgstr "Регистрация"
+
+#: templates/account/logout.html:3 templates/account/logout.html:7
+#: templates/account/logout.html:13 templates/base.html:58
+#: templates/base.html:60
+msgid "Log out"
+msgstr "Выйти"
+
+#: templates/account/logout.html:10
+msgid "Are you sure you want to log out?"
+msgstr "Вы уверены, что хотите выйти?"
+
+#: templates/account/password_reset.html:3
+#: templates/account/password_reset.html:7
+msgid "Reset password"
+msgstr "Сброс пароля"
+
+#: templates/account/password_reset.html:11
+msgid "Enter your email address and we'll send you a link to reset your password."
+msgstr "Введите ваш адрес электронной почты, и мы отправим вам ссылку для сброса пароля."
+
+#: templates/account/password_reset.html:30
+msgid "Send reset link"
+msgstr "Отправить ссылку"
+
+#: templates/account/password_reset.html:35
+msgid "Back to login"
+msgstr "Вернуться к входу"
+
+#: templates/account/signup.html:7
+msgid "Create your account"
+msgstr "Создайте свой аккаунт"
+
+#: templates/account/signup.html:52
+msgid "Already have an account?"
+msgstr "Уже есть аккаунт?"
+
+#: templates/accounts/profile.html:3 templates/base.html:54
+#: templates/base.html:56
+msgid "Profile"
+msgstr "Профиль"
+
+#: templates/accounts/profile.html:7
+msgid "Your Profile"
+msgstr "Ваш профиль"
+
+#: templates/accounts/profile.html:59 templates/lists/detail.html:137
 msgid "Save"
 msgstr "Сохранить"
 
-#: templates/lists/index.html
-msgid "New list"
-msgstr "Новый список"
+#: templates/base.html:53 templates/lists/archived.html:9
+#: templates/lists/index.html:3 templates/lists/index.html:8
+msgid "My Lists"
+msgstr "Мои списки"
 
-#: templates/lists/index.html
+#: templates/base.html:66
+msgid "Toggle dark mode"
+msgstr "Переключить тёмную тему"
+
+#: templates/base.html:94
+msgid "Collaborative multilingual lists"
+msgstr "Совместные многоязычные списки"
+
+#: templates/base.html:96
+msgid "Languages"
+msgstr "Языки"
+
+#: templates/base.html:97
+msgid "Privacy notice"
+msgstr "Уведомление о конфиденциальности"
+
+#: templates/base.html:98
+msgid "Buy me a coffee 🍵"
+msgstr "Угостить меня кофе 🍵"
+
+#: templates/landing.html:3
+msgid "Collaborative Multilingual Lists"
+msgstr "Совместные многоязычные списки"
+
+#: templates/landing.html:14
+msgid "Powered by Self-Hosted Translation"
+msgstr "На базе собственного сервера перевода"
+
+#: templates/landing.html:16
+msgid "Lists without"
+msgstr "Списки без"
+
+#: templates/landing.html:16
+msgid "language barriers"
+msgstr "языковых барьеров"
+
+#: templates/landing.html:18
+msgid "Create shared lists with anyone, in any language. Each person sees items translated into their own language automatically."
+msgstr "Создавайте общие списки с кем угодно, на любом языке. Каждый видит элементы, автоматически переведённые на свой язык."
+
+#: templates/landing.html:21
+msgid "Get started free"
+msgstr "Начать бесплатно"
+
+#: templates/landing.html:36
+msgid "Multilingual"
+msgstr "Многоязычность"
+
+#: templates/landing.html:37
+msgid "Add items in your language. Collaborators see them in theirs. Powered by our real-time translation engine."
+msgstr "Добавляйте элементы на своём языке. Соавторы видят их на своём. Работает на нашем движке перевода в реальном времени."
+
+#: templates/landing.html:45
+msgid "Collaborative"
+msgstr "Совместная работа"
+
+#: templates/landing.html:46
+msgid "Share a link and anyone can join your list. Perfect for couples, families, or flatmates."
+msgstr "Поделитесь ссылкой, и любой сможет присоединиться к вашему списку. Идеально для пар, семей или соседей."
+
+#: templates/landing.html:54
+msgid "Real-time"
+msgstr "В реальном времени"
+
+#: templates/landing.html:55
+msgid "Add, check off, and remove items instantly — no page reloads needed."
+msgstr "Добавляйте, отмечайте и удаляйте элементы мгновенно — без перезагрузки страницы."
+
+#: templates/landing.html:63
+msgid "Private & Secure"
+msgstr "Конфиденциальность и безопасность"
+
+#: templates/landing.html:64
+msgid "Your data stays yours. Self-hosted translation means your lists never leave your control."
+msgstr "Ваши данные остаются вашими. Собственный сервер перевода означает, что ваши списки всегда под вашим контролем."
+
+#: templates/landing.html:69
+msgid "Perfect for"
+msgstr "Идеально для"
+
+#: templates/landing.html:73
+msgid "Shopping Lists"
+msgstr "Списки покупок"
+
+#: templates/landing.html:74
+msgid "Shared grocery lists for multilingual households"
+msgstr "Общие списки продуктов для многоязычных семей"
+
+#: templates/landing.html:78
+msgid "Travel Planning"
+msgstr "Планирование путешествий"
+
+#: templates/landing.html:79
+msgid "Coordinate trips with friends from different countries"
+msgstr "Координируйте поездки с друзьями из разных стран"
+
+#: templates/landing.html:83
+msgid "Gift Ideas"
+msgstr "Идеи для подарков"
+
+#: templates/landing.html:84
+msgid "Keep track of present ideas across languages"
+msgstr "Записывайте идеи подарков на разных языках"
+
+#: templates/landing.html:88
+msgid "Study Groups"
+msgstr "Учебные группы"
+
+#: templates/landing.html:89
+msgid "Share resources with international classmates"
+msgstr "Делитесь материалами с иностранными однокурсниками"
+
+#: templates/landing.html:93
+msgid "Household Tasks"
+msgstr "Домашние дела"
+
+#: templates/landing.html:94
+msgid "Coordinate chores and to-dos with roommates"
+msgstr "Распределяйте обязанности и задачи с соседями"
+
+#: templates/landing.html:98
+msgid "Project Planning"
+msgstr "Планирование проектов"
+
+#: templates/landing.html:99
+msgid "Track tasks with international team members"
+msgstr "Отслеживайте задачи с международными участниками команды"
+
+#: templates/lists/archived.html:3 templates/lists/archived.html:8
+msgid "Archived Lists"
+msgstr "Архивные списки"
+
+#: templates/lists/archived.html:19 templates/lists/index.html:35
 #, python-format
 msgid "%(counter)s item"
 msgid_plural "%(counter)s items"
@@ -129,333 +371,219 @@ msgstr[1] "%(counter)s элемента"
 msgstr[2] "%(counter)s элементов"
 msgstr[3] "%(counter)s элементов"
 
-#: templates/lists/index.html
+#: templates/lists/archived.html:21 templates/lists/index.html:37
 #, python-format
 msgid "Updated %(time)s ago"
 msgstr "Обновлено %(time)s назад"
 
-#: templates/lists/index.html
-#, python-format
-msgid "shared by %(owner)s"
-msgstr "от %(owner)s"
-
-#: templates/lists/index.html
-msgid "You don't have any lists yet."
-msgstr "У вас пока нет списков."
-
-#: templates/lists/index.html
-msgid "Create your first list"
-msgstr "Создайте свой первый список"
-
-#: templates/lists/create.html
-msgid "New List"
-msgstr "Новый список"
-
-#: templates/lists/create.html
-msgid "Create a new list"
-msgstr "Создать новый список"
-
-#: templates/lists/create.html
-msgid "Create list"
-msgstr "Создать список"
-
-#: templates/lists/detail.html
-msgid "All lists"
-msgstr "Все списки"
-
-#: templates/lists/detail.html
-msgid "Delete this list and all its items?"
-msgstr "Удалить этот список и все его элементы?"
-
-#: templates/lists/detail.html
-msgid "Delete list"
-msgstr "Удалить список"
-
-#: templates/lists/detail.html
-msgid "Add"
-msgstr "Добавить"
-
-#: templates/lists/detail.html
-msgid "Sharing"
-msgstr "Совместный доступ"
-
-#: templates/lists/detail.html
-msgid "Share this link to invite collaborators:"
-msgstr "Поделитесь этой ссылкой, чтобы пригласить соавторов:"
-
-#: templates/lists/detail.html
-msgid "Copy"
-msgstr "Копировать"
-
-#: templates/lists/detail.html
-msgid "Owner:"
-msgstr "Владелец:"
-
-#: templates/partials/item_list.html
-msgid "translated"
-msgstr "переведено"
-
-#: templates/partials/item_list.html
-msgid "Remove this item?"
-msgstr "Удалить этот элемент?"
-
-#: templates/partials/item_list.html
-msgid "Delete item"
-msgstr "Удалить элемент"
-
-#: templates/partials/item_list.html
-msgid "No items yet. Add one above."
-msgstr "Элементов пока нет. Добавьте выше."
-
-#: templates/partials/collaborator_list.html
-msgid "Collaborators:"
-msgstr "Соавторы:"
-
-#: templates/partials/collaborator_list.html
-#, python-format
-msgid "Remove %(user)s from this list?"
-msgstr "Удалить %(user)s из этого списка?"
-
-#: templates/partials/collaborator_list.html
-msgid "Remove"
-msgstr "Удалить"
-
-#: templates/partials/collaborator_list.html
-msgid "No collaborators yet. Share the link above to invite people."
-msgstr "Соавторов пока нет. Поделитесь ссылкой выше, чтобы пригласить людей."
-
-#: templates/partials/item_list.html
-msgid "Drag to reorder"
-msgstr "Перетащите для изменения порядка"
-
-#: templates/base.html
-msgid "Toggle dark mode"
-msgstr "Переключить тёмную тему"
-
-#: templates/lists/index.html
-msgid "Pin list"
-msgstr "Закрепить список"
-
-#: templates/lists/index.html
-msgid "Unpin list"
-msgstr "Открепить список"
-
-#: templates/accounts/profile.html accounts/forms.py
-msgid "Interface language"
-msgstr "Язык интерфейса"
-
-#: templates/accounts/profile.html accounts/forms.py
-msgid "The language used for the website interface."
-msgstr "Язык, используемый для интерфейса сайта."
-
-#: templates/accounts/profile.html accounts/forms.py
-msgid "Translation language"
-msgstr "Язык перевода"
-
-#: accounts/views.py
-msgid "Your preferences have been saved."
-msgstr "Ваши настройки сохранены."
-
-#: templates/account/password_reset.html
-msgid "Reset password"
-msgstr "Сброс пароля"
-
-#: templates/account/password_reset.html
-msgid "Enter your email address and we'll send you a link to reset your password."
-msgstr "Введите ваш адрес электронной почты, и мы отправим вам ссылку для сброса пароля."
-
-#: templates/account/password_reset.html
-msgid "Send reset link"
-msgstr "Отправить ссылку"
-
-#: templates/account/password_reset.html
-msgid "Back to login"
-msgstr "Вернуться к входу"
-
-#: templates/landing.html
-msgid "Add items in your language. Collaborators see them in theirs. Powered by our real-time translation engine."
-msgstr "Добавляйте элементы на своём языке. Соавторы видят их на своём. Работает на нашем движке перевода в реальном времени."
-
-#: templates/base.html
-msgid "Privacy notice"
-msgstr "Уведомление о конфиденциальности"
-
-#: templates/base.html
-msgid "Buy me a coffee 🍵"
-msgstr "Угостить меня кофе 🍵"
-
-#: templates/privacy_notice.html
-msgid "Privacy Notice"
-msgstr "Уведомление о конфиденциальности"
-
-#: templates/privacy_notice.html
-msgid "LingoList stores the information needed to provide your lists and collaboration features. We do not sell your personal data."
-msgstr "LingoList хранит информацию, необходимую для работы ваших списков и функций совместной работы. Мы не продаем ваши персональные данные."
-
-#: templates/privacy_notice.html
-msgid "If you have questions about data handling or want your account data removed, please contact the site administrator."
-msgstr "Если у вас есть вопросы об обработке данных или вы хотите удалить данные своей учетной записи, свяжитесь с администратором сайта."
-
-#: templates/accounts/profile.html accounts/forms.py
-msgid "Username"
-msgstr "Имя пользователя"
-
-#: templates/accounts/profile.html accounts/forms.py
-msgid "Tip: use your first name so collaborators can recognize you."
-msgstr "Совет: используйте имя, чтобы соавторы могли вас узнать."
-
-#: templates/account/login.html
-msgid "Forgot password?"
-msgstr "Забыли пароль?"
-
-#: templates/lists/index.html
-msgid "Archived"
-msgstr "Архив"
-
-#: templates/lists/index.html
-msgid "Archive list"
-msgstr "Архивировать список"
-
-#: templates/lists/archived.html
-msgid "Archived Lists"
-msgstr "Архивные списки"
-
-#: templates/lists/archived.html
+#: templates/lists/archived.html:28
 msgid "Unarchive list"
 msgstr "Разархивировать список"
 
-#: templates/lists/archived.html
+#: templates/lists/archived.html:39
 msgid "You don't have any archived lists."
 msgstr "У вас пока нет архивных списков."
 
-#: templates/partials/collaborator_list.html
-msgid "No collaborators yet. Share the link to invite people."
-msgstr "Соавторов пока нет. Поделитесь ссылкой, чтобы пригласить людей."
+#: templates/lists/create.html:3
+msgid "New List"
+msgstr "Новый список"
 
-#: templates/lists/detail.html
+#: templates/lists/create.html:7
+msgid "Create a new list"
+msgstr "Создать новый список"
+
+#: templates/lists/create.html:23
+msgid "Create list"
+msgstr "Создать список"
+
+#: templates/lists/detail.html:11
 msgid "Edit"
 msgstr "Изменить"
 
-#: templates/lists/detail.html
+#: templates/lists/detail.html:18
+msgid "All lists"
+msgstr "Все списки"
+
+#: templates/lists/detail.html:23
 msgid "Unarchive"
 msgstr "Разархивировать"
 
-#: templates/lists/detail.html
+#: templates/lists/detail.html:25
 msgid "Archive"
 msgstr "Архивировать"
 
-#: templates/lists/detail.html
+#: templates/lists/detail.html:28
+msgid "Delete list"
+msgstr "Удалить список"
+
+#: templates/lists/detail.html:35
 msgid "This list is archived. It is read-only and hidden from collaborators."
 msgstr "Этот список архивирован. Он доступен только для чтения и скрыт от соавторов."
 
-#: templates/lists/detail.html
+#: templates/lists/detail.html:49
+msgid "Add"
+msgstr "Добавить"
+
+#: templates/lists/detail.html:63
+msgid "Sharing"
+msgstr "Совместный доступ"
+
+#: templates/lists/detail.html:67
 #, python-format
 msgid "%(counter)s collaborator"
 msgid_plural "%(counter)s collaborators"
 msgstr[0] "%(counter)s соавтор"
 msgstr[1] "%(counter)s соавтора"
 msgstr[2] "%(counter)s соавторов"
-msgstr[3] "%(counter)s соавтора"
+msgstr[3] "%(counter)s соавторов"
 
-#: templates/lists/detail.html
-msgid "Edit list name"
-msgstr "Изменить название списка"
+#: templates/lists/detail.html:82
+msgid "Copied!"
+msgstr "Скопировано!"
 
-#: templates/lists/detail.html
+#: templates/lists/detail.html:83
+msgid "Copy"
+msgstr "Копировать"
+
+#: templates/lists/detail.html:105
+msgid "Delete list?"
+msgstr "Удалить список?"
+
+#: templates/lists/detail.html:106 templates/lists/detail.html:123
 msgid "Close"
 msgstr "Закрыть"
 
-#: templates/lists/detail.html lists/forms.py
-msgid "List name"
-msgstr "Название списка"
+#: templates/lists/detail.html:108
+msgid "Delete this list and all its items? This action cannot be undone."
+msgstr "Удалить этот список и все его элементы? Это действие нельзя отменить."
 
-#: templates/lists/detail.html
+#: templates/lists/detail.html:112 templates/lists/detail.html:136
 msgid "Cancel"
 msgstr "Отмена"
 
-#: templates/lists/detail.html
-msgid "Save name"
-msgstr "Сохранить название"
+#: templates/lists/detail.html:113
+msgid "Delete"
+msgstr "Удалить"
 
-#: accounts/views.py
-msgid "Your profile has been saved."
-msgstr "Ваш профиль сохранен."
+#: templates/lists/detail.html:122
+msgid "Edit list"
+msgstr "Редактировать список"
 
-#: accounts/views.py
-msgid "Please correct the errors below."
-msgstr "Пожалуйста, исправьте ошибки ниже."
+#: templates/lists/index.html:11
+msgid "Archived"
+msgstr "Архив"
 
-#: lists/forms.py
-msgid "Description"
-msgstr "Описание"
+#: templates/lists/index.html:13
+msgid "New list"
+msgstr "Новый список"
 
-#: lists/forms.py
-msgid "e.g. Weekly groceries"
-msgstr "например, Продукты на неделю"
+#: templates/lists/index.html:22
+msgid "Unpin list"
+msgstr "Открепить список"
 
-#: lists/forms.py
-msgid "Optional description..."
-msgstr "Необязательное описание..."
+#: templates/lists/index.html:22
+msgid "Pin list"
+msgstr "Закрепить список"
 
-#: lists/forms.py
-msgid "Item"
-msgstr "Элемент"
-
-#: lists/forms.py
-msgid "Add an item..."
-msgstr "Добавьте элемент..."
-
-#: lists/views.py
+#: templates/lists/index.html:39
 #, python-format
-msgid "\"%(title)s\" has been archived."
-msgstr "\"%(title)s\" добавлен в архив."
+msgid "shared by %(owner)s"
+msgstr "от %(owner)s"
 
-#: lists/views.py
+#: templates/lists/index.html:48
+msgid "Archive list"
+msgstr "Архивировать список"
+
+#: templates/lists/index.html:61
+msgid "You don't have any lists yet."
+msgstr "У вас пока нет списков."
+
+#: templates/lists/index.html:62
+msgid "Create your first list"
+msgstr "Создайте свой первый список"
+
+#: templates/partials/collaborator_list.html:12
 #, python-format
-msgid "\"%(title)s\" has been unarchived."
-msgstr "\"%(title)s\" восстановлен из архива."
+msgid "Remove %(user)s from this list?"
+msgstr "Удалить %(user)s из этого списка?"
 
-#: lists/views.py
-msgid "You don't have access to this list."
-msgstr "У вас нет доступа к этому списку."
+#: templates/partials/collaborator_list.html:13
+msgid "Remove"
+msgstr "Удалить"
 
-#: lists/views.py
-msgid "This list has been archived."
-msgstr "Этот список архивирован."
+#: templates/partials/collaborator_list.html:19
+msgid "No collaborators yet. Share the link to invite people."
+msgstr "Соавторов пока нет. Поделитесь ссылкой, чтобы пригласить людей."
 
-#: lists/views.py
-msgid "Archived lists cannot be renamed."
-msgstr "Нельзя переименовать архивные списки."
+#: templates/partials/item_list.html:7
+msgid "No items yet. Add one above."
+msgstr "Элементов пока нет. Добавьте выше."
 
-#: lists/views.py
-msgid "List name updated."
-msgstr "Название списка обновлено."
+#: templates/partials/item_row.html:10
+msgid "Drag to reorder"
+msgstr "Перетащите для изменения порядка"
 
-#: lists/views.py
-msgid "List name is unchanged."
-msgstr "Название списка не изменилось."
-
-#: lists/views.py
-msgid "Unable to update list name."
-msgstr "Не удалось обновить название списка."
-
-#: lists/views.py
-msgid "This list has been archived and is not accepting new collaborators."
-msgstr "Этот список архивирован и не принимает новых соавторов."
-
-#: lists/views.py
-msgid "You already own this list."
-msgstr "Этот список уже принадлежит вам."
-
-#: lists/views.py
-#, python-format
-msgid "You joined \"%(title)s\"!"
-msgstr "Вы присоединились к списку \"%(title)s\"!"
-
-#: lists/views.py
-msgid "You are already a collaborator on this list."
-msgstr "Вы уже соавтор этого списка."
-
-#: templates/partials/item_list.html
+#: templates/partials/item_row.html:20
 msgid "Translating..."
 msgstr "Перевод..."
+
+#: templates/partials/item_row.html:34
+msgid "Remove this item?"
+msgstr "Удалить этот элемент?"
+
+#: templates/partials/item_row.html:35
+msgid "Delete item"
+msgstr "Удалить элемент"
+
+#: templates/privacy_notice.html:3 templates/privacy_notice.html:8
+msgid "Privacy Notice"
+msgstr "Уведомление о конфиденциальности"
+
+#: templates/privacy_notice.html:10
+msgid "LingoList stores the information needed to provide your lists and collaboration features. We do not sell your personal data."
+msgstr "LingoList хранит информацию, необходимую для работы ваших списков и функций совместной работы. Мы не продаём ваши персональные данные."
+
+#: templates/privacy_notice.html:13
+msgid "If you have questions about data handling or want your account data removed, please contact the site administrator."
+msgstr "Если у вас есть вопросы об обработке данных или вы хотите удалить данные своей учётной записи, свяжитесь с администратором сайта."
+
+#: templates/translations/language_pairs.html:3
+msgid "Language Pairs"
+msgstr "Языковые пары"
+
+#: templates/translations/language_pairs.html:8
+msgid "Supported Language Pairs"
+msgstr "Поддерживаемые языковые пары"
+
+#: templates/translations/language_pairs.html:14
+msgid "Source language"
+msgstr "Исходный язык"
+
+#: templates/translations/language_pairs.html:16
+msgid "All languages"
+msgstr "Все языки"
+
+#: templates/translations/language_pairs.html:26
+msgid "Clear"
+msgstr "Сбросить"
+
+#: templates/translations/language_pairs.html:37
+msgid "Source Language"
+msgstr "Исходный язык"
+
+#: templates/translations/language_pairs.html:38
+msgid "Target Language"
+msgstr "Язык перевода"
+
+#: templates/translations/language_pairs.html:52
+#, python-format
+msgid "%(counter)s language pair"
+msgid_plural "%(counter)s language pairs"
+msgstr[0] "%(counter)s языковая пара"
+msgstr[1] "%(counter)s языковые пары"
+msgstr[2] "%(counter)s языковых пар"
+msgstr[3] "%(counter)s языковых пар"
+
+#: templates/translations/language_pairs.html:56
+msgid "No language pairs found."
+msgstr "Языковые пары не найдены."

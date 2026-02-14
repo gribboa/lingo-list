@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -17,7 +16,6 @@ class User(AbstractUser):
 
     ui_language = models.CharField(
         max_length=10,
-        choices=settings.LANGUAGES,
         default="en",
         help_text=_("The language used for the website interface."),
     )

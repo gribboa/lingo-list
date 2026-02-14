@@ -54,10 +54,6 @@
     {% else %}
     <div class="empty-state">
         <p>{% trans "No language pairs found." %}</p>
-        <p class="text-sm text-muted">
-            {% trans "Run the management command to load language pairs:" %}
-            <code>python manage.py fetch_language_pairs</code>
-        </p>
     </div>
     {% endif %}
 </div>

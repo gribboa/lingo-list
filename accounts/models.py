@@ -9,7 +9,6 @@ class User(AbstractUser):
 
     preferred_language = models.CharField(
         max_length=10,
-        choices=settings.LANGUAGES_SUPPORTED_CHOICES,
         default="en",
         help_text=_(
             "Items on shared lists will be translated into this language for you."

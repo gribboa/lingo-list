@@ -4,6 +4,8 @@ from django.conf import settings
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 
+from translations.models import get_enabled_language_choices
+
 from .models import User
 
 
@@ -37,6 +39,10 @@ class LanguagePreferenceForm(forms.ModelForm):
             ),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["preferred_language"].choices = get_enabled_language_choices()
+
 
 class CustomSignupForm(SignupForm):
     """Extend the allauth signup form with language preference fields."""
@@ -49,7 +55,7 @@ class CustomSignupForm(SignupForm):
     )
 
     preferred_language = forms.ChoiceField(
-        choices=settings.LANGUAGES_SUPPORTED_CHOICES,
+        choices=[("en", "English")],
         widget=forms.Select(attrs={"class": "form-select"}),
         label=_("Translation language"),
         help_text=_(
@@ -59,14 +65,17 @@ class CustomSignupForm(SignupForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["preferred_language"].choices = get_enabled_language_choices()
+
         # Pre-fill the language selectors based on the user's browser language
         current_lang = (get_language() or "").split("-")[0]
-        if current_lang in settings.LANGUAGES_SUPPORTED:
+        enabled_codes = {code for code, _ in self.fields["preferred_language"].choices}
+        if current_lang in dict(settings.LANGUAGES):
             self.fields["ui_language"].initial = current_lang
         else:
             self.fields["ui_language"].initial = "en"
 
-        if current_lang in settings.LANGUAGES_SUPPORTED:
+        if current_lang in enabled_codes:
             self.fields["preferred_language"].initial = current_lang
         else:
             self.fields["preferred_language"].initial = "en"

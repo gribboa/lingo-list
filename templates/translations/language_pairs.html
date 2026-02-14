@@ -21,17 +21,9 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="language-filter-group">
-                <label for="enabled-select">{% trans "Status" %}</label>
-                <select id="enabled-select" name="enabled" class="form-select" onchange="this.form.submit()">
-                    <option value="">{% trans "All" %}</option>
-                    <option value="1" {% if selected_enabled == "1" %}selected{% endif %}>{% trans "Enabled" %}</option>
-                    <option value="0" {% if selected_enabled == "0" %}selected{% endif %}>{% trans "Disabled" %}</option>
-                </select>
-            </div>
-            {% if selected_source or selected_enabled %}
+            {% if selected_source %}
                 <div class="language-filter-group language-filter-clear">
-                    <a href="{% url 'translations:language_pairs' %}" class="btn btn-outline btn-sm">{% trans "Clear filters" %}</a>
+                    <a href="{% url 'translations:language_pairs' %}" class="btn btn-outline btn-sm">{% trans "Clear" %}</a>
                 </div>
             {% endif %}
         </div>
@@ -44,7 +36,6 @@
                 <tr>
                     <th>{% trans "Source Language" %}</th>
                     <th>{% trans "Target Language" %}</th>
-                    <th>{% trans "Status" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,13 +43,6 @@
                 <tr>
                     <td>{{ pair.source_name }} <span class="lang-code">{{ pair.source_code }}</span></td>
                     <td>{{ pair.target_name }} <span class="lang-code">{{ pair.target_code }}</span></td>
-                    <td>
-                        {% if pair.enabled %}
-                            <span class="status-badge status-enabled">{% trans "Enabled" %}</span>
-                        {% else %}
-                            <span class="status-badge status-disabled">{% trans "Disabled" %}</span>
-                        {% endif %}
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -202,7 +202,7 @@ USE_TZ = True
 
 # Enabled website UI locales – just language codes.
 # Display names are resolved via django.utils.translation.get_language_info().
-ENABLED_UI_LANGUAGES = ["en", "ru"]
+ENABLED_UI_LANGUAGES = ["en", "ru", "fr"]
 
 from django.utils.translation import get_language_info  # noqa: E402
 

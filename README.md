@@ -232,7 +232,8 @@ Key settings in `.env` (or environment variables):
 
 ## Supported languages
 
-The app ships with 16 languages enabled (matching common LibreTranslate language packs). Edit `LANGUAGES_SUPPORTED` in `lingolist/settings.py` and the `LT_LOAD_ONLY` env var in `docker-compose.yml` to add or remove languages.
+The app ships with English, Russian, and French enabled by default.
+Edit `ENABLED_UI_LANGUAGES` in `lingolist/settings.py` and `LT_LOAD_ONLY` in `docker-compose.yml` to add or remove languages.
 
 ## Future plans
 

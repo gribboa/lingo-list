@@ -584,6 +584,93 @@ msgstr[1] "%(counter)s языковые пары"
 msgstr[2] "%(counter)s языковых пар"
 msgstr[3] "%(counter)s языковых пар"
 
-#: templates/translations/language_pairs.html:56
-msgid "No language pairs found."
-msgstr "Языковые пары не найдены."
+#: templates/lists/detail.html lists/forms.py
+msgid "List name"
+msgstr "Название списка"
+
+#: templates/lists/detail.html
+msgid "Cancel"
+msgstr "Отмена"
+
+#: templates/lists/detail.html
+msgid "Save name"
+msgstr "Сохранить название"
+
+#: accounts/views.py
+msgid "Your profile has been saved."
+msgstr "Ваш профиль сохранен."
+
+#: accounts/views.py
+msgid "Please correct the errors below."
+msgstr "Пожалуйста, исправьте ошибки ниже."
+
+#: lists/forms.py
+msgid "Description"
+msgstr "Описание"
+
+#: lists/forms.py
+msgid "e.g. Weekly groceries"
+msgstr "например, Продукты на неделю"
+
+#: lists/forms.py
+msgid "Optional description..."
+msgstr "Необязательное описание..."
+
+#: lists/forms.py
+msgid "Item"
+msgstr "Элемент"
+
+#: lists/forms.py
+msgid "Add an item..."
+msgstr "Добавьте элемент..."
+
+#: lists/views.py
+#, python-format
+msgid "\"%(title)s\" has been archived."
+msgstr "\"%(title)s\" добавлен в архив."
+
+#: lists/views.py
+#, python-format
+msgid "\"%(title)s\" has been unarchived."
+msgstr "\"%(title)s\" восстановлен из архива."
+
+#: lists/views.py
+msgid "You don't have access to this list."
+msgstr "У вас нет доступа к этому списку."
+
+#: lists/views.py
+msgid "This list has been archived."
+msgstr "Этот список архивирован."
+
+#: lists/views.py
+msgid "Archived lists cannot be renamed."
+msgstr "Нельзя переименовать архивные списки."
+
+#: lists/views.py
+msgid "List name updated."
+msgstr "Название списка обновлено."
+
+#: lists/views.py
+msgid "List name is unchanged."
+msgstr "Название списка не изменилось."
+
+#: lists/views.py
+msgid "Unable to update list name."
+msgstr "Не удалось обновить название списка."
+
+#: lists/views.py
+msgid "This list has been archived and is not accepting new collaborators."
+msgstr "Этот список архивирован и не принимает новых соавторов."
+
+#: lists/views.py
+msgid "You already own this list."
+msgstr "Этот список уже принадлежит вам."
+
+#: lists/views.py
+#, python-format
+msgid "You joined \"%(title)s\"!"
+msgstr "Вы присоединились к списку \"%(title)s\"!"
+
+#: lists/views.py
+msgid "You are already a collaborator on this list."
+msgstr "Вы уже соавтор этого списка."

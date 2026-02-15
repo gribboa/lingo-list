@@ -48,8 +48,19 @@ def get_items_for_user(lst, user) -> list[dict]:
     Each dict contains: item, display_text, is_translated, translation_pending.
     """
     target = user.preferred_language
+    
+    # Prefetch translations to avoid N+1 queries
+    items = lst.items.select_related("added_by").prefetch_related("translations").all()
+    
+    # Build a cache lookup dictionary for efficient access
+    translation_cache = {}
+    for item in items:
+        for translation in item.translations.all():
+            key = (item.id, translation.source_language, translation.target_language)
+            translation_cache[key] = translation
+    
     result = []
-    for item in lst.items.select_related("added_by").all():
+    for item in items:
         if item.source_language == target:
             result.append({
                 "item": item,
@@ -58,11 +69,8 @@ def get_items_for_user(lst, user) -> list[dict]:
                 "translation_pending": False,
             })
         else:
-            cached = TranslationCache.objects.filter(
-                item=item,
-                source_language=item.source_language,
-                target_language=target,
-            ).first()
+            cache_key = (item.id, item.source_language, target)
+            cached = translation_cache.get(cache_key)
             if cached:
                 result.append({
                     "item": item,

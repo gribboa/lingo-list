@@ -37,14 +37,14 @@
 
 ## Performance & Scalability
 
-- **N+1 query in `get_items_for_user`** — The function iterates over items and performs a separate `TranslationCache.objects.filter()` query for each item that needs translation. This should be batch-prefetched or done with a single query/annotation.
-- **N+1 query in `item_reorder`** — The reorder view does a separate `UPDATE` for each item ID. A bulk update or `CASE`/`WHEN` SQL expression would reduce database round-trips.
-- **Missing database indexes** — `ListItem.list` + `ListItem.order` is a common query pattern but has no composite index. `TranslationCache.(item, source_language, target_language)` has a unique constraint (which creates an index), which is good, but `ListItem` ordering queries could benefit from explicit indexing.
+- ~~**N+1 query in `get_items_for_user`** — The function iterates over items and performs a separate `TranslationCache.objects.filter()` query for each item that needs translation. This should be batch-prefetched or done with a single query/annotation.~~
+- ~~**N+1 query in `item_reorder`** — The reorder view does a separate `UPDATE` for each item ID. A bulk update or `CASE`/`WHEN` SQL expression would reduce database round-trips.~~
+- ~~**Missing database indexes** — `ListItem.list` + `ListItem.order` is a common query pattern but has no composite index. `TranslationCache.(item, source_language, target_language)` has a unique constraint (which creates an index), which is good, but `ListItem` ordering queries could benefit from explicit indexing.~~
 - **Batch translations** — Each pending item triggers a separate HTMX request to `item_translate`. For a list with many new items from a different language, this creates a burst of sequential HTTP requests. A batch translation endpoint would reduce overhead.
 - **Pagination** — Lists with hundreds of items load all items at once. Paginated or infinite-scroll loading would improve performance for large lists.
 - **CDN scripts lack Subresource Integrity (SRI)** — HTMX and Sortable.js are loaded from CDN without `integrity` hashes, allowing tampered scripts if the CDN is compromised.
 - **Translation timeout** — The LibreTranslate client has a 10-second timeout. If LibreTranslate is slow, each `item_translate` HTMX call will block for up to 10 seconds with no client-side timeout or abort mechanism.
-- **`lst.items.count` in template** — The list index template calls `lst.items.count` for every list card, which is a query per list. This should be annotated in the queryset (`annotate(item_count=Count('items'))`).
+- ~~**`lst.items.count` in template** — The list index template calls `lst.items.count` for every list card, which is a query per list. This should be annotated in the queryset (`annotate(item_count=Count('items'))`).~~
 - **Translation fallback** — If LibreTranslate is down, translations silently fail and fall back to the original text. A secondary translation service or user notification would improve reliability.
 
 ## Security & Production Hardness

@@ -27,7 +27,8 @@ def list_index(request):
             List.pinned_by.through.objects.filter(
                 list_id=models.OuterRef("pk"), user_id=request.user.id
             )
-        )
+        ),
+        item_count=models.Count("items")
     ).order_by("-is_pinned", "-updated_at")
 
     has_archived = List.objects.filter(owner=request.user, is_archived=True).exists()
@@ -266,9 +267,19 @@ def item_reorder(request, pk):
     except json.JSONDecodeError:
         return HttpResponse(status=400)
 
-    # Update order for each item
+    # Fetch all items in a single query and update their order
+    items_to_update = []
+    items = {item.id: item for item in ListItem.objects.filter(pk__in=item_ids, list=lst)}
+    
     for index, item_id in enumerate(item_ids):
-        ListItem.objects.filter(pk=item_id, list=lst).update(order=index)
+        if item_id in items:
+            item = items[item_id]
+            item.order = index
+            items_to_update.append(item)
+    
+    # Bulk update all items in a single query
+    if items_to_update:
+        ListItem.objects.bulk_update(items_to_update, ['order'])
 
     return HttpResponse(status=204)
 

@@ -18,7 +18,8 @@ services:
   libretranslate:
     image: libretranslate/libretranslate:latest
     environment:
-      - LT_LOAD_ONLY=en,ru,fr
+      - LT_LOAD_ONLY=en,ru,fr,es
+      - LT_UPDATE_MODELS=true
     volumes:
       - lt-data:/home/libretranslate/.local
     healthcheck:

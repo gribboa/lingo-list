@@ -603,20 +603,3 @@ msgstr "Название списка не изменилось."
 #: lists/views.py
 msgid "Unable to update list name."
 msgstr "Не удалось обновить название списка."
-
-#: lists/views.py
-msgid "This list has been archived and is not accepting new collaborators."
-msgstr "Этот список архивирован и не принимает новых соавторов."
-
-#: lists/views.py
-msgid "You already own this list."
-msgstr "Этот список уже принадлежит вам."
-
-#: lists/views.py
-#, python-format
-msgid "You joined \"%(title)s\"!"
-msgstr "Вы присоединились к списку \"%(title)s\"!"
-
-#: lists/views.py
-msgid "You are already a collaborator on this list."
-msgstr "Вы уже соавтор этого списка."

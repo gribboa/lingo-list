@@ -200,32 +200,14 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Single source for language settings:
-# (code, UI label for Django locale picker, translation label for app choices)
-LANGUAGE_DEFINITIONS = (
-    ("en", "English", "English"),
-    # ("es", "Spanish", "Spanish"),
-    # ("fr", "French", "French"),
-    # ("de", "German", "German"),
-    # ("it", "Italian", "Italian"),
-    # ("pt", "Portuguese", "Portuguese"),
-    # ("nl", "Dutch", "Dutch"),
-    # ("pl", "Polish", "Polish"),
-    ("ru", "Русский", "Русский"),
-    # ("zh", "Chinese", "Chinese"),
-    # ("ja", "Japanese", "Japanese"),
-    # ("ko", "Korean", "Korean"),
-    # ("ar", "Arabic", "Arabic"),
-    # ("tr", "Turkish", "Turkish"),
-    # ("vi", "Vietnamese", "Vietnamese"),
-)
+# Enabled website UI locales – just language codes.
+# Display names are resolved via django.utils.translation.get_language_info().
+ENABLED_UI_LANGUAGES = ["en", "ru", "fr"]
 
-LANGUAGES = tuple((code, ui_label) for code, ui_label, _ in LANGUAGE_DEFINITIONS)
-LANGUAGES_SUPPORTED = {
-    code: translation_label for code, _, translation_label in LANGUAGE_DEFINITIONS
-}
-LANGUAGES_SUPPORTED_CHOICES = tuple(
-    (code, translation_label) for code, _, translation_label in LANGUAGE_DEFINITIONS
+from django.utils.translation import get_language_info  # noqa: E402
+
+LANGUAGES = tuple(
+    (code, get_language_info(code)["name_local"]) for code in ENABLED_UI_LANGUAGES
 )
 
 LOCALE_PATHS = [
